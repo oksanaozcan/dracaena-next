@@ -1,6 +1,15 @@
-const HomePage = () => {
+import Container from "@/components/ui/container";
+import Billboard from "@/components/billboard";
+import getBillboard from "@/actions/get-billboard";
+
+const HomePage = async () => {
+  const billboard = await getBillboard("1")
   return (
-    <div>Hello My Dracaena</div>
+    <Container>
+      <div className="space-y-10 pb-10">
+        <Billboard data={billboard}/>
+      </div>
+    </Container>
   )
 }
 

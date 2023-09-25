@@ -1,12 +1,14 @@
-// export interface Billboard {
-//   id: string;
-//   name: string;
-//   imageUrl: string;
-// }
+export interface IBillboard {
+  id: string;  
+  imageUrl: string;
+}
 
 export interface Category {
   id: string;
-  name: string;
-  imageUrl: string;
-  // billboard: Billboard
+  title: string;
+  preview: string;
+}
+
+export interface ICategoryResource {
+  data: Category[]
 }
