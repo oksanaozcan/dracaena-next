@@ -1,6 +1,9 @@
 export interface IBillboard {
-  id: string;  
-  imageUrl: string;
+  data: {
+    id: string;  
+    image: string;
+    description: string;
+  }  
 }
 
 export interface Category {
