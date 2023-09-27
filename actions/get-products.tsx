@@ -1,4 +1,4 @@
-import { IProductResource } from "@/types";
+import { IProductsResource } from "@/types";
 import qs from "query-string";
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
@@ -10,7 +10,7 @@ interface Query {
   isFeatured?: string;
 }
 
-const getProducts = async (query: Query): Promise<IProductResource> => {
+const getProducts = async (query: Query): Promise<IProductsResource> => {
   const url = qs.stringifyUrl({
     url: URL,
     query: {
@@ -21,7 +21,7 @@ const getProducts = async (query: Query): Promise<IProductResource> => {
     }
   });
 
-  const res = await fetch(URL);
+  const res = await fetch(url);
   return res.json();
 }
 

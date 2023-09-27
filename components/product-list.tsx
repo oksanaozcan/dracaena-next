@@ -1,11 +1,11 @@
-import { IProductResource } from "@/types";
+import { IProductsResource } from "@/types";
 import React from "react";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
 
 interface ProductListProps {
   title: string
-  items: IProductResource
+  items: IProductsResource
 }
 
 const ProductList: React.FC<ProductListProps> = ({

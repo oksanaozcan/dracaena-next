@@ -21,18 +21,22 @@ export interface ICategoryResource {
   data: Category[]
 }
 
-export interface IProduct {
+export interface IProduct {  
   id: string;  
   title: string;
   description: string;
   content: string;
-  preview: IImage;
+  preview: string;
   images?: IImage[];
   price: string;
   category: Category;
   isFeatured?: boolean;
   size?: ISize;
-  color?: IColor;
+  color?: IColor;    
+}
+
+export interface IProductResource {
+  data: IProduct
 }
 
 export interface ISize {
@@ -47,6 +51,6 @@ export interface IColor {
   value: string;
 }
 
-export interface IProductResource {
+export interface IProductsResource {
   data: IProduct[]
 }
