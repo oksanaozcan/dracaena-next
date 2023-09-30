@@ -4,6 +4,8 @@ import getBillboard from "@/actions/get-billboard";
 import getProducts from "@/actions/get-products";
 import ProductList from "@/components/product-list";
 
+export const revalidate = 0;
+
 const HomePage = async () => {
   const billboardData = await getBillboard('1')
   const productsData = await getProducts({});

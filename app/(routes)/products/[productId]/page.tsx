@@ -11,6 +11,8 @@ interface ProductPageProps {
   }
 }
 
+export const revalidate = 0;
+
 const ProductPage: React.FC<ProductPageProps> = async ({
   params
 }) => {
@@ -29,7 +31,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">            
             <Gallery images={product.data.images} preview={product.data.preview}/>                         
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-              <Info data={product.data}/>
+              <Info product={product}/>
             </div>
           </div>
           <hr className="my-10"/>
