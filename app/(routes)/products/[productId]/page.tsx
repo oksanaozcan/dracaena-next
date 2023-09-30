@@ -19,7 +19,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
   const productData = await getProduct(params.productId);   
    
   // const suggestedProducts = await getProducts({
-  //   categoryId: product.category.id
+  //   category_id: product.category.id
   // });  
 
   const [product] = await Promise.all([productData])
