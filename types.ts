@@ -11,10 +11,24 @@ export interface IBillboard {
   }  
 }
 
+export interface CategoryFilter {
+  id:          string;
+  title:       string;
+  category_id: string;
+}
+
+export interface Tag {
+  id:                 string;
+  title:              string;
+  category_filter_id: string;
+}
+
 export interface Category {
   id: string;
   title: string;
   preview: string;
+  category_filters: CategoryFilter[];
+  tags: Tag[];
 }
 
 export interface ICategoryResource {
