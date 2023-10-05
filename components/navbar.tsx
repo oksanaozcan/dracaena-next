@@ -18,8 +18,15 @@ const Navbar = async () => {
           </Link>
           <NavbarActions/>
         </div>
-        <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">         
-          <MainNav data={categories}/>          
+        <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">         
+          <MainNav data={categories}/>      
+          <div className="w-auto">
+            <ul className="flex flex-row items-center gap-4">
+              <li> <a href="#">Inspiration</a></li>
+              <li> <a href="#">Plant Doctor</a></li>
+              <li>EN(cur)</li>
+            </ul>
+          </div>    
         </div>        
       </Container>      
     </header>
