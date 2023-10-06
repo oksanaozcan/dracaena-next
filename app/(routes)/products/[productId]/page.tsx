@@ -18,11 +18,16 @@ const ProductPage: React.FC<ProductPageProps> = async ({
 }) => {
   const productData = await getProduct(params.productId);   
    
-  // const suggestedProducts = await getProducts({
-  //   category_id: product.category.id
-  // });  
+  const suggestedProductsData = await getProducts({
+    category_id: productData.data.category.id
+  });  
 
-  const [product] = await Promise.all([productData])
+  const [product, suggestedProducts] = await Promise.all([productData, suggestedProductsData])  
+
+  const filteredProducts = {
+    ...suggestedProducts,
+    data: suggestedProducts.data.filter(item => item.id !== product.data.id)
+  }
 
   return (
     <div className="bg-white ">
@@ -35,7 +40,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
             </div>
           </div>
           <hr className="my-10"/>
-          {/* <ProductList title="Related Products" items={suggestedProducts}/> */}
+          <ProductList title="Related Products" items={filteredProducts}/>
         </div>
       </Container>
     </div>

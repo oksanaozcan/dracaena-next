@@ -48,7 +48,7 @@ const MainNav: React.FC<MainNavProps> = ({
                                 <li className="font-light p-1" 
                                   key={t.id}
                                 >
-                                  <Link href={t.title}>
+                                  <Link href={t.href}>
                                     {t.title}
                                   </Link>
                                 </li>

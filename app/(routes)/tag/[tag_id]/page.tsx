@@ -8,7 +8,7 @@ import React from "react";
 
 export const revalidate = 0;
 
-interface CategoryPageProps {
+interface TagPageProps {
   params: {
     category_id: string;
     tag_id: string;
@@ -18,7 +18,7 @@ interface CategoryPageProps {
   }
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({
+const TagPage: React.FC<TagPageProps> = async ({
   params,
   searchParams
 }) => {
@@ -29,8 +29,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     tag_id: params.tag_id,
     colorId: searchParams.colorId,    
   });
-
-  // const sizes = await getSizes();
 
   const [products, billboard] = await Promise.all([productsData, billboardData]);
 
@@ -72,4 +70,4 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   )
 }
 
-export default CategoryPage;
+export default TagPage;

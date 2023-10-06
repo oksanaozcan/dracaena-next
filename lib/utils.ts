@@ -23,6 +23,7 @@ export function formNavigationObjectFromJsonData (data: ICategoryResource, pathn
     tags: route.tags.map(t => ({
       id: t.id,
       title: t.title,
+      href: `/tag/${t.id}`,
       category_filter_id: t.category_filter_id
     })),
   }))
