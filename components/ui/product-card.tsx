@@ -46,6 +46,8 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
           fill  
           alt={`${item.title} preview image`}
           className="aspect-square object-cover rounded-md"
+          priority={false}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
           <div className="flex gap-x-6 justify-center">
@@ -60,13 +62,8 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
           </div>
         </div>
       </div>
-      <div>
-        <p className="font-semibold text-lg">
+      <div className="font-semibold text-lg">
           {item.title}
-        </p>
-        <p>
-          {item.category.title}
-        </p>
       </div>
       <div className="flex items-center justify-between">
         <Currency value={item.price}/>

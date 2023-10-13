@@ -31,6 +31,8 @@ const CartItem: React.FC<CartItemProps> = ({
           src={data.preview} 
           alt="preview image of product"
           className="object-cover object-center"
+          priority={false}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />        
       </div>
       <div className="relative ml-4 flex flex-1 flex-col justify-between sm:ml-6">
