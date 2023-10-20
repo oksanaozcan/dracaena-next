@@ -5,7 +5,6 @@ import { X } from "lucide-react";
 
 import IconButton from "@/components/ui/icon-button";
 import Currency from "@/components/ui/currency";
-import useCart from "@/hooks/use-cart";
 import { IProduct } from "@/types";
 import React from "react";
 
@@ -16,10 +15,9 @@ interface CartItemProps {
 const CartItem: React.FC<CartItemProps> = ({
   data
 }) => {
-  const cart = useCart();
 
   const onRemove = () => {
-    cart.removeItem(data.id)
+    
   }
 
   return (
