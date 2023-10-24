@@ -31,6 +31,10 @@ const CartPage = () => {
     }   
   }, [])  
 
+  const totalPrice = cartItems.reduce((total, item) => {
+    return total + Number(item.price)
+  },0);
+
   if (!isMounted) return null;
   
   return (
@@ -49,7 +53,7 @@ const CartPage = () => {
                 }
               </ul>
             </div>
-          {/* <Summary/> */}
+          <Summary totalPrice={totalPrice}/>
           </div>
         </div>
       </Container>

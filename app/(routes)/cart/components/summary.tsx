@@ -1,13 +1,19 @@
 "use client";
 
 import axios from "axios";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import toast, { Toast } from "react-hot-toast";
 import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 
-const Summary = () => {
+interface SummaryProps {
+  totalPrice: number
+}
+
+const Summary: React.FC<SummaryProps> = ({
+  totalPrice
+}) => {
   const searchParams = useSearchParams();  
 
   useEffect(() => {
@@ -20,12 +26,7 @@ const Summary = () => {
     }
   }, [searchParams, 
     // removeAll
-  ]);
-
-  // const totalPrice = items.reduce((total, item) => {
-  //   return total + Number(item.price)
-  // },0);
-  const totalPrice = 100
+  ]);  
 
   const onCheckout = async () => {
     // const respons = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
