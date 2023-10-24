@@ -1,39 +1,19 @@
 "use client";
 
 import Container from "@/components/ui/container";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CartItem from "./components/cart-item";
 import Summary from "./components/summary";
-import { useAuth } from "@clerk/nextjs";
-import axios from "axios";
+import { CartContext } from "@/context/cart";
 
-const CartPage = () => {
-  const {userId} = useAuth(); 
+const CartPage = () => {  
   const [isMounted, setIsMounted] = useState(false);  
-  const [cartItems, setCartItems] = useState([]); 
 
-  const fetchItems = async (userId: string) => {     
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/carts/${userId}`);      
-    if (!res) {
-      throw new Error("Failed to fetch data");
-    }
-    const newItems = await res.data.data;    
-    setCartItems(newItems);
-  }
+  const {cartItems, cartTotal} = useContext(CartContext);
   
   useEffect(() => {    
     setIsMounted(true);
-  }, [])  
-  
-  useEffect(() => {
-    if (userId) {
-      fetchItems(userId);
-    }   
-  }, [])  
-
-  const totalPrice = cartItems.reduce((total, item) => {
-    return total + Number(item.price)
-  },0);
+  }, [])     
 
   if (!isMounted) return null;
   
@@ -53,7 +33,7 @@ const CartPage = () => {
                 }
               </ul>
             </div>
-          <Summary totalPrice={totalPrice}/>
+          <Summary totalPrice={cartTotal}/>
           </div>
         </div>
       </Container>
