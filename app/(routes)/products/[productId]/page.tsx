@@ -4,7 +4,6 @@ import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 import Gallery from "@/components/gallery";
 import Info from "@/components/info";
-import { auth } from "@clerk/nextjs";
 
 interface ProductPageProps {
   params: {
@@ -18,8 +17,6 @@ const ProductPage: React.FC<ProductPageProps> = async ({
   params
 }) => {
   const productData = await getProduct(params.productId); 
-  
-  const {userId} = auth();
    
   const suggestedProductsData = await getProducts({
     category_id: productData.data.category.id
@@ -39,7 +36,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">            
             <Gallery images={product.data.images} preview={product.data.preview}/>                         
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-              <Info product={product} userId={userId || undefined}/>
+              <Info product={product}/>
             </div>
           </div>
           <hr className="my-10"/>

@@ -1,21 +1,31 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, FormEvent } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
-import { StringDecoder } from "string_decoder";
 import toast from "react-hot-toast";
+import { NextResponse } from "next/server";
+import { IProduct } from "@/types";
 
-export const CartContext = createContext(null);
+interface CartContextType {
+  cartItems: IProduct[];
+  cartTotal: number;
+  onRemove: (productId: string) => Promise<void>;
+  onAdd: (productId: string) => Promise<void>;
+  isLoading: boolean;
+}
 
-// interface CartProviderProps {
-//   children: React.ReactNode
-// }
+export const CartContext = createContext<CartContextType | null>(null);
 
-const CartProvider = ({ 
+interface CartProviderProps {
+  children: React.ReactNode
+}
+
+const CartProvider: React.FC<CartProviderProps> = ({ 
   children
 }) => {
   const {userId} = useAuth(); 
-  const [cartItems, setCartItems] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0);  
+  const [cartItems, setCartItems] = useState<IProduct[]>([]);
+  const [cartTotal, setCartTotal] = useState<number>(0);  
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const totalPrice = cartItems.reduce((total, item) => {
@@ -30,6 +40,24 @@ const CartProvider = ({
       fetchItems();
     }   
   }, [])  
+ 
+  const onAdd = async ( 
+    productId: string
+    ) => {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
+      product_id: productId,
+      client_id: userId
+    }).then((res) => {
+      fetchItems();
+      toast.success("Product added to your cart successfully");      
+    }
+    ).catch((err) => {
+      toast.error("Something went wrong! Check your internet connection and try again");  
+      console.log(err)
+    }).finally(() => {
+      setIsLoading(false);
+    })
+  }
 
   const onRemove = async (productId: string) => {
     const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {     
@@ -60,7 +88,9 @@ const CartProvider = ({
       value={{
         cartItems,
         cartTotal,
-        onRemove
+        onRemove, 
+        onAdd,
+        isLoading
       }}
     >
       {children}

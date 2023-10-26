@@ -1,49 +1,25 @@
 "use client"
 
 import { IProductResource } from "@/types";
-import React, { FormEvent, useState } from "react";
+import { useContext, FormEvent } from "react";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { NextResponse } from "next/server";
+import { CartContext } from "@/context/cart";
 
 interface InfoProps {
   product: IProductResource,
-  userId?: string 
 }
 
 const Info: React.FC<InfoProps> = ({
-  product,
-  userId
-}) => { 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  product
+}) => {  
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {    
+  const {onAdd} = useContext(CartContext);
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true);
-
-    try {      
-      const formData = new FormData();
-      formData.append('product_id', product.data.id);
-
-      if (userId) formData.append('client_id', userId);
-      if(!userId) return new NextResponse("Unauthorized", {status: 401});
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
-        // headers: {
-        //  'API-Key': process.env.DATA_API_KEY,
-        // },
-        method: 'POST',
-        body: formData
-      });    
-
-      console.log(response.json())
-
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsLoading(false);
-    }   
+    onAdd(product.data.id);    
   }
 
   return (
@@ -80,7 +56,7 @@ const Info: React.FC<InfoProps> = ({
           <Button 
             type="submit"
             className="flex items-center gap-x-2"
-            disabled={isLoading}
+            // disabled={isLoading}
           >
             Add to Cart
             <ShoppingCart/>
