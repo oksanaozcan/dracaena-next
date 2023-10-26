@@ -1,9 +1,10 @@
 "use client"
 
 import Button from "@/components/ui/button";
+import { CartContext } from "@/context/cart";
 import { ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const NavbarActions = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -13,7 +14,7 @@ const NavbarActions = () => {
   }, []);
 
   const router = useRouter();
-  // const cart = useCart();
+  const {cartItems} = useContext(CartContext);
 
   if (!isMounted) {
     return null;
@@ -30,7 +31,7 @@ const NavbarActions = () => {
           color="white"
         />     
         <span className="ml-2 text-sm font-medium text-white">
-          {/* {cart.items.length} */}
+          {cartItems.length}
         </span>   
       </Button>
     </div>

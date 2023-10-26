@@ -7,9 +7,9 @@ import Summary from "./components/summary";
 import { CartContext } from "@/context/cart";
 
 const CartPage = () => {  
-  const [isMounted, setIsMounted] = useState(false);  
-
   const {cartItems, cartTotal} = useContext(CartContext);
+  
+  const [isMounted, setIsMounted] = useState(false);    
   
   useEffect(() => {    
     setIsMounted(true);
