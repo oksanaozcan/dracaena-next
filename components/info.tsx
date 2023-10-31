@@ -20,7 +20,7 @@ const Info: React.FC<InfoProps> = ({
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onAdd(product.data.id);    
-  }
+  }  
 
   return (
     <div>

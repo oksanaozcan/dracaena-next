@@ -17,7 +17,7 @@ const CartItem: React.FC<CartItemProps> = ({
   data
 }) => {
 
-  const {onRemove} = useContext(CartContext);
+  const { onRemove = () => {} } = useContext(CartContext) ?? {}; 
 
   return (
     <li className="flex py-6 border-b">

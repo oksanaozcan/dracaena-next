@@ -44,6 +44,8 @@ const CartProvider: React.FC<CartProviderProps> = ({
   const onAdd = async ( 
     productId: string
     ) => {
+      setIsLoading(true);
+      
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
       product_id: productId,
       client_id: userId

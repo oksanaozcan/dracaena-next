@@ -1,10 +1,11 @@
 "use client";
 
 import Container from "@/components/ui/container";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import CartItem from "./components/cart-item";
 import Summary from "./components/summary";
 import { CartContext } from "@/context/cart";
+import CartItemSkeleton from "@/components/loading-ui/cart-item-skeleton";
 
 const CartPage = () => {  
   const {cartItems, cartTotal} = useContext(CartContext);
@@ -28,7 +29,9 @@ const CartPage = () => {
               <ul>
                 {
                   cartItems.map(item => (
-                    <CartItem key={item.id} data={item}/>
+                    <Suspense fallback={<CartItemSkeleton/>}>
+                      <CartItem key={item.id} data={item}/>
+                    </Suspense>
                   ))
                 }
               </ul>
