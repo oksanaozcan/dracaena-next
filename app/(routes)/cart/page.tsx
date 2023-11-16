@@ -29,8 +29,8 @@ const CartPage = () => {
               <ul>
                 {
                   cartItems.map(item => (
-                    <Suspense fallback={<CartItemSkeleton/>}>
-                      <CartItem key={item.id} data={item}/>
+                    <Suspense key={item.id} fallback={<CartItemSkeleton/>}>
+                      <CartItem data={item}/>
                     </Suspense>
                   ))
                 }

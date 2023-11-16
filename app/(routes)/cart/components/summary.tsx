@@ -1,11 +1,14 @@
 "use client";
 
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
 import toast, { Toast } from "react-hot-toast";
 import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
+import { CartContext } from "@/context/cart";
+import { useAuth } from "@clerk/nextjs";
+import { loadStripe } from "@stripe/stripe-js";
 
 interface SummaryProps {
   totalPrice: number
@@ -14,6 +17,13 @@ interface SummaryProps {
 const Summary: React.FC<SummaryProps> = ({
   totalPrice
 }) => {
+
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+  const { userId } = useAuth();
+
+  const { cartItems } = useContext(CartContext) ?? {}; 
+
   const searchParams = useSearchParams();  
 
   useEffect(() => {
@@ -29,9 +39,21 @@ const Summary: React.FC<SummaryProps> = ({
   ]);  
 
   const onCheckout = async () => {
-    // const respons = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-    //   productIds: items.map(item => item.id),
-    // });
+
+    const stripe = await stripePromise;
+    
+    const checkoutSession = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+      clientId: userId,
+      productIds: cartItems?.map(item => item.id),
+    });
+
+    const result = await stripe?.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    if (result.error) {
+      alert(result.error.message);
+    }
 
     // window.location = respons.data.url;
   }
@@ -47,9 +69,9 @@ const Summary: React.FC<SummaryProps> = ({
           <Currency value={totalPrice}/>
         </div>
       </div>
-      {/* <Button onClick={onCheckout} className="w-full mt-6" disabled={items.length ? false : true}>
+      <Button onClick={onCheckout} className="w-full mt-6" disabled={cartItems.length ? false : true}>
         Checkout
-      </Button> */}
+      </Button>
     </div>
   )
 }
