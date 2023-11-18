@@ -20,7 +20,7 @@ const Summary: React.FC<SummaryProps> = ({
 
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-  const { userId } = useAuth();
+  const { userId, getToken } = useAuth();
 
   const { cartItems } = useContext(CartContext) ?? {}; 
 
@@ -42,20 +42,21 @@ const Summary: React.FC<SummaryProps> = ({
 
     const stripe = await stripePromise;
     
-    const checkoutSession = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+    const checkoutSession = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, 
+    {
       clientId: userId,
       productIds: cartItems?.map(item => item.id),
-    });
+    },
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${await getToken()}`,       
+      }
+    });    
 
-    const result = await stripe?.redirectToCheckout({
-      sessionId: checkoutSession.data.id,
-    });
-
-    if (result.error) {
-      alert(result.error.message);
-    }
-
-    // window.location = respons.data.url;
+    if (checkoutSession.status === 200) {
+        window.location.replace(checkoutSession.data.url);
+    }  
   }
 
   return (
