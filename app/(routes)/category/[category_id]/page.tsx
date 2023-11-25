@@ -23,7 +23,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   searchParams
 }) => {
   
-  const billboardData = await getBillboard('1');
+  const billboardData = await getBillboard({
+    category_id: params.category_id,
+    tag_id: params.tag_id,
+  });
   const productsData = await getProducts({    
     category_id: params.category_id,
     tag_id: params.tag_id,

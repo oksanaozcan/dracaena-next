@@ -7,7 +7,7 @@ import ProductList from "@/components/product-list";
 export const revalidate = 0;
 
 const HomePage = async () => {
-  const billboardData = await getBillboard('1')
+  const billboardData = await getBillboard({})
   const productsData = await getProducts({});
 
   const [billboard, products] = await Promise.all([billboardData, productsData])
