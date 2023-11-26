@@ -68,3 +68,9 @@ export interface IColor {
 export interface IProductsResource {
   data: IProduct[]
 }
+
+export interface ListApiItem {
+  id: number;
+  value: string;
+  label: string;
+}
