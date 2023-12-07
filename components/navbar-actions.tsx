@@ -3,7 +3,7 @@
 import Button from "@/components/ui/button";
 import { CartContext } from "@/context/cart";
 import { ShoppingBag, SearchIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 import Drawer from 'react-modern-drawer';
@@ -12,6 +12,10 @@ import Search from "./search";
 import { listApi } from "@/lib/list-api";
 
 const NavbarActions = () => {
+
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search');
+  
   const [isMounted, setIsMounted] = useState(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
@@ -20,6 +24,7 @@ const NavbarActions = () => {
   }, []);
 
   const router = useRouter();
+  
   const {cartItems} = useContext(CartContext);
 
   const toggleDrawer = () => {
@@ -63,7 +68,9 @@ const NavbarActions = () => {
         lockBackgroundScroll
         size={450}
       >
-        <Search listApi={listApi} toggleDrawer={toggleDrawer}/>        
+        {
+          isOpenDrawer && <Search initSearch={search} listApi={listApi} toggleDrawer={toggleDrawer}/>
+        }                
       </Drawer>
     </div>
   )

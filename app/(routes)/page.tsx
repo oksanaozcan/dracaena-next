@@ -6,9 +6,15 @@ import ProductList from "@/components/product-list";
 
 export const revalidate = 0;
 
-const HomePage = async () => {
+const HomePage = async ({
+  searchParams
+}: {
+  searchParams: {[key: string]: string | string[] | undefined}
+}) => {
+  const search = typeof searchParams.search === 'string' ? searchParams.search : undefined
+
   const billboardData = await getBillboard({})
-  const productsData = await getProducts({});
+  const productsData = await getProducts({q: search});
 
   const [billboard, products] = await Promise.all([billboardData, productsData])
   
