@@ -7,6 +7,7 @@ interface Query {
   category_id?: string;
   tag_id?: string; 
   q?: string; 
+  page?: number;
 }
 
 const getProducts = async (query: Query): Promise<IProductsResource> => {
@@ -15,7 +16,8 @@ const getProducts = async (query: Query): Promise<IProductsResource> => {
     query: {
       search: query.q, 
       category_id: query.category_id,      
-      tag_id: query.tag_id,           
+      tag_id: query.tag_id,     
+      page: query.page      
     }
   });
 

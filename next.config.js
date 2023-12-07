@@ -5,7 +5,10 @@ const nextConfig = {
       "via.placeholder.com",
       "localhost",
     ]
-  }
+  },
+  experimental: {
+    serverActions: true,
+  },
 }
 
 module.exports = nextConfig
