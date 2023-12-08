@@ -1,5 +1,4 @@
 import getBillboard from "@/actions/get-billboard";
-import getProducts from "@/actions/get-products";
 import Billboard from "@/components/billboard";
 import Container from "@/components/ui/container";
 import NoResults from "@/components/ui/no-results";
@@ -8,6 +7,7 @@ import React from "react";
 import { sortingParams } from "@/lib/sorting-params";
 import { v4 as uuidv4 } from 'uuid';
 import ProductList from "@/components/product-list";
+import { fetchProducts } from "@/actions/fetch-products";
 
 export const revalidate = 0;
 
@@ -15,22 +15,18 @@ interface CategoryPageProps {
   params: {
     category_id: string;
     tag_id: string;
-  },
-  searchParams: {
-    colorId: string;    
   }
 }
 
 const CategoryPage: React.FC<CategoryPageProps> = async ({
-  params,
-  searchParams
+  params,  
 }) => {
   
   const billboardData = await getBillboard({
     category_id: params.category_id,
     tag_id: params.tag_id,
   });
-  const productsData = await getProducts({    
+  const productsData = await fetchProducts({    
     category_id: params.category_id,
     tag_id: params.tag_id,
   });
@@ -53,7 +49,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
             key={uuidv4()}
             className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8"
           >
-            <ProductList title="Category" initialItems={products}/>
+            <ProductList category_id={params.category_id} title="Category" initialItems={products}/>
           </ul>     
       </div>
     </Container>

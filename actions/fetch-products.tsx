@@ -4,11 +4,15 @@ import getProducts from "./get-products"
 
 export async function fetchProducts({
   page = 1,
-  search
+  search,
+  category_id,
+  tag_id,
 }: {
   page?: number
   search?: string | undefined
+  category_id?: string;
+  tag_id?: string;
 }) {
-  const products = await getProducts({ q: search, page })
+  const products = await getProducts({ q: search, page, category_id, tag_id })
   return products;
 }

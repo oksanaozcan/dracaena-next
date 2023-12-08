@@ -1,10 +1,13 @@
+import { fetchProducts } from "@/actions/fetch-products";
 import getBillboard from "@/actions/get-billboard";
-import getProducts from "@/actions/get-products";
 import Billboard from "@/components/billboard";
+import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
 import NoResults from "@/components/ui/no-results";
-import ProductCard from "@/components/ui/product-card";
+import { v4 as uuidv4 } from 'uuid';
+import Sortbox from "@/components/ui/sortbox";
 import React from "react";
+import { sortingParams } from "@/lib/sorting-params";
 
 export const revalidate = 0;
 
@@ -12,64 +15,44 @@ interface TagPageProps {
   params: {
     category_id: string;
     tag_id: string;
-  },
-  searchParams: {
-    colorId: string;    
-  }
+  }  
 }
 
 const TagPage: React.FC<TagPageProps> = async ({
   params,
-  searchParams
 }) => {
   
   const billboardData = await getBillboard({
     category_id: params.category_id,
     tag_id: params.tag_id,
   });
-  const productsData = await getProducts({    
+  const productsData = await fetchProducts({    
     category_id: params.category_id,
     tag_id: params.tag_id,
-    colorId: searchParams.colorId,    
   });
 
-  const [products, billboard] = await Promise.all([productsData, billboardData]);
+  const [products, billboard] = await Promise.all([productsData, billboardData]);  
 
   return (
-    <div className="bg-white">
-      <Container>
-        <Billboard data={billboard}/>
-        <div className="px-4 sm:px-6 lg:px-8 pb-24">
-          <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
-            {/* Add Mobile Filters */}
-            <div className="hidden lg:block">
-              {/* <Filter
-                valueKey="sizeId"
-                names="Sizes"
-                data={sizes}
-              /> */}
-                {/* <Filter
-                valueKey="colorId"
-                names="Colors"
-                data={colors}
-              /> */}
-            </div>
-            <div className="mt-6 lg:col-span-4 lg:mt-0">
-              {
-                products.data.length === 0 && <NoResults/>
-              }
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {
-                products.data.map(item => (
-                  <ProductCard key={item.id} item={item}/>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-      </Container>
-    </div>
+    <Container>
+      <div className="space-y-10 pb-10">
+        <Billboard data={billboard}/>      
+        <div className="ml-8">
+          <Sortbox params={sortingParams}/> 
+        </div>            
+          <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+            {
+              products.data.length === 0 && <NoResults/>
+            }
+          </div>           
+          <ul 
+            key={uuidv4()}
+            className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8"
+          >
+            <ProductList tag_id={params.tag_id} category_id={params.category_id} title="Tag" initialItems={products}/>
+          </ul>     
+      </div>
+    </Container>
   )
 }
 

@@ -11,13 +11,17 @@ import { fetchProducts } from "@/actions/fetch-products";
 interface ProductListProps {
   title: string
   initialItems: IProductsResource,
-  search: string | undefined
+  search?: string | undefined
+  category_id: string | undefined
+  tag_id: string | undefined
 }
 
 const ProductList: React.FC<ProductListProps> = ({
   title,
   initialItems,
-  search
+  search,
+  category_id,
+  tag_id,
 }) => {
   const [items, setItems] = useState(initialItems && initialItems.data ? initialItems.data : []);
   const [page, setPage] = useState(1);
@@ -25,7 +29,7 @@ const ProductList: React.FC<ProductListProps> = ({
 
   async function loadMoreProducts() {
     const next = page + 1
-    const items = await fetchProducts({ search, page: next })
+    const items = await fetchProducts({ search, category_id, tag_id, page: next })
     if (items.data?.length) {
       setPage(next)
       setItems((prev) => [

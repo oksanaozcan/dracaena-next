@@ -20,7 +20,7 @@ const getProducts = async (query: Query): Promise<IProductsResource> => {
       page: query.page      
     }
   });
-
+  
   const res = await fetch(url);
   return res.json();
 }
