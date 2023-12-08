@@ -19,7 +19,7 @@ const ProductList: React.FC<ProductListProps> = ({
   initialItems,
   search
 }) => {
-  const [items, setItems] = useState(initialItems.data);
+  const [items, setItems] = useState(initialItems && initialItems.data ? initialItems.data : []);
   const [page, setPage] = useState(1);
   const [ref, inView] = useInView();
 

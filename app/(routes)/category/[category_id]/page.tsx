@@ -3,8 +3,11 @@ import getProducts from "@/actions/get-products";
 import Billboard from "@/components/billboard";
 import Container from "@/components/ui/container";
 import NoResults from "@/components/ui/no-results";
-import ProductCard from "@/components/ui/product-card";
+import Sortbox from "@/components/ui/sortbox";
 import React from "react";
+import { sortingParams } from "@/lib/sorting-params";
+import { v4 as uuidv4 } from 'uuid';
+import ProductList from "@/components/product-list";
 
 export const revalidate = 0;
 
@@ -30,48 +33,30 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   const productsData = await getProducts({    
     category_id: params.category_id,
     tag_id: params.tag_id,
-    colorId: searchParams.colorId,    
   });
-
-  // const sizes = await getSizes();
 
   const [products, billboard] = await Promise.all([productsData, billboardData]);
 
-  return (
-    <div className="bg-white">
-      <Container>
-        <Billboard data={billboard}/>
-        <div className="px-4 sm:px-6 lg:px-8 pb-24">
-          <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
-            {/* <MobileFilters sizes={sizes} colors={colors}/> */}
-            <div className="hidden lg:block">
-              {/* <Filter
-                valueKey="sizeId"
-                names="Sizes"
-                data={sizes}
-              /> */}
-                {/* <Filter
-                valueKey="colorId"
-                names="Colors"
-                data={colors}
-              /> */}
-            </div>
-            <div className="mt-6 lg:col-span-4 lg:mt-0">
-              {
-                products.data.length === 0 && <NoResults/>
-              }
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {
-                products.data.map(item => (
-                  <ProductCard key={item.id} item={item}/>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-      </Container>
-    </div>
+  return (    
+    <Container>
+      <div className="space-y-10 pb-10">
+        <Billboard data={billboard}/>      
+        <div className="ml-8">
+          <Sortbox params={sortingParams}/> 
+        </div>            
+          <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+            {
+              products.data.length === 0 && <NoResults/>
+            }
+          </div>           
+          <ul 
+            key={uuidv4()}
+            className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8"
+          >
+            <ProductList title="Category" initialItems={products}/>
+          </ul>     
+      </div>
+    </Container>
   )
 }
 
