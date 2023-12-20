@@ -15,12 +15,23 @@ interface CategoryPageProps {
   params: {
     category_id: string;
     tag_id: string;
+    sort: string;
+  },
+  searchParams: {
+    sort: string | undefined
   }
 }
 
 const CategoryPage: React.FC<CategoryPageProps> = async ({
-  params,  
-}) => {
+  params, 
+  searchParams,
+}: {
+  params: {
+    category_id: string
+    tag_id: string
+  };
+  searchParams: {sort: string | undefined}
+}) => { 
   
   const billboardData = await getBillboard({
     category_id: params.category_id,
@@ -29,6 +40,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   const productsData = await fetchProducts({    
     category_id: params.category_id,
     tag_id: params.tag_id,
+    sort: searchParams.sort,
   });
 
   const [products, billboard] = await Promise.all([productsData, billboardData]);
@@ -38,7 +50,9 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
       <div className="space-y-10 pb-10">
         <Billboard data={billboard}/>      
         <div className="ml-8">
-          <Sortbox params={sortingParams}/> 
+          <Sortbox params={sortingParams} 
+            // initialSort={{id: 1, value: 'default', label: 'Recommended'}}
+          /> 
         </div>            
           <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
             {
@@ -49,7 +63,12 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
             key={uuidv4()}
             className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8"
           >
-            <ProductList category_id={params.category_id} title="Category" initialItems={products}/>
+            <ProductList 
+              tag_id="" 
+              category_id={params.category_id} 
+              title="Category" 
+              initialItems={products}
+            />
           </ul>     
       </div>
     </Container>

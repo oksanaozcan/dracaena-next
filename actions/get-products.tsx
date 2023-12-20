@@ -8,6 +8,7 @@ interface Query {
   tag_id?: string; 
   q?: string; 
   page?: number;
+  sort?: string;
 }
 
 const getProducts = async (query: Query): Promise<IProductsResource> => {
@@ -16,11 +17,12 @@ const getProducts = async (query: Query): Promise<IProductsResource> => {
     query: {
       search: query.q, 
       category_id: query.category_id,      
-      tag_id: query.tag_id,     
-      page: query.page      
+      tag_id: query.tag_id, 
+      page: query.page,    
+      sort: query.sort,            
     }
   });
-  
+  console.log(url)
   const res = await fetch(url);
   return res.json();
 }
