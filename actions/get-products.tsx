@@ -22,8 +22,7 @@ const getProducts = async (query: Query): Promise<IProductsResource> => {
       sort: query.sort,            
     }
   });
-  console.log(url)
-  const res = await fetch(url);
+  const res = await fetch(url, {cache: 'no-cache'});
   return res.json();
 }
 
