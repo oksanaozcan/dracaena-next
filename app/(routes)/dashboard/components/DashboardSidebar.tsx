@@ -27,9 +27,9 @@ const DashboardSidebar = ({ user }: { user: IUser }) => {
           },   
         }}
       >       
-        <MenuItem icon={<Home size={18}/>}>Account overview</MenuItem>     
-        <MenuItem icon={<User size={18} />}>Personal details</MenuItem>
-        <MenuItem icon={<Car size={18}/>}>My orders</MenuItem>
+        <MenuItem href='/dashboard' icon={<Home size={18}/>}>Account overview</MenuItem>     
+        <MenuItem href='/dashboard/my-details' icon={<User size={18} />}>Personal details</MenuItem>
+        <MenuItem href='/dashboard/my-orders' icon={<Car size={18}/>}>My orders</MenuItem>
         <MenuItem icon={<Heart size={18} />}>Wishlist</MenuItem>
         <MenuItem icon={<BellRing size={18} />}>Restock notifications</MenuItem>
         <MenuItem icon={<Settings size={18} />}>Data and privacy</MenuItem>
