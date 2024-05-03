@@ -1,6 +1,7 @@
 import Container from "@/components/ui/container"
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import DashboardSidebar from "./components/DashboardSidebar";
 
 export const revalidate = 0;
 
@@ -20,8 +21,9 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
   return (
     <div>
       <Container>
-        <h1>Dashboard for auth user</h1>
-        <p>info about previous orders, subscriptions etc.</p>
+        <div className="flex h-full">
+          <DashboardSidebar user={user}/>
+        </div>       
       </Container>
     </div>
   )

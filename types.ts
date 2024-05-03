@@ -74,3 +74,7 @@ export interface ListApiItem {
   value: string;
   label: string;
 }
+
+export interface IUser {
+  firstName: string | null;
+}
