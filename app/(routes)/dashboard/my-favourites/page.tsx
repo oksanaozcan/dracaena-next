@@ -7,11 +7,11 @@ import { ChevronRight } from "lucide-react";
 
 export const revalidate = 0;
 
-interface MyOrdersPageProps {
+interface MyFavouritesPageProps {
   params: {}
 }
 
-const MyOrdersPage: React.FC<MyOrdersPageProps> = async ({
+const MyFavouritesPage: React.FC<MyFavouritesPageProps> = async ({
   params,
 }) => {
   const user = await currentUser();
@@ -26,8 +26,12 @@ const MyOrdersPage: React.FC<MyOrdersPageProps> = async ({
         <div className="flex h-full">
           <DashboardSidebar userName={user?.firstName ?? ''}/>
           <div className="p-4">
-            <h1>My Orders</h1> 
-            <p>You've not ordered anything yet.</p>
+            <h1>Wishlist</h1> 
+            <p>Welcome to your personal jungle oasis! Browse your wishlist and let your green thumb run wild as you curate the ultimate indoor garden that will make all your plant parent friends green with envy.</p>
+            <div className="py-2">
+              <h2>Your favourites</h2>
+              <p>You have not selected any favourites yet.</p>
+            </div>
           </div>
         </div>       
       </Container>
@@ -35,4 +39,4 @@ const MyOrdersPage: React.FC<MyOrdersPageProps> = async ({
   )
 }
 
-export default MyOrdersPage;
+export default MyFavouritesPage;

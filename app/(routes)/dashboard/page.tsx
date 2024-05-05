@@ -24,7 +24,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
     <div>
       <Container>
         <div className="flex h-full">
-          <DashboardSidebar user={user}/>
+          <DashboardSidebar userName={user?.firstName ?? ''}/>
           <div className="p-4">
             <div className="py-2">
               <h2>Account overview</h2>
