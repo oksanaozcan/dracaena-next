@@ -13,7 +13,13 @@ interface CartContextType {
   isLoading: boolean;
 }
 
-export const CartContext = createContext<CartContextType | null>(null);
+export const CartContext = createContext<CartContextType>({
+  cartItems: [],
+  cartTotal: 0,
+  onRemove: async () => {},
+  onAdd: async () => {},
+  isLoading: false,
+});
 
 interface CartProviderProps {
   children: React.ReactNode

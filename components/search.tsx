@@ -11,7 +11,7 @@ import { useDebounce } from 'use-debounce';
 interface SearchProps {
   initSearch: string | undefined;
   listApi: ListApiItem[];
-  toggleDrawer: () => {};
+  toggleDrawer: () => void;
 }
 
 const Search: React.FC<SearchProps> = ({

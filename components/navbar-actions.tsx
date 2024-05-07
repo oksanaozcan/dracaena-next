@@ -14,7 +14,7 @@ import { listApi } from "@/lib/list-api";
 const NavbarActions = () => {
 
   const searchParams = useSearchParams();
-  const search = searchParams.get('search');
+  const search = searchParams.get('search') ?? undefined;
   
   const [isMounted, setIsMounted] = useState(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
