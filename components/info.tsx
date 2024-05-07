@@ -15,7 +15,9 @@ const Info: React.FC<InfoProps> = ({
   product
 }) => {  
 
-  const {onAdd} = useContext(CartContext);
+ 
+  const cartContext = useContext(CartContext);
+  const onAdd = cartContext ? cartContext.onAdd : () => {};
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +25,7 @@ const Info: React.FC<InfoProps> = ({
   }  
 
   return (
-    <div>
+    <div>      
       <h1 className="text-3xl font-bold text text-gray-900">{product.title}</h1>
       <div className="mt-3 flex items-end justify-between">
         <div className="text-2xl text-gray-900">
@@ -48,7 +50,7 @@ const Info: React.FC<InfoProps> = ({
         </div>
         <div>
           <h3 className="font-semibold text-black">Details:</h3>
-          <div>{product.content}</div>
+          {/* <div>{product.content}</div> */}
         </div>
       </div>
       <div className="mt-10 flex items-center gap-x-3">    

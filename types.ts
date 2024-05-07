@@ -50,7 +50,18 @@ export interface IProduct {
 }
 
 export interface IProductResource {
-  data: IProduct
+  // data: IProduct
+  id: string;  
+  title: string;
+  description: string;
+  content: string;
+  preview: string;
+  images?: IImage[];
+  price: string;
+  category: Category;
+  isFeatured?: boolean;
+  size?: ISize;
+  color?: IColor;    
 }
 
 export interface ISize {

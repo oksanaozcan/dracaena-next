@@ -18,7 +18,8 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
   const previewModal = usePreviewModal();
   const router = useRouter();
 
-  const {onAdd} = useContext(CartContext);
+  const cartContext = useContext(CartContext);
+  const onAdd = cartContext ? cartContext.onAdd : () => {};
 
   const handleClick = () => {
     router.push(`/products/${item?.id}`);
