@@ -50,7 +50,7 @@ export interface IProduct {
 }
 
 export interface IProductResource {
-  // data: IProduct
+  data: IProduct
   id: string;  
   title: string;
   description: string;

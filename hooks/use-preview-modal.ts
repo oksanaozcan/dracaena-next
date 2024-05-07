@@ -4,7 +4,7 @@ import { IProduct, IProductResource } from "@/types";
 interface PreviewModalStore {
   isOpen: boolean;
   data?: IProductResource;
-  onOpen: (data: IProduct) => void;
+  onOpen: (data: IProductResource) => void;
   onClose: () => void;
 }
 
