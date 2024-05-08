@@ -1,8 +1,6 @@
 "use client";
 
-import Container from "@/components/ui/container"
 import { useUser } from "@clerk/clerk-react";
-import DashboardSidebar from '../components/DashboardSidebar';
 import { FavouriteContext } from "@/context/favourite";
 import { useContext, useEffect, useState } from "react";
 import ProductCard from "@/components/ui/product-card";
