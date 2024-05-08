@@ -21,17 +21,10 @@ const MyOrdersPage: React.FC<MyOrdersPageProps> = async ({
   } 
 
   return (
-    <div>
-      <Container>
-        <div className="flex h-full">
-          <DashboardSidebar userName={user?.firstName ?? ''}/>
-          <div className="p-4">
-            <h1>My Orders</h1> 
-            <p>You've not ordered anything yet.</p>
-          </div>
-        </div>       
-      </Container>
-    </div>
+   <>
+    <h1>My Orders</h1> 
+    <p>You've not ordered anything yet.</p>
+   </>
   )
 }
 

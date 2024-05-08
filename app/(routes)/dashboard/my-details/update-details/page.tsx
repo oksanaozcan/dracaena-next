@@ -21,16 +21,9 @@ const UpdateDetailsPage: React.FC<UpdateDetailsPageProps> = async ({
   }   
 
   return (
-    <div>
-      <Container>
-        <div className="flex h-full">
-          <DashboardSidebar userName={user?.firstName ?? ''}/>
-          <div className="p-4">
-            <h1>Change your personal details</h1>
-          </div>
-        </div>       
-      </Container>
-    </div>
+    <>
+    <h1>Change your personal details</h1>
+    </>
   )
 }
 

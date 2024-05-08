@@ -21,19 +21,9 @@ const UpdateBillingPage: React.FC<UpdateBillingPageProps> = async ({
   }   
 
   return (
-    <div>
-      <Container>
-        <div className="flex h-full">
-          <DashboardSidebar userName={user?.firstName ?? ''}/>
-          <div className="p-4">
-            <h1>Add billing address</h1>
-            <div>
-            
-            </div>             
-          </div>
-        </div>       
-      </Container>
-    </div>
+    <>    
+    <h1>Add billing address</h1>                    
+    </>
   )
 }
 
