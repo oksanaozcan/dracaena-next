@@ -2,7 +2,7 @@
 
 import Button from "@/components/ui/button";
 import { CartContext } from "@/context/cart";
-import { ShoppingBag, SearchIcon } from "lucide-react";
+import { ShoppingBag, SearchIcon, Heart } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
@@ -36,7 +36,16 @@ const NavbarActions = () => {
   }
 
   return (
-    <div className="ml-auto flex items-center gap-x-4">      
+    <div className="ml-auto flex items-center gap-x-4"> 
+      <Button
+        onClick={() => router.push("/dashboard/my-favourites")}
+        className="flex items-center rounded-full bg-black px-4 py-2"
+      >
+        <Heart
+          size={20}
+          color="white"
+        />            
+      </Button>    
       <Button
         onClick={() => router.push("/cart")}
         className="flex items-center rounded-full bg-black px-4 py-2"

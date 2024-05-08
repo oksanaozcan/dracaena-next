@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect, FormEvent } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
-import { NextResponse } from "next/server";
 import { IProduct } from "@/types";
 
 interface CartContextType {
