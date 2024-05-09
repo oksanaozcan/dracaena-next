@@ -1,49 +1,53 @@
 "use client";
 
-import { useUser } from "@clerk/clerk-react";
 import { FavouriteContext } from "@/context/favourite";
 import { useContext, useEffect, useState } from "react";
 import ProductCard from "@/components/ui/product-card";
+import Pagination from '@/components/ui/pagination';
 
-export const revalidate = 0;
+const ITEMS_PER_PAGE = 6;
 
-interface MyFavouritesPageProps {
-  params: {}
-}
+const MyFavouritesPage: React.FC = () => {
+  const { favouriteItems } = useContext(FavouriteContext);
+  const [currentPage, setCurrentPage] = useState(1);
 
-const MyFavouritesPage: React.FC<MyFavouritesPageProps> = ({
-  params,
-}) => {
-  // const { isSignedIn, user, isLoaded } = useUser();
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [favouriteItems]);
 
-  const {favouriteItems} = useContext(FavouriteContext);
-  const [isMounted, setIsMounted] = useState(false);    
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  useEffect(() => {    
-    setIsMounted(true);
-  }, [])     
+  const paginatedItems = favouriteItems.slice(startIndex, endIndex);
 
-  if (!isMounted) return null;
+  const totalPages = Math.ceil(favouriteItems.length / ITEMS_PER_PAGE);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
-      <h1>Wishlist</h1> 
-      <p>Welcome to your personal jungle oasis! Browse your wishlist and let your green thumb run wild as you curate the ultimate indoor garden that will make all your plant parent friends green with envy.</p>
-      <div className="py-2">
-        
-        {favouriteItems.length === 0 && <p>You have not selected any favourites yet.</p>}                     
-
+      <h1>Wishlist</h1>     
+      {paginatedItems.length === 0 ? (
+        <p>You have not selected any favourites yet.</p>
+      ) : (
         <div className="grid grid-cols-3 gap-2">
-        {
-          favouriteItems.map(item => (
-            <div key={item.id}><ProductCard item={item}/></div>
-          ))
-        }
+          {paginatedItems.map((item) => (
+            <div key={item.id}>
+              <ProductCard item={item} />
+            </div>
+          ))}
         </div>
-        
-      </div>
+      )}
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </>
-  )
-}
+  );
+};
 
 export default MyFavouritesPage;
