@@ -1,13 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "via.placeholder.com",
-      "localhost",
-    ]
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+        pathname: '**',
+      },
+    ],
+    // domains: [
+    //   "via.placeholder.com",
+    //   "localhost",
+    // ]
   },
   experimental: {
-    serverActions: true,
+
   },
 }
 
