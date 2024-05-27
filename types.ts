@@ -101,4 +101,5 @@ export interface IOrder {
   shipping_address: string | null;
   billing_address: string | null;
   discount_amount: string | null;
+  created_at: string;
 }
