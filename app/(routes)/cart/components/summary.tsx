@@ -46,6 +46,7 @@ const Summary: React.FC<SummaryProps> = ({
     {
       clientId: userId,
       productIds: cartItems?.map(item => item.id),
+      payment_platform: 1
     },
     {
       headers: {

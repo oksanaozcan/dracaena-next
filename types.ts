@@ -89,3 +89,16 @@ export interface ListApiItem {
 export interface IUser {
   firstName: string | null;
 }
+
+export interface IOrder {
+  id: number;
+  session_id: string;
+  customer_name: string;
+  customer_email: string;
+  payment_status: number;
+  total_amount: string;
+  payment_method: string;
+  shipping_address: string | null;
+  billing_address: string | null;
+  discount_amount: string | null;
+}
