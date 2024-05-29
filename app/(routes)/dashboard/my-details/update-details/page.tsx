@@ -1,7 +1,7 @@
 import Container from "@/components/ui/container"
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import DashboardSidebar  from '../../components/DashboardSidebar';
+import DashboardSidebar  from '../../_components/DashboardSidebar';
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 

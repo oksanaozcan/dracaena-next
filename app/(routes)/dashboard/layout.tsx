@@ -3,7 +3,7 @@
 import { useUser } from "@clerk/clerk-react";
 import React from "react";
 import Container from "@/components/ui/container"
-import DashboardSidebar from "./components/DashboardSidebar";
+import DashboardSidebar from "./_components/DashboardSidebar";
 
 const DashboardLayout = ({
   children,

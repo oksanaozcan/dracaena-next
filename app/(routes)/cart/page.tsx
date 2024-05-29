@@ -2,8 +2,8 @@
 
 import Container from "@/components/ui/container";
 import { Suspense, useContext, useEffect, useState } from "react";
-import CartItem from "./components/cart-item";
-import Summary from "./components/summary";
+import CartItem from "./_components/cart-item";
+import Summary from "./_components/summary";
 import { CartContext } from "@/context/cart";
 import CartItemSkeleton from "@/components/loading-ui/cart-item-skeleton";
 

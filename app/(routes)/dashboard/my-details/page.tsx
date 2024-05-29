@@ -1,7 +1,5 @@
-import Container from "@/components/ui/container"
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import DashboardSidebar from '../components/DashboardSidebar';
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
@@ -15,6 +13,7 @@ const MyDetailsPage: React.FC<MyDetailsPageProps> = async ({
   params,
 }) => {
   const user = await currentUser();
+  const emailAddress = user?.emailAddresses[0].emailAddress;
 
   if (!user) {
     redirect('/sign-in?redirectUrl=/dashboard');
@@ -35,7 +34,7 @@ const MyDetailsPage: React.FC<MyDetailsPageProps> = async ({
           </div>
           <div>
             <h4>Email:</h4>
-            {/* <p>{emailAddress}</p> */}
+           <p>{emailAddress}</p>
           </div>
           <div>
             <h4>Birthdate:</h4>
