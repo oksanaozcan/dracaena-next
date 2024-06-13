@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, FormEvent } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+// import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
 
@@ -27,24 +27,24 @@ interface CartProviderProps {
 const CartProvider: React.FC<CartProviderProps> = ({ 
   children
 }) => {
-  const {userId} = useAuth(); 
+  // const {userId} = useAuth(); 
   const [cartItems, setCartItems] = useState<IProduct[]>([]);
   const [cartTotal, setCartTotal] = useState<number>(0);  
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const totalPrice = cartItems.reduce((total, item) => {
-      return total + Number(item.price)
-    },0);
+  // useEffect(() => {
+  //   const totalPrice = cartItems.reduce((total, item) => {
+  //     return total + Number(item.price)
+  //   },0);
 
-    setCartTotal(totalPrice)
-  }, [cartItems, userId])
+  //   setCartTotal(totalPrice)
+  // }, [cartItems, userId])
 
-  useEffect(() => {
-    if (userId) {
-      fetchItems();
-    }   
-  }, [])  
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetchItems();
+  //   }   
+  // }, [])  
  
   const onAdd = async ( 
     productId: string

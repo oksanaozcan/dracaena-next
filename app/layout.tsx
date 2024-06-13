@@ -5,7 +5,6 @@ import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
 import ModalProvider from '@/providers/modal-provider'
 import ToastProvider from '@/providers/toast-provider'
-import { ClerkProvider } from '@clerk/nextjs'
 import { ClientCartProvider } from '@/providers/client-cart-provider'
 import { ClientFavouriteProvider } from '@/providers/client-favourite-provider'
 
@@ -22,20 +21,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    // <ClerkProvider>
     <html lang="en">
       <body className={font.className}>
-        <ClientCartProvider>
-          <ClientFavouriteProvider>
+        {/* <ClientCartProvider> */}
+          {/* <ClientFavouriteProvider> */}
             <ModalProvider/>
             <ToastProvider/>
             <Navbar/>        
             {children}
             <Footer/>
-          </ClientFavouriteProvider>
-        </ClientCartProvider>
+          {/* </ClientFavouriteProvider> */}
+        {/* </ClientCartProvider> */}
       </body>
     </html>
-    </ClerkProvider>
+    // </ClerkProvider>
   )
 }
