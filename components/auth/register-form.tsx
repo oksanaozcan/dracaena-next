@@ -5,9 +5,7 @@ import * as Yup from 'yup';
 import { RegisterFormValidationSchema } from "@/validation/register-form-validation-schema";
 import { AuthInput } from './auth-input';
 import axios from 'axios';
-import { hasCookie, setCookie } from 'cookies-next';
-import { useRouter } from 'next/navigation'
-import { env } from 'process';
+import { useRouter } from 'next/navigation';
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/register`;
 
@@ -32,18 +30,13 @@ export const RegisterForm = () => {
       validationSchema={ Yup.object(RegisterFormValidationSchema)}
       onSubmit={ async (values: RegisterFormValues, actions) => {        
         try {
-          const response = await axios.post(URL, values);
-          const { access_token } = response.data;
+          const response = await axios.post(URL, values);        
 
-          const expireDate = new Date(new Date().setDate(new Date().getDate() + 7));
-
-          setCookie('dracaena_access_token', access_token, {expires: expireDate,
-            // secure: true ///////////////// uncomment for production https
-          });        
-          
-          if (hasCookie('dracaena_access_token')) {
-            router.push('/')
+          if (response.status === 201) {
+            router.push('/auth/login');
           }
+
+          //TODO: email verification implemeting
 
           console.log('Registration successful', response);
         } catch (error) {
