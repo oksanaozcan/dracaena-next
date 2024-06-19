@@ -4,11 +4,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { LoginFormValidationSchema } from '@/validation/login-form-validation-schema';
 import { AuthInput } from './auth-input';
-import axios from 'axios';
-import { setCookie,  hasCookie } from 'cookies-next';
-import { useRouter } from 'next/navigation';
-
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/login`;
+import { useAuth } from '@/context/auth-contex';
 
 interface LoginFormValues {
   email: string;
@@ -16,7 +12,7 @@ interface LoginFormValues {
 }
 
 export const LoginForm = () => {
-  const router = useRouter();
+  const { login } = useAuth();
 
   return (
     <Formik
@@ -27,21 +23,7 @@ export const LoginForm = () => {
       validationSchema={Yup.object(LoginFormValidationSchema)}
       onSubmit={async (values: LoginFormValues, actions) => {
         try {
-          const response = await axios.post(URL, values);
-          const { access_token } = response.data;
-
-          const accessExpireDate = new Date(new Date().setDate(new Date().getDate() + 15));        
-
-          setCookie('dracaena_access_token', access_token, {
-            expires: accessExpireDate,
-            // secure: true // uncomment for production https
-          });
-          
-          if (hasCookie('dracaena_access_token')) {
-            router.push('/') //TODO: after implementing middleware redirect to dashboard
-          }
-
-          console.log('Login successful', response);          
+          await login(values.email, values.password);
         } catch (error) {
           console.error('Login failed', error);
         } finally {

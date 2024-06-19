@@ -1,14 +1,21 @@
+"use client";
+
 import Container from "@/components/ui/container";
 import Link from "next/link";
 import MainNav from "@/components/main-nav";
-import getCategories from "@/actions/get-categories";
 import NavbarActions from "@/components/navbar-actions";
-// import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useAuth } from "@/context/auth-contex";
+import { ICategoryResource } from "@/types";
+import Button from "./ui/button";
 
 export const revalidate = 0;
 
-const Navbar = async () => {
-  const categories = await getCategories();
+interface NavbarProps {
+  categories: ICategoryResource
+}
+
+const Navbar: React.FC<NavbarProps> = ({categories}) => { 
+  const {isAuthenticated, logout} = useAuth();
   
   return (
     <header className="border-b top-0 sticky z-50 bg-white">
@@ -23,23 +30,34 @@ const Navbar = async () => {
           <MainNav data={categories}/>      
           <div className="w-auto">
             <ul className="flex flex-row items-center gap-4">  
-              {/* <li>
-                <SignedIn>
-                  <Link href="/dashboard" className="ml-4 flex lg:ml-0 gap-x-2">
-                    Dashboard
-                  </Link>
-                </SignedIn>
-              </li> */}
-              {/* <li>
-                <SignedIn>
-                  <UserButton 
-                    afterSignOutUrl="/"
-                  />
-                </SignedIn>
-                <SignedOut>
-                  <SignInButton/>
-                </SignedOut>
-              </li>                 */}
+              {
+                isAuthenticated ? (
+                  <>
+                  <li>              
+                    <Link href="/dashboard" className="ml-4 flex lg:ml-0 gap-x-2">
+                      Dashboard
+                    </Link>               
+                  </li>
+                  <li>
+                    <Button onClick={logout}>Logout</Button>
+                  </li>
+                  </>
+                  )
+                  : (
+                    <>
+                    <li>              
+                      <Link href="/auth/login" className="ml-4 flex lg:ml-0 gap-x-2">
+                        Login
+                      </Link>               
+                    </li>
+                    <li>              
+                      <Link href="/auth/register" className="ml-4 flex lg:ml-0 gap-x-2">
+                        Register
+                      </Link>               
+                    </li>                
+                    </>
+                  )
+              }                            
               <li> <a href="#">Inspiration</a></li>
               <li> <a href="#">Plant Doctor</a></li>
               <li>EN(cur)</li>
