@@ -1,3 +1,4 @@
+// 
 "use client";
 
 import { Formik, Form } from 'formik';
@@ -5,6 +6,8 @@ import * as Yup from 'yup';
 import { LoginFormValidationSchema } from '@/validation/login-form-validation-schema';
 import { AuthInput } from './auth-input';
 import { useAuth } from '@/context/auth-contex';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface LoginFormValues {
   email: string;
@@ -12,7 +15,18 @@ interface LoginFormValues {
 }
 
 export const LoginForm = () => {
-  const { login } = useAuth();
+  const router = useRouter();
+  const { login, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace('/dashboard');
+    }
+  }, [isAuthenticated, router]);
+  
+  if (isAuthenticated) {
+    return null;
+  }
 
   return (
     <Formik
@@ -31,26 +45,28 @@ export const LoginForm = () => {
         }
       }}
     >
-      <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <AuthInput
-          label="Email"
-          name="email"
-          type="email"
-          placeholder="you@example.com"
-        />
+      {({ handleSubmit }) => ( // Use handleSubmit provided by Formik
+        <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+          <AuthInput
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+          />
 
-        <AuthInput
-          label="Password"
-          name="password"
-          type="password"
-        />
+          <AuthInput
+            label="Password"
+            name="password"
+            type="password"
+          />
 
-        <div className='flex justify-between align-middle mt-4'>
-          <button type='submit' className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full">
-            Submit
-          </button>
-        </div>
-      </Form>
+          <div className='flex justify-between align-middle mt-4'>
+            <button type='submit' className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full">
+              Submit
+            </button>
+          </div>
+        </Form>
+      )}
     </Formik>
   );
 };

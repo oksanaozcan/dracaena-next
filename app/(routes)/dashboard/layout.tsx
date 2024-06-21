@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from "@clerk/clerk-react";
+import { useAuth } from "@/context/auth-contex";
 import React from "react";
 import Container from "@/components/ui/container"
 import DashboardSidebar from "./_components/DashboardSidebar";
@@ -10,12 +10,12 @@ const DashboardLayout = ({
 }: {
   children: React.ReactNode
 }) => {  
-  const { isSignedIn, user, isLoaded } = useUser(); 
+  const {customer} = useAuth();
 
   return (
     <Container>
       <div className="flex h-full">
-        <DashboardSidebar userName={user?.firstName ?? ''}/>
+        <DashboardSidebar/>
         <div className="p-4">
           {children}
         </div>

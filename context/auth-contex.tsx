@@ -8,15 +8,17 @@ import { useRouter } from "next/navigation";
 interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
+  customer: {name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1};
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
+  customer: {name: '', email: '', birthday: null, newsletter_confirmed: 0},
   isLoading: false,
   login: async () => {},
-  logout: () => {},
+  logout: async () => {},
 });
 
 interface AuthProviderProps {
@@ -25,6 +27,7 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [customer, setCustomer] = useState<{name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1}>({name: '', email: '', birthday: null, newsletter_confirmed: 0});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
 
@@ -34,14 +37,20 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (token) {
         try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth-check`, {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth-check`, {}, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
 
-          if (response.data.authenticated) {
+          if (response.data.authenticated && response.status === 200) {
             setIsAuthenticated(true);
+            setCustomer({
+              name: response.data.user.name,
+              email: response.data.user.email,
+              birthday: response.data.user.birthday,
+              newsletter_confirmed: response.data.user.newsletter_confirmed as 0 | 1, // Ensure the type is correct
+            });
           } else {
             deleteCookie("dracaena_access_token");
             setIsAuthenticated(false);
@@ -98,6 +107,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        customer,
         isLoading,
         login,
         logout,

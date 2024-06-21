@@ -6,6 +6,9 @@ import { RegisterFormValidationSchema } from "@/validation/register-form-validat
 import { AuthInput } from './auth-input';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { AuthCheckbox } from './auth-checkbox';
+import { useEffect } from 'react';
+import { useAuth } from '@/context/auth-contex';
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/register`;
 
@@ -14,10 +17,23 @@ interface RegisterFormValues {
   email: string;
   password: string;
   confirm_password: string;
+  birthday: string;
+  newsletter_confirmed: boolean;
 }
 
 export const RegisterForm = () => {
   const router = useRouter();
+  const {isAuthenticated} = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace('/dashboard');
+    }
+  }, [isAuthenticated, router]);
+  
+  if (isAuthenticated) {
+    return null;
+  }
 
   return ( 
     <Formik 
@@ -26,6 +42,8 @@ export const RegisterForm = () => {
         email: '',
         password: '',
         confirm_password: '',
+        birthday: '',
+        newsletter_confirmed: false,
       }}   
       validationSchema={ Yup.object(RegisterFormValidationSchema)}
       onSubmit={ async (values: RegisterFormValues, actions) => {        
@@ -41,6 +59,7 @@ export const RegisterForm = () => {
           console.log('Registration successful', response);
         } catch (error) {
           console.error('Registration failed', error);
+          actions.setFieldError('general', 'Registration failed. Please try again.');
         } finally {
           actions.setSubmitting(false);
           console.log("finally block");
@@ -50,6 +69,7 @@ export const RegisterForm = () => {
     >     
       <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <AuthInput
+          obligatory={true}
           label="Name"
           name="name"
           type="text"
@@ -57,6 +77,7 @@ export const RegisterForm = () => {
         />
 
         <AuthInput
+          obligatory={true}
           label="Email"
           name="email"
           type="email"
@@ -64,16 +85,28 @@ export const RegisterForm = () => {
         />      
 
         <AuthInput
+          obligatory={true}
           label="Password"
           name="password"
           type="password"
         />      
 
         <AuthInput
+          obligatory={true}
           label="Confirm password"
           name="confirm_password"
           type="password"
         /> 
+
+        <AuthInput
+          label="Birthday"
+          name="birthday"
+          type="date"
+        /> 
+
+        <AuthCheckbox name='newsletter_confirmed'> &nbsp;
+          I agree to receive newsletters.
+        </AuthCheckbox>
 
         <div className='flex justify-between align-middle mt-4'>
           <button type='submit' className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full">
