@@ -7,8 +7,7 @@ import { AuthInput } from './auth-input';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { AuthCheckbox } from './auth-checkbox';
-import { useEffect } from 'react';
-import { useAuth } from '@/context/auth-contex';
+import { useProtectedRoute } from '@/hooks/use-protected-route';
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/register`;
 
@@ -22,18 +21,8 @@ interface RegisterFormValues {
 }
 
 export const RegisterForm = () => {
-  const router = useRouter();
-  const {isAuthenticated} = useAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.replace('/dashboard');
-    }
-  }, [isAuthenticated, router]);
-  
-  if (isAuthenticated) {
-    return null;
-  }
+  useProtectedRoute();
+  const router = useRouter(); 
 
   return ( 
     <Formik 

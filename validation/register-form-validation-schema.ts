@@ -23,4 +23,9 @@ export const RegisterFormValidationSchema = {
   confirm_password: Yup.string()
     .oneOf([Yup.ref('password')], 'Must match "password" field value')
     .required('Required'),
+  birthday: Yup.date()
+    .nullable()
+    .max(new Date(), 'Birthday cannot be in the future'),
+  newsletter_confirmed: Yup.boolean()
+    .default(false),
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useEffect, useState, useContext } from "react";
+import React, { createContext, useEffect, useState, useContext, Dispatch, SetStateAction } from "react";
 import { getCookie, deleteCookie, setCookie } from "cookies-next";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   customer: {name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1};
+  setCustomer: Dispatch<SetStateAction<{ name: string; email: string; birthday: string | null; newsletter_confirmed: 0 | 1; }>>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -16,6 +17,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   customer: {name: '', email: '', birthday: null, newsletter_confirmed: 0},
+  setCustomer: () => {},
   isLoading: false,
   login: async () => {},
   logout: async () => {},
@@ -111,6 +113,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isLoading,
         login,
         logout,
+        setCustomer,
       }}
     >
       {children}

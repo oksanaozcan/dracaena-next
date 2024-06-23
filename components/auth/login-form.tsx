@@ -1,4 +1,3 @@
-// 
 "use client";
 
 import { Formik, Form } from 'formik';
@@ -6,8 +5,7 @@ import * as Yup from 'yup';
 import { LoginFormValidationSchema } from '@/validation/login-form-validation-schema';
 import { AuthInput } from './auth-input';
 import { useAuth } from '@/context/auth-contex';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useProtectedRoute } from '@/hooks/use-protected-route';
 
 interface LoginFormValues {
   email: string;
@@ -15,18 +13,8 @@ interface LoginFormValues {
 }
 
 export const LoginForm = () => {
-  const router = useRouter();
-  const { login, isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.replace('/dashboard');
-    }
-  }, [isAuthenticated, router]);
-  
-  if (isAuthenticated) {
-    return null;
-  }
+  useProtectedRoute();
+  const { login } = useAuth();
 
   return (
     <Formik
