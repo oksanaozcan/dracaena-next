@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { useAuth } from "@/context/auth-contex";
 
 export const PersonalDetailsCard = () => {
-  const {customer} = useAuth();
+  const {customer, shippingAddress} = useAuth();
   return (
     <>
      <h1 className="text-center">Personal details</h1>
@@ -35,9 +35,31 @@ export const PersonalDetailsCard = () => {
         <div>
           <h2>Addresses</h2>
           <div className="py-2">
-            <h4>Shipping address</h4>
-            <p>No address configured</p>
-            <Link href="/dashboard/my-details/update-shipping" className="flex items-center">Add shipping address&nbsp;<ChevronRight size={14} /></Link>
+            <h4>Shipping address: </h4>
+            {
+              shippingAddress.address_line !== '' ? (
+                <div className="border p-2 rounded">
+                  <p>Address: {shippingAddress.address_line}</p>
+                  <p>City: {shippingAddress.city}</p>
+                  <p>State: {shippingAddress.state}</p>
+                  <p>Postal code: {shippingAddress.postal_code}</p>
+                  <p>Country: {shippingAddress.country}</p>
+                </div>
+              ) :
+              (
+                <p className="py-1">No address configured</p>
+              )
+                
+            }
+            
+            <Link href="/dashboard/my-details/update-shipping" className="flex items-center my-2">{
+               shippingAddress.address_line !== '' ? (
+                <span>Change&nbsp;</span>
+              ) : (
+                <span>Add&nbsp;</span>
+              )
+
+            } shipping address&nbsp;<ChevronRight size={14} /></Link>
           </div>
           <div className="py-2">
             <h4>Billing address</h4>

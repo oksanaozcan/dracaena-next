@@ -8,7 +8,7 @@ export const useProtectedRoute = () => {
 
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
-      router.push('/login');
+      router.push('/auth/login');
     }
   }, [isAuthenticated, isLoading, router]);
 };

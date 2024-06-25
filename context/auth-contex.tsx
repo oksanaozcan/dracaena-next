@@ -12,6 +12,8 @@ interface AuthContextType {
   setCustomer: Dispatch<SetStateAction<{ name: string; email: string; birthday: string | null; newsletter_confirmed: 0 | 1; }>>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  shippingAddress: {address_line: string, city: string, state: string, postal_code: string, country: string, type: 'shipping', specified_in_order: false};
+  setShippingAddress: Dispatch<SetStateAction<{ address_line: string, city: string, state: string, postal_code: string, country: string, type: 'shipping', specified_in_order: false }>>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -21,6 +23,8 @@ export const AuthContext = createContext<AuthContextType>({
   isLoading: false,
   login: async () => {},
   logout: async () => {},
+  shippingAddress: {address_line: '', city: '', state: '', postal_code: '', country: '', type: 'shipping', specified_in_order: false},
+  setShippingAddress: () => {},
 });
 
 interface AuthProviderProps {
@@ -29,8 +33,21 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
   const [customer, setCustomer] = useState<{name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1}>({name: '', email: '', birthday: null, newsletter_confirmed: 0});
+
+  const [shippingAddress, setShippingAddress] = useState<{address_line: string, city: string, state: string, postal_code: string, country: string, type: 'shipping', specified_in_order: false}>({
+    address_line: '', 
+    city: '', 
+    state: '', 
+    postal_code: '', 
+    country: '', 
+    type: 'shipping', 
+    specified_in_order: false
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -51,8 +68,19 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               name: response.data.user.name,
               email: response.data.user.email,
               birthday: response.data.user.birthday,
-              newsletter_confirmed: response.data.user.newsletter_confirmed as 0 | 1, // Ensure the type is correct
+              newsletter_confirmed: response.data.user.newsletter_confirmed as 0 | 1,
             });
+            if (response.data.shipping_address !== null) {
+              setShippingAddress({
+                address_line: response.data.shipping_address.address_line, 
+                city: response.data.shipping_address.city, 
+                state: response.data.shipping_address.state, 
+                postal_code: response.data.shipping_address.postal_code, 
+                country: response.data.shipping_address.country, 
+                type: response.data.shipping_address.type, 
+                specified_in_order: response.data.shipping_address.specified_in_order,             
+              });              
+            }            
           } else {
             deleteCookie("dracaena_access_token");
             setIsAuthenticated(false);
@@ -114,6 +142,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         login,
         logout,
         setCustomer,
+        shippingAddress,
+        setShippingAddress,
       }}
     >
       {children}

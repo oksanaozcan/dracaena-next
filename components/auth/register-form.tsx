@@ -21,7 +21,7 @@ interface RegisterFormValues {
 }
 
 export const RegisterForm = () => {
-  useProtectedRoute();
+  // useProtectedRoute();
   const router = useRouter(); 
 
   return ( 
