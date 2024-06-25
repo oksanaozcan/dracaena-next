@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { useAuth } from "@/context/auth-contex";
 
 export const PersonalDetailsCard = () => {
-  const {customer, shippingAddress} = useAuth();
+  const {customer, shippingAddress, billingAddress} = useAuth();
   return (
     <>
      <h1 className="text-center">Personal details</h1>
@@ -48,8 +48,7 @@ export const PersonalDetailsCard = () => {
               ) :
               (
                 <p className="py-1">No address configured</p>
-              )
-                
+              )                
             }
             
             <Link href="/dashboard/my-details/update-shipping" className="flex items-center my-2">{
@@ -62,9 +61,29 @@ export const PersonalDetailsCard = () => {
             } shipping address&nbsp;<ChevronRight size={14} /></Link>
           </div>
           <div className="py-2">
-            <h4>Billing address</h4>
-            <p>No address configured</p>
-            <Link href="/dashboard/my-details/update-billing" className="flex items-center">Add billing address&nbsp;<ChevronRight size={14} /></Link>
+            <h4>Billing address: </h4>
+            {
+              billingAddress.address_line !== '' ? (
+                <div className="border p-2 rounded">
+                  <p>Address: {billingAddress.address_line}</p>
+                  <p>City: {billingAddress.city}</p>
+                  <p>State: {billingAddress.state}</p>
+                  <p>Postal code: {billingAddress.postal_code}</p>
+                  <p>Country: {billingAddress.country}</p>
+                </div>
+              ) :
+              (
+                <p className="py-1">No address configured</p>
+              )                
+            }            
+            <Link href="/dashboard/my-details/update-billing" className="flex items-center my-2">{
+               billingAddress.address_line !== '' ? (
+                <span>Change&nbsp;</span>
+              ) : (
+                <span>Add&nbsp;</span>
+              )
+
+            } billing address&nbsp;<ChevronRight size={14} /></Link>
           </div>
         </div>
       </div>

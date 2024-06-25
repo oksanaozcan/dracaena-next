@@ -14,6 +14,8 @@ interface AuthContextType {
   logout: () => void;
   shippingAddress: {address_line: string, city: string, state: string, postal_code: string, country: string, type: 'shipping', specified_in_order: false};
   setShippingAddress: Dispatch<SetStateAction<{ address_line: string, city: string, state: string, postal_code: string, country: string, type: 'shipping', specified_in_order: false }>>;
+  billingAddress: {address_line: string, city: string, state: string, postal_code: string, country: string, type: 'billing', specified_in_order: false};
+  setBillingAddress: Dispatch<SetStateAction<{ address_line: string, city: string, state: string, postal_code: string, country: string, type: 'billing', specified_in_order: false }>>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -25,6 +27,8 @@ export const AuthContext = createContext<AuthContextType>({
   logout: async () => {},
   shippingAddress: {address_line: '', city: '', state: '', postal_code: '', country: '', type: 'shipping', specified_in_order: false},
   setShippingAddress: () => {},
+  billingAddress: {address_line: '', city: '', state: '', postal_code: '', country: '', type: 'billing', specified_in_order: false},
+  setBillingAddress: () => {},
 });
 
 interface AuthProviderProps {
@@ -43,6 +47,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     postal_code: '', 
     country: '', 
     type: 'shipping', 
+    specified_in_order: false
+  });
+
+  const [billingAddress, setBillingAddress] = useState<{address_line: string, city: string, state: string, postal_code: string, country: string, type: 'billing', specified_in_order: false}>({
+    address_line: '', 
+    city: '', 
+    state: '', 
+    postal_code: '', 
+    country: '', 
+    type: 'billing', 
     specified_in_order: false
   });
 
@@ -80,7 +94,20 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 type: response.data.shipping_address.type, 
                 specified_in_order: response.data.shipping_address.specified_in_order,             
               });              
+            }     
+            
+            if (response.data.billing_address !== null) {
+              setBillingAddress({
+                address_line: response.data.billing_address.address_line, 
+                city: response.data.billing_address.city, 
+                state: response.data.billing_address.state, 
+                postal_code: response.data.billing_address.postal_code, 
+                country: response.data.billing_address.country, 
+                type: response.data.billing_address.type, 
+                specified_in_order: response.data.billing_address.specified_in_order,             
+              });              
             }            
+
           } else {
             deleteCookie("dracaena_access_token");
             setIsAuthenticated(false);
@@ -144,6 +171,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setCustomer,
         shippingAddress,
         setShippingAddress,
+        billingAddress,
+        setBillingAddress,
       }}
     >
       {children}

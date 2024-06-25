@@ -1,8 +1,4 @@
-import Container from "@/components/ui/container"
-import { redirect } from "next/navigation";
-import DashboardSidebar  from '../../_components/DashboardSidebar';
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { UpdateBillingAddressForm } from "../../_components/billing-address-form";
 
 export const revalidate = 0;
 
@@ -16,7 +12,8 @@ const UpdateBillingPage: React.FC<UpdateBillingPageProps> = async ({
 
   return (
     <>    
-    <h1>Add billing address</h1>                    
+    <h1>Add billing address</h1>       
+    <UpdateBillingAddressForm/>             
     </>
   )
 }
