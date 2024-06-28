@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
-  customer: {name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1};
-  setCustomer: Dispatch<SetStateAction<{ name: string; email: string; birthday: string | null; newsletter_confirmed: 0 | 1; }>>;
+  customer: {id: number | null, name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1};
+  setCustomer: Dispatch<SetStateAction<{ id: number | null, name: string; email: string; birthday: string | null; newsletter_confirmed: 0 | 1; }>>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   shippingAddress: {address_line: string, city: string, state: string, postal_code: string, country: string, type: 'shipping', specified_in_order: false};
@@ -20,7 +20,7 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
-  customer: {name: '', email: '', birthday: null, newsletter_confirmed: 0},
+  customer: {id: null, name: '', email: '', birthday: null, newsletter_confirmed: 0},
   setCustomer: () => {},
   isLoading: false,
   login: async () => {},
@@ -38,7 +38,7 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const [customer, setCustomer] = useState<{name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1}>({name: '', email: '', birthday: null, newsletter_confirmed: 0});
+  const [customer, setCustomer] = useState<{id: number | null, name: string, email: string, birthday: string | null, newsletter_confirmed: 0 | 1}>({id: null, name: '', email: '', birthday: null, newsletter_confirmed: 0});
 
   const [shippingAddress, setShippingAddress] = useState<{address_line: string, city: string, state: string, postal_code: string, country: string, type: 'shipping', specified_in_order: false}>({
     address_line: '', 
@@ -79,6 +79,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           if (response.data.authenticated && response.status === 200) {
             setIsAuthenticated(true);
             setCustomer({
+              id: response.data.user.id,
               name: response.data.user.name,
               email: response.data.user.email,
               birthday: response.data.user.birthday,

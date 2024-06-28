@@ -30,13 +30,13 @@ export default async function RootLayout({
       <html lang="en">
         <body className={font.className}>
           {/* <ClientCartProvider> */}
-          {/* <ClientFavouriteProvider> */}
+          <ClientFavouriteProvider>
           <ModalProvider />
           <ToastProvider />
           <Navbar categories={categories}/>
           {children}
           <Footer />
-          {/* </ClientFavouriteProvider> */}
+          </ClientFavouriteProvider>
           {/* </ClientCartProvider> */}
         </body>
       </html>

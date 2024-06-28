@@ -1,96 +1,126 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-// import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
+import { getCookie } from "cookies-next";
+import { useAuth } from "./auth-contex";
+import { AxiosError } from "axios";
 
 interface FavouriteContextType {
   favouriteItems: IProduct[];
-  onRemove: (productId: string) => Promise<void>;
-  onAdd: (productId: string) => Promise<void>;
   isLoading: boolean;
+  onAdd: (productId: string) => void;
+  onRemove: (productId: string) => void;
 }
 
 export const FavouriteContext = createContext<FavouriteContextType>({
   favouriteItems: [],
-  onRemove: async () => {},
-  onAdd: async () => {},
   isLoading: false,
+  onAdd: async (productId: string) => {},
+  onRemove: async (productId: string) => {},
 });
 
 interface FavouriteProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-const FavouriteProvider: React.FC<FavouriteProviderProps> = ({ 
-  children
-}) => {
-  const {userId} = useAuth(); 
+const FavouriteProvider: React.FC<FavouriteProviderProps> = ({ children }) => {  
+  const {logout} = useAuth();
   const [favouriteItems, setFavouriteItems] = useState<IProduct[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);  
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (userId) {
-      fetchItems();
-    }   
-  }, [])  
- 
+  useEffect(() => {   
+    fetchItems();
+  }, []);
+
+  const fetchItems = async () => {
+    setIsLoading(true);
+    try {
+      const token = getCookie('dracaena_access_token');
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/favourites`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.data) {
+        throw new Error("Failed to fetch data");
+      }
+      setFavouriteItems(response.data.data);
+    } catch (err) {
+      const error = err as AxiosError;
+      console.error("Failed to fetch favourite items", error);
+      toast.error("Failed to fetch favourite items");
+      if (error.response?.status === 401) {        
+        logout();
+      }     
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const onAdd = async ( 
     productId: string
-    ) => {
-      setIsLoading(true);
-      
+  ) => {
+    setIsLoading(true);
+
+    const token = getCookie('dracaena_access_token');
+
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/favourites`, {
-      product_id: productId,
-      client_id: userId
-    }).then((res) => {
-      fetchItems();
-      toast.success("Product added to your favourites successfully");      
-    }
-    ).catch((err) => {
+      product_id: productId,     
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }).then((res) => {
+        toast.success("Product added to your favourites successfully");      
+      }
+      ).catch((err) => {
       toast.error("Something went wrong! Check your internet connection and try again");
-    }).finally(() => {
+      }).finally(() => {
       setIsLoading(false);
     })
   }
 
   const onRemove = async (productId: string) => {
-    const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/favourites`, {     
-      data: {
-        userId,
-        productId
+    setIsLoading(true);
+    const token = getCookie('dracaena_access_token');
+  
+    try {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/favourites`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          product_id: productId,
+        },
+      });
+  
+      if (!response.data) {
+        throw new Error("Failed to remove item from favourites");
       }
-    });      
-    if (!res) {
-      toast.error("Something went wrong");
-      throw new Error("Failed to remove item from favourites");      
-    }   
-    setFavouriteItems(prevData => prevData.filter(item => item.id != productId)); 
-    toast.success("Product successfully removed from your favourites");
-  }   
-
-  const fetchItems = async () => {     
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/favourites/${userId}`);      
-    if (!res) {
-      throw new Error("Failed to fetch data");
+  
+      setFavouriteItems(prevItems => prevItems.filter(item => item.id !== productId));
+      toast.success("Product successfully removed from your favourites");
+    } catch (error) {
+      console.error("Failed to remove item from favourites", error);
+      toast.error("Failed to remove item from favourites. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-    const newItems = await res.data.data;    
-    setFavouriteItems(newItems);
-  }  
-   
+  };
+
   return (
     <FavouriteContext.Provider
       value={{
         favouriteItems,
-        onRemove, 
+        isLoading,
         onAdd,
-        isLoading
+        onRemove,
       }}
     >
       {children}
     </FavouriteContext.Provider>
-  )
-
-}
+  );
+};
 
 export default FavouriteProvider;
