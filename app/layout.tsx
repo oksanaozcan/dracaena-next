@@ -29,7 +29,7 @@ export default async function RootLayout({
     <AuthProvider>
       <html lang="en">
         <body className={font.className}>
-          {/* <ClientCartProvider> */}
+          <ClientCartProvider>
           <ClientFavouriteProvider>
           <ModalProvider />
           <ToastProvider />
@@ -37,7 +37,7 @@ export default async function RootLayout({
           {children}
           <Footer />
           </ClientFavouriteProvider>
-          {/* </ClientCartProvider> */}
+          </ClientCartProvider>
         </body>
       </html>
     </AuthProvider>

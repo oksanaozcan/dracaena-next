@@ -1,12 +1,5 @@
-import Container from "@/components/ui/container"
-// import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-import DashboardSidebar from "./_components/DashboardSidebar";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import DashboardLayout from "./layout";
-import { IUser } from "@/types";
-import { userAgent } from "next/server";
 
 export const revalidate = 0;
 

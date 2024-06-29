@@ -1,8 +1,9 @@
 import React, { createContext, useState, useEffect, FormEvent } from "react";
-import axios from "axios";
-// import { useAuth } from "@clerk/nextjs";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
+import { useAuth } from "./auth-contex";
+import { getCookie } from "cookies-next";
 
 interface CartContextType {
   cartItems: IProduct[];
@@ -27,68 +28,94 @@ interface CartProviderProps {
 const CartProvider: React.FC<CartProviderProps> = ({ 
   children
 }) => {
-  // const {userId} = useAuth(); 
+  const {logout} = useAuth();
   const [cartItems, setCartItems] = useState<IProduct[]>([]);
   const [cartTotal, setCartTotal] = useState<number>(0);  
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   const totalPrice = cartItems.reduce((total, item) => {
-  //     return total + Number(item.price)
-  //   },0);
+  useEffect(() => {   
+    fetchItems();
+  }, []);
 
-  //   setCartTotal(totalPrice)
-  // }, [cartItems, userId])
+  useEffect(() => {
+    const totalPrice = cartItems.reduce((total, item) => {
+      return total + Number(item.price);
+    }, 0);
+    setCartTotal(totalPrice)
+  }, [cartItems])
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     fetchItems();
-  //   }   
-  // }, [])  
- 
-  const onAdd = async ( 
-    productId: string
-    ) => {
-      setIsLoading(true);
-      
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
-      product_id: productId,
-      client_id: userId
+  const fetchItems = async () => {
+    setIsLoading(true);
+    try {
+      const token = getCookie('dracaena_access_token');
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.data) {
+        throw new Error("Failed to fetch data");
+      }
+      setCartItems(response.data.data);
+    } catch (err) {
+      const error = err as AxiosError;
+      console.error("Failed to fetch cart items", error);
+      toast.error("Failed to fetch cart items");
+      if (error.response?.status === 401) {        
+        logout();
+      }     
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+ const onAdd = async (productId: string) => {
+  setIsLoading(true);
+  const token = getCookie('dracaena_access_token');
+
+  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
+    product_id: productId,     
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     }).then((res) => {
-      fetchItems();
       toast.success("Product added to your cart successfully");      
     }
     ).catch((err) => {
-      toast.error("Something went wrong! Check your internet connection and try again");  
-      console.log(err)
+    toast.error("Something went wrong! Check your internet connection and try again");
     }).finally(() => {
-      setIsLoading(false);
-    })
-  }
+    setIsLoading(false);
+  })
+ }
 
-  const onRemove = async (productId: string) => {
-    const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {     
+ const onRemove = async (productId: string) => {
+  setIsLoading(true);
+  const token = getCookie('dracaena_access_token');
+  
+  try {
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       data: {
-        userId,
-        productId
-      }
-    });      
-    if (!res) {
-      toast.error("Something went wrong");
-      throw new Error("Failed to remove item from cart");      
-    }   
-    setCartItems(prevData => prevData.filter(item => item.id != productId)); 
-    toast.success("Product successfully removed from your cart");
-  }   
+        product_id: productId,
+      },
+    });
 
-  const fetchItems = async () => {     
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/carts/${userId}`);      
-    if (!res) {
-      throw new Error("Failed to fetch data");
+    if (!response.data) {
+      throw new Error("Failed to remove item from cart");
     }
-    const newItems = await res.data.data;    
-    setCartItems(newItems);
-  }  
+
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+    toast.success("Product successfully removed from your cart");
+  } catch (error) {
+    console.error("Failed to remove item from cart", error);
+    toast.error("Failed to remove item from cart. Please try again.");
+  } finally {
+    setIsLoading(false);
+  }
+ }
    
   return (
     <CartContext.Provider

@@ -1,5 +1,3 @@
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 import OrderTable from "./components/order-table";
 import getOrders from "@/actions/get-orders";
 
@@ -12,11 +10,7 @@ interface MyOrdersPageProps {
 const MyOrdersPage: React.FC<MyOrdersPageProps> = async ({
   params,
 }) => {
-  const user = await currentUser();
-  if (!user) {
-    redirect('/sign-in?redirectUrl=/dashboard');
-  } 
-
+  
   const ordersData = await getOrders();
   const [orders] = await Promise.all([ordersData])
  

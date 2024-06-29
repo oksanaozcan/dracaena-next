@@ -3,12 +3,11 @@
 import axios from "axios";
 import React, { useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
-import toast, { Toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import { CartContext } from "@/context/cart";
-import { useAuth } from "@clerk/nextjs";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
 
 interface SummaryProps {
   totalPrice: number
@@ -18,9 +17,7 @@ const Summary: React.FC<SummaryProps> = ({
   totalPrice
 }) => {
 
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-
-  const { userId, getToken } = useAuth();
+  const stripePromise: Promise<Stripe | null> = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 
   const { cartItems } = useContext(CartContext) ?? {}; 
 
@@ -28,31 +25,32 @@ const Summary: React.FC<SummaryProps> = ({
 
   useEffect(() => {
     if (searchParams.get("success")) {
-      toast.success("Payment complited")
-      // removeAll();
+      toast.success("Payment completed");     
     }
     if (searchParams.get("canceled")) {
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     }
-  }, [searchParams, 
-    // removeAll
-  ]);  
+  }, [searchParams]);  
 
   const onCheckout = async () => {
 
     const stripe = await stripePromise;
+    if (!stripe) {
+      toast.error("Stripe initialization failed");
+      return;
+    }
     
     const checkoutSession = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, 
     {
-      clientId: userId,
-      productIds: cartItems?.map(item => item.id),
-      payment_platform: 1
+      // clientId: userId,
+      // productIds: cartItems?.map(item => item.id),
+      // payment_platform: 1
     },
     {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Bearer ${await getToken()}`,       
-      }
+      // headers: {
+      //   "Content-Type": "application/x-www-form-urlencoded",
+      //   "Authorization": `Bearer ${await getToken()}`,       
+      // }
     });    
 
     if (checkoutSession.status === 200) {
@@ -66,12 +64,12 @@ const Summary: React.FC<SummaryProps> = ({
       <div className="mt-6 space-y-4">
         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
           <div className="text-base font-medium text-gray-900">
-            Order toal
+            Order total
           </div>
           <Currency value={totalPrice}/>
         </div>
       </div>
-      <Button onClick={onCheckout} className="w-full mt-6" disabled={cartItems.length ? false : true}>
+      <Button onClick={onCheckout} className="w-full mt-6" disabled={!cartItems?.length}>
         Checkout
       </Button>
     </div>
