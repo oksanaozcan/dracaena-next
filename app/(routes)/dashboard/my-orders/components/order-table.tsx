@@ -1,14 +1,12 @@
 "use client";
 
 import { IOrder } from '@/types';
-import React from "react";
-
+import React, { useEffect } from "react";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
-
   Column,
   ColumnDef,
   ColumnFiltersState,
@@ -17,13 +15,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from '@tanstack/react-table';
-
-interface OrderTableProps {
-  orders: IOrder[];
-}
+import axios from 'axios';
+import { getCookie } from 'cookies-next';
 
 declare module '@tanstack/react-table' {
-  //allows us to define custom properties for our columns
   interface ColumnMeta<TData extends RowData, TValue> {
     filterVariant?: 'text' | 'range' | 'select'
   }
@@ -31,7 +26,32 @@ declare module '@tanstack/react-table' {
 
 const columnHelper = createColumnHelper<IOrder>()
 
-const OrderTable: React.FC<OrderTableProps> = ({orders}) => {
+const textFilter = (row: any, columnId: string, filterValue: string) => {
+  const rowValue = row.getValue(columnId);
+  return rowValue ? rowValue.toString().toLowerCase().includes(filterValue.toLowerCase()) : false;
+};
+
+const OrderTable: React.FC = () => {
+  const [data, _setData] = React.useState(() => [])  
+
+  useEffect(() => {
+    getOrders();
+  }, [])
+
+  const getOrders = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/my-orders`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("dracaena_access_token")}`,
+        },
+      })
+      if (response.status === 200) {
+        _setData(() => response.data.orders)
+      }
+    } catch (error) {
+      console.error('Get orders failed', error);
+    }
+  }
 
   const rerender = React.useReducer(() => ({}), {})[1]
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -45,12 +65,14 @@ const OrderTable: React.FC<OrderTableProps> = ({orders}) => {
         id: 'customer_name',
         cell: info => info.getValue(),
         header: () => <span>Customer Name</span>,
+        filterFn: textFilter,
       },
       {
         accessorFn: row => row.customer_email,
         id: 'customer_email',
         cell: info => info.getValue(),
         header: () => <span>Customer Email</span>,
+        filterFn: textFilter,
       },     
       {
         accessorFn: row => new Date(row.created_at).toLocaleString(),
@@ -76,9 +98,7 @@ const OrderTable: React.FC<OrderTableProps> = ({orders}) => {
     ],
     []
   )  
-
-  const [data, _setData] = React.useState(() => [...orders])  
-
+ 
   const table = useReactTable({
     data,
     columns,
@@ -232,7 +252,6 @@ function Filter({ column }: { column: Column<any, unknown> }) {
   return filterVariant === 'range' ? (
     <div>
       <div className="flex space-x-2">
-        {/* See faceted column filters example for min max values functionality */}
         <DebouncedInput
           type="number"
           value={(columnFilterValue as [number, number])?.[0] ?? ''}
@@ -259,7 +278,6 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       onChange={e => column.setFilterValue(e.target.value)}
       value={columnFilterValue?.toString()}
     >
-      {/* See faceted column filters example for dynamic select options */}
       <option value="">All</option>
       <option value="1">payed</option>
       <option value="0">not payed</option>     
@@ -272,11 +290,9 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       type="text"
       value={(columnFilterValue ?? '') as string}
     />
-    // See faceted column filters example for datalist search suggestions
   )
 }
 
-// A typical debounced input react component
 function DebouncedInput({
   value: initialValue,
   onChange,

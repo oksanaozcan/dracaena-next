@@ -8,6 +8,7 @@ import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import { CartContext } from "@/context/cart";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
+import { getCookie } from "cookies-next";
 
 interface SummaryProps {
   totalPrice: number
@@ -42,15 +43,14 @@ const Summary: React.FC<SummaryProps> = ({
     
     const checkoutSession = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, 
     {
-      // clientId: userId,
-      // productIds: cartItems?.map(item => item.id),
-      // payment_platform: 1
+      productIds: cartItems?.map(item => item.id),
+      payment_platform: 1
     },
     {
-      // headers: {
-      //   "Content-Type": "application/x-www-form-urlencoded",
-      //   "Authorization": `Bearer ${await getToken()}`,       
-      // }
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": `Bearer ${getCookie('dracaena_access_token')}`,  
+      }
     });    
 
     if (checkoutSession.status === 200) {
