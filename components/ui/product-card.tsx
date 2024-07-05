@@ -60,7 +60,6 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
     } else {
       onAddFavourite(item.id);
     }
-    setIsFavourite(!isFavourite);
   }
 
   return (

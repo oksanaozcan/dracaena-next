@@ -69,25 +69,33 @@ const CartProvider: React.FC<CartProviderProps> = ({
     }
   };
 
- const onAdd = async (productId: string) => {
-  setIsLoading(true);
-  const token = getCookie('dracaena_access_token');
-
-  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
-    product_id: productId,     
+  const onAdd = async (productId: string) => {
+    setIsLoading(true);
+    const token = getCookie('dracaena_access_token');
+  
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
+      product_id: productId,     
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
       }
     }).then((res) => {
       toast.success("Product added to your cart successfully");      
-    }
-    ).catch((err) => {
-    toast.error("Something went wrong! Check your internet connection and try again");
+    }).catch((err) => {
+      if (axios.isAxiosError(err) && err.response) {
+        console.log(err)
+        if (err.response.data.message === 'out_of_stock') {
+          toast.error("This product is out of stock and cannot be added to the cart.");
+        } else {
+          toast.error("Something went wrong! Check your internet connection and try again");
+        }
+      } else {
+        toast.error("Something went wrong! Check your internet connection and try again");
+      }
     }).finally(() => {
-    setIsLoading(false);
-  })
- }
+      setIsLoading(false);
+    });
+  }  
 
  const onRemove = async (productId: string) => {
   setIsLoading(true);

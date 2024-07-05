@@ -1,16 +1,19 @@
 import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
 import { getCookie } from "cookies-next";
 import { useAuth } from "./auth-contex";
-import { AxiosError } from "axios";
 
 interface FavouriteContextType {
   favouriteItems: IProduct[];
   isLoading: boolean;
   onAdd: (productId: string) => void;
   onRemove: (productId: string) => void;
+}
+
+interface ErrorResponse {
+  error: string;
 }
 
 export const FavouriteContext = createContext<FavouriteContextType>({
@@ -58,27 +61,30 @@ const FavouriteProvider: React.FC<FavouriteProviderProps> = ({ children }) => {
     }
   };
 
-  const onAdd = async ( 
-    productId: string
-  ) => {
+  const onAdd = async (productId: string) => {
     setIsLoading(true);
-
     const token = getCookie('dracaena_access_token');
 
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/favourites`, {
-      product_id: productId,     
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/favourites`, {
+        product_id: productId,     
       }, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
-      }).then((res) => {
-        toast.success("Product added to your favourites successfully");      
+      });
+      toast.success("Product added to your favourites successfully");
+      fetchItems(); // Refresh the favourite items after adding
+    } catch (err) {
+      const error = err as AxiosError<ErrorResponse>;
+      if (error.response?.status === 400 && error.response.data?.error === 'out_of_stock') {
+        toast.error("This product is out of stock and cannot be added to your favourites.");
+      } else {
+        toast.error("Something went wrong! Check your internet connection and try again");
       }
-      ).catch((err) => {
-      toast.error("Something went wrong! Check your internet connection and try again");
-      }).finally(() => {
+    } finally {
       setIsLoading(false);
-    })
+    }
   }
 
   const onRemove = async (productId: string) => {
