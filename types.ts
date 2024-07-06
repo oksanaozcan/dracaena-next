@@ -39,6 +39,7 @@ export interface IProduct {
   id: string;  
   title: string;
   description: string;
+  amount: number | string;
   content: string;
   preview: string;
   images?: IImage[];

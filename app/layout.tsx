@@ -9,6 +9,7 @@ import { ClientCartProvider } from '@/providers/client-cart-provider';
 import { ClientFavouriteProvider } from '@/providers/client-favourite-provider';
 import AuthProvider from '@/context/auth-contex';
 import getCategories from "@/actions/get-categories";
+import { ClientRestokeProvider } from '@/providers/client-restoke-provider';
 
 const font = Urbanist({ subsets: ['latin'] });
 
@@ -31,11 +32,13 @@ export default async function RootLayout({
         <body className={font.className}>
           <ClientCartProvider>
           <ClientFavouriteProvider>
+          <ClientRestokeProvider>
           <ModalProvider />
           <ToastProvider />
           <Navbar categories={categories}/>
           {children}
           <Footer />
+          </ClientRestokeProvider>
           </ClientFavouriteProvider>
           </ClientCartProvider>
         </body>
