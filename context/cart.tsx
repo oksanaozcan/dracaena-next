@@ -34,7 +34,10 @@ const CartProvider: React.FC<CartProviderProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {   
-    fetchItems();
+    const token = getCookie('dracaena_access_token');
+    if (token) {
+      fetchItems();
+    }   
   }, []);
 
   useEffect(() => {

@@ -18,13 +18,12 @@ const DashboardPage: React.FC<DashboardPageProps> = ({
       <p>This is your account overview.</p>
     </div>
     <div className="py-2">
-      <h2>Your latest order</h2>
-      <p>You've not ordered anything yet.</p>
+      <h2>Your latest order</h2>      
       <Link href="/dashboard/my-orders" className="flex items-center">View all your orders&nbsp;<ChevronRight size={14} /></Link>
     </div>
     <div className="py-2">
       <h3>A selection from your wishlist</h3>
-      <p>You have not selected any favourites yet.</p>
+      <Link href="/dashboard/my-favourites" className="flex items-center">View all your favourite products&nbsp;<ChevronRight size={14} /></Link>
     </div>
     <div className="py-2">
       <h3>Recently viewed items</h3>

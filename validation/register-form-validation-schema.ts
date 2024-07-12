@@ -28,4 +28,7 @@ export const RegisterFormValidationSchema = {
     .max(new Date(), 'Birthday cannot be in the future'),
   newsletter_confirmed: Yup.boolean()
     .default(false),
+  cookie_consent: Yup.string()
+    .oneOf(['true'], 'Cookie consent is required')
+    .required('Required'),
 }

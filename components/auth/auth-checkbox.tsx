@@ -7,7 +7,11 @@ interface AuthCheckboxProps {
 }
 
 export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({ children, name, ...props }) => {
-  const [field, meta] = useField({ ...props, type: 'checkbox', name });
+  const [field, meta, helpers] = useField({ ...props, type: 'checkbox', name });
+
+  const handleChange = () => {
+    helpers.setValue(!field.value);
+  };
 
   return (
     <div>
@@ -15,19 +19,14 @@ export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({ children, name, ...p
         <input
           type="checkbox"
           {...field}
-          {...props}
           checked={field.value}
+          onChange={handleChange}
         />
         {children}
       </label>
       {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
+        <div className="text-red-500 text-xs italic">{meta.error}</div>
       ) : null}
     </div>
   );
 };
-
-
-
-
-

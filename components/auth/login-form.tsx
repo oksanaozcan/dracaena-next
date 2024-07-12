@@ -12,7 +12,7 @@ interface LoginFormValues {
   password: string;
 }
 
-export const LoginForm = () => {
+export const LoginForm: React.FC = () => {
   useProtectedRoute();
   const { login } = useAuth();
 
@@ -33,19 +33,21 @@ export const LoginForm = () => {
         }
       }}
     >
-      {({ handleSubmit }) => ( // Use handleSubmit provided by Formik
+      {({ handleSubmit }) => (
         <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
-          <AuthInput
+          <AuthInput         
             label="Email"
             name="email"
             type="email"
             placeholder="you@example.com"
+            id="email"
           />
 
-          <AuthInput
+          <AuthInput           
             label="Password"
             name="password"
             type="password"
+            id="password"
           />
 
           <div className='flex justify-between align-middle mt-4'>

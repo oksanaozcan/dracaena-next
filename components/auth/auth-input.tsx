@@ -1,30 +1,28 @@
-import { useField, FieldHookConfig } from 'formik';
-import { cn } from "@/lib/utils";
-import React, { InputHTMLAttributes } from 'react';
+import { useField } from 'formik';
 
-interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  obligatory?: boolean;
+interface AuthInputProps {
   label: string;
+  name: string;
+  type: string;
+  placeholder?: string;
+  id: string;
 }
 
-export const AuthInput: React.FC<AuthInputProps & FieldHookConfig<string>> = ({ obligatory = false, label, ...props }) => {
+export const AuthInput: React.FC<AuthInputProps> = ({ label, ...props }) => {
   const [field, meta] = useField(props);
 
   return (
     <div className="mb-4">
-      <label htmlFor={props.id || props.name}>
-        {label} {obligatory && '*'}
+      <label htmlFor={props.id} className="block text-gray-700 text-sm font-bold mb-2">
+        {label} 
       </label>
       <input
-        className={cn(
-          "shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-          meta.error && meta.touched ? "border-2 border-rose-500" : "border"
-        )}
         {...field}
-        {...(props as InputHTMLAttributes<HTMLInputElement>)}
+        {...props}
+        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${meta.touched && meta.error ? 'border-red-500' : ''}`}
       />
       {meta.touched && meta.error ? (
-        <p className="text-red-500 text-xs italic pt-1">{meta.error}</p>
+        <p className="text-red-500 text-xs italic">{meta.error}</p>
       ) : null}
     </div>
   );

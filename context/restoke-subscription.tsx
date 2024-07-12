@@ -33,7 +33,10 @@ const RestokeSubscriptionProvider: React.FC<RestokeSubscriptionProviderProps> = 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {   
-    fetchItems();
+    const token = getCookie('dracaena_access_token');
+    if (token) {
+      fetchItems();
+    }    
   }, []);
 
   const fetchItems = async () => {

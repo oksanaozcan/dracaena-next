@@ -10,6 +10,9 @@ import { ClientFavouriteProvider } from '@/providers/client-favourite-provider';
 import AuthProvider from '@/context/auth-contex';
 import getCategories from "@/actions/get-categories";
 import { ClientRestokeProvider } from '@/providers/client-restoke-provider';
+import CookieConsent from '@/components/cookie-consent';
+import { cn } from '@/lib/utils';
+import { ClientCookiesProvider } from '@/providers/client-cookies-provider';
 
 const font = Urbanist({ subsets: ['latin'] });
 
@@ -29,8 +32,9 @@ export default async function RootLayout({
   return (
     <AuthProvider>
       <html lang="en">
-        <body className={font.className}>
+        <body className={cn(font.className)}>
           <ClientCartProvider>
+          <ClientCookiesProvider>
           <ClientFavouriteProvider>
           <ClientRestokeProvider>
           <ModalProvider />
@@ -38,8 +42,10 @@ export default async function RootLayout({
           <Navbar categories={categories}/>
           {children}
           <Footer />
+          <CookieConsent/>
           </ClientRestokeProvider>
           </ClientFavouriteProvider>
+          </ClientCookiesProvider>
           </ClientCartProvider>
         </body>
       </html>

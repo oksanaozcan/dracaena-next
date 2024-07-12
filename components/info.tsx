@@ -1,11 +1,13 @@
 "use client"
 
 import { IProductResource } from "@/types";
-import { useContext, FormEvent } from "react";
+import { useContext, FormEvent, useEffect } from "react";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { CartContext } from "@/context/cart";
+import axios from "axios";
+import { getCookie } from "cookies-next";
 
 interface InfoProps {
   product: IProductResource,
@@ -15,6 +17,21 @@ const Info: React.FC<InfoProps> = ({
   product
 }) => {  
 
+  useEffect(() => {
+    const addRecentlyViewedItem = async () => {
+      try {
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recently-viewed-items`, { product_id: product.id }, {
+          headers: {
+            Authorization: `Bearer ${getCookie("dracaena_access_token")}`,
+          }
+        });
+      } catch (error) {
+        console.error('Failed to add recently viewed item:', error);
+      }
+    };
+
+    addRecentlyViewedItem();
+  }, []);
  
   const cartContext = useContext(CartContext);
   const onAdd = cartContext ? cartContext.onAdd : () => {};
