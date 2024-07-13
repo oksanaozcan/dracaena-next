@@ -10,6 +10,7 @@ import { AuthCheckbox } from './auth-checkbox';
 import Link from 'next/link';
 import { LinkIcon } from 'lucide-react';
 import { useCookieConsent } from '@/context/cookies';
+import { env } from 'process';
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/register`;
 
@@ -28,6 +29,7 @@ export const RegisterForm = () => {
   const router = useRouter();
 
   return (
+    <>
     <Formik
       initialValues={{
         name: '',
@@ -45,6 +47,10 @@ export const RegisterForm = () => {
           const response = await axios.post(URL, values);
 
           if (response.status === 201) {
+            const localStorageConsent = localStorage.getItem('dracaena_cookie_consent');
+            if (!localStorageConsent || localStorageConsent === 'false') {
+              localStorage.setItem('dracaena_cookie_consent', 'true');
+            }
             router.push('/auth/login');
           }
 
@@ -127,5 +133,7 @@ export const RegisterForm = () => {
         </Form>
       )}
     </Formik>
+    <Link href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}>Register with Google account</Link>
+    </>
   );
 }

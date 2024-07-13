@@ -137,6 +137,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       setIsAuthenticated(true);
+
+      const localStorageConsent = localStorage.getItem('dracaena_cookie_consent');
+      if (!localStorageConsent || localStorageConsent === 'false') {
+        localStorage.setItem('dracaena_cookie_consent', 'true');
+      }
+      
       router.push('/'); // Redirect to home or dashboard
       router.refresh();
     } catch (error) {

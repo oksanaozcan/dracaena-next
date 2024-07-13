@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useAuth } from './auth-contex';
 
 interface CookieConsentContextProps {
   hasConsented: boolean;
@@ -18,7 +19,16 @@ export const useCookieConsent = () => {
 };
 
 export const CookieConsentProvider = ({ children }: { children: ReactNode }) => {
+  const {isAuthenticated} = useAuth();
   const [hasConsented, setHasConsented] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setHasConsented(true);
+    } else {
+      setHasConsented(false);
+    }
+  }, [isAuthenticated])
 
   useEffect(() => {
     const consent = localStorage.getItem('dracaena_cookie_consent');

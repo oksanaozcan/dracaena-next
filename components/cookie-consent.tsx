@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import IconButton from './ui/icon-button';
-import { X } from 'lucide-react';
+import { LinkIcon, X } from 'lucide-react';
 import Button from './ui/button';
 import { useCookieConsent } from '@/context/cookies';
+import Link from 'next/link';
 
 const CookieConsent: React.FC = () => {
   const { hasConsented, setHasConsented } = useCookieConsent();
@@ -49,7 +50,10 @@ const CookieConsent: React.FC = () => {
           <div className="p-4 md:p-5 space-y-4">
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla minima aperiam natus illum quia dolorum eius quis sequi blanditiis! Nesciunt, veritatis expedita assumenda praesentium quis iste sapiente esse debitis quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, amet molestias! Perspiciatis iste sequi harum doloremque accusantium similique beatae porro sed possimus, commodi nostrum eum exercitationem. Facere assumenda maiores expedita.                                   
-              </p>              
+              </p>       
+              <Link href={'/cookies-policy'} className='text-blue-700'>
+                <div className='flex items-center justify-start py-2'>Cookies Policy&nbsp;<LinkIcon size={15} /></div>
+              </Link>       
           </div>
           
           <div className="flex justify-between items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

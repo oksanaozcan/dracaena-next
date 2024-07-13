@@ -12,7 +12,7 @@ interface LoginFormValues {
   password: string;
 }
 
-export const LoginForm: React.FC = () => {
+export const LoginForm: React.FC = () => {  
   useProtectedRoute();
   const { login } = useAuth();
 
