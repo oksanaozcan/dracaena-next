@@ -15,7 +15,7 @@ const DashboardSidebar = () => {
     >
       <div className='text-center font-bold py-4 text-xl'>
         <h4>
-          Hi <span>{customer.name}</span>!
+          Hi <span>{customer ? customer.name : ''}</span>!
         </h4>
       </div>
       <Menu 

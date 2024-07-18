@@ -6,6 +6,7 @@ import { LoginFormValidationSchema } from '@/validation/login-form-validation-sc
 import { AuthInput } from './auth-input';
 import { useAuth } from '@/context/auth-contex';
 import { useProtectedRoute } from '@/hooks/use-protected-route';
+import Link from 'next/link';
 
 interface LoginFormValues {
   email: string;
@@ -17,6 +18,7 @@ export const LoginForm: React.FC = () => {
   const { login } = useAuth();
 
   return (
+    <>
     <Formik
       initialValues={{
         email: '',
@@ -58,5 +60,7 @@ export const LoginForm: React.FC = () => {
         </Form>
       )}
     </Formik>
+     <Link href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}>Log in with Google account</Link>
+     </>
   );
 };
