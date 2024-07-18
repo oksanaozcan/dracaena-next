@@ -27,25 +27,42 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
-   const categories = await getCategories();
+  const categories = await getCategories();
+
+  const initialDarkModeScript = `
+    (function() {
+      const darkMode = localStorage.getItem('dracaena_dark_mode');
+      if (darkMode === 'true') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  `;
 
   return (
     <AuthProvider>
-      <html lang="en">
-        <body className={cn(font.className)}>
+      <html 
+        lang="en"
+        className=''
+      >
+        <head>
+          <script dangerouslySetInnerHTML={{ __html: initialDarkModeScript }} />
+        </head>
+        <body className={cn(font.className, 'dark:bg-slate-900 dark:text-white')}>
           <ClientCartProvider>
-          <ClientCookiesProvider>
-          <ClientFavouriteProvider>
-          <ClientRestokeProvider>
-          <ModalProvider />
-          <ToastProvider />
-          <Navbar categories={categories}/>
-          {children}
-          <Footer />
-          <CookieConsent/>
-          </ClientRestokeProvider>
-          </ClientFavouriteProvider>
-          </ClientCookiesProvider>
+            <ClientCookiesProvider>
+              <ClientFavouriteProvider>
+                <ClientRestokeProvider>
+                  <ModalProvider />
+                  <ToastProvider />
+                  <Navbar categories={categories}/>
+                  {children}
+                  <Footer />
+                  <CookieConsent/>
+                </ClientRestokeProvider>
+              </ClientFavouriteProvider>
+            </ClientCookiesProvider>
           </ClientCartProvider>
         </body>
       </html>
