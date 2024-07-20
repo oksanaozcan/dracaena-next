@@ -49,14 +49,14 @@ export default async function RootLayout({
         <head>
           <script dangerouslySetInnerHTML={{ __html: initialDarkModeScript }} />
         </head>
-        <body className={cn(font.className, 'dark:bg-slate-900 dark:text-white')}>
+        <body className={cn(font.className, 'dark:bg-slate-800 dark:text-white')}>
           <ClientCartProvider>
             <ClientCookiesProvider>
               <ClientFavouriteProvider>
                 <ClientRestokeProvider>
                   <ModalProvider />
                   <ToastProvider />
-                  <Navbar categories={categories}/>
+                  <Navbar categories={categories}/>                
                   {children}
                   <Footer />
                   <CookieConsent/>

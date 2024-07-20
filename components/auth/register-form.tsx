@@ -134,6 +134,7 @@ export const RegisterForm = () => {
       )}
     </Formik>
     <Link href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}>Register with Google account</Link>
+    <Link href="/auth/login">Already registered. Go to login.</Link>
     </>
   );
 }

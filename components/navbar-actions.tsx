@@ -9,8 +9,10 @@ import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
 import Search from "./search";
 import { listApi } from "@/lib/list-api";
+import { useAuth } from "@/context/auth-contex";
 
 const NavbarActions = () => {
+  const {isAuthenticated} = useAuth();
   const [darkMode, setDarkMode] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
@@ -61,15 +63,27 @@ const NavbarActions = () => {
 
   return (
     <div className="ml-auto flex items-center gap-x-4">
+      {
+        isAuthenticated && (
+          <Button
+            onClick={() => router.push("/dashboard/my-favourites")}
+            className="icon-btn"
+          >
+            <Heart size={20} color="white" />
+          </Button>
+        )
+      }
+     
       <Button
-        onClick={() => router.push("/dashboard/my-favourites")}
-        className="flex items-center rounded-full bg-black px-4 py-2"
-      >
-        <Heart size={20} color="white" />
-      </Button>
-      <Button
-        onClick={() => router.push("/cart")}
-        className="flex items-center rounded-full bg-black px-4 py-2"
+        onClick={() => {
+          if (isAuthenticated) {
+            router.push("/cart")
+          } else {
+            router.push("/auth/login")
+          }
+        }
+        }
+        className="icon-btn"
       >
         <ShoppingBag size={20} color="white" />
         <span className="ml-2 text-sm font-medium text-white">
@@ -78,14 +92,18 @@ const NavbarActions = () => {
       </Button>
       <Button
         onClick={toggleDrawer}
-        className="flex items-center rounded-full bg-black px-4 py-2"
+        className="icon-btn"
       >
         <SearchIcon size={20} color="white" />
       </Button>
       {darkMode ? (
-        <Button onClick={switchMode}><Moon size={24} /></Button>
+        <Button 
+          className="icon-btn"
+          onClick={switchMode}><Moon size={20}/></Button>
       ) : (
-        <Button onClick={switchMode}><Sun size={24} /></Button>
+        <Button 
+          className="icon-btn"
+          onClick={switchMode}><Sun size={20}/></Button>
       )}
       <Drawer
         className="px-2 py-2"

@@ -4,6 +4,7 @@ import getBillboard from "@/actions/get-billboard";
 import ProductList from "@/components/product-list";
 import { fetchProducts } from "@/actions/fetch-products";
 import { v4 as uuidv4 } from 'uuid';
+import { InfoLine } from "@/components/info-line";
 
 export const revalidate = 0;
 
@@ -20,8 +21,14 @@ const HomePage = async ({
   const [billboard, products] = await Promise.all([billboardData, productsData])
   
   return (
+    <>
+     <div className='py-2 bg-beige-200 text-green-950 italic'>
+      <Container>
+        <InfoLine/>
+      </Container>
+     </div>
     <Container>
-      <div className="space-y-10 pb-10">
+      <div className="space-y-10 pb-10">                      
           <Billboard data={billboard}/>
         <ul 
           key={uuidv4()}
@@ -31,6 +38,7 @@ const HomePage = async ({
         </ul>
       </div>
     </Container>
+    </>
   )
 }
 

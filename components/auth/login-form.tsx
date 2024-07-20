@@ -61,6 +61,7 @@ export const LoginForm: React.FC = () => {
       )}
     </Formik>
      <Link href={`${process.env.NEXT_PUBLIC_API_URL}/auth/google`}>Log in with Google account</Link>
+     <Link href="/auth/register">I don't have any account.</Link>
      </>
   );
 };

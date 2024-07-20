@@ -21,6 +21,10 @@ body,
   p {
     @apply text-base;
   }
+
+  .icon-btn {
+    @apply flex items-center rounded-full bg-black
+  }
  
  
 }
