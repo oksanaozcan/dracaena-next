@@ -12,14 +12,17 @@ body,
 }
 
 @layer base {
+  html {
+    @apply text-custom-green;
+  }
   h1 {
-    @apply text-3xl font-bold mb-2;
+    @apply text-3xl font-bold my-2;
   }
   h2 {
-    @apply text-xl font-semibold mb-1;
+    @apply text-xl font-semibold my-1;
   }
   p {
-    @apply text-base;
+    @apply text-base py-1;
   }
 
   .icon-btn {

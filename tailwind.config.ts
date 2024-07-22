@@ -26,6 +26,8 @@ const config: Config = {
           200: '#E7E3D9',
           300: '#EADAC4',
         },
+        'custom-green': '#134A21',
+        'gold': '#DEBE48',
       }
     },
   },

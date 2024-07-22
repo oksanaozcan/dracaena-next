@@ -30,10 +30,10 @@ export const InfoLine = () => {
       }}
     >    
       <SwiperSlide className='text-center'>
-        <Link className='hover:text-amber-600 transition-colors text-xl' href={"#"}>Free shipping for orders over €75,-</Link>          
+        <Link className='hover:text-amber-600 transition-colors text-xl' href={"/support"}>Free shipping for orders over €75,-</Link>          
       </SwiperSlide>
       <SwiperSlide className='text-center'>
-        <Link className='hover:text-amber-600 transition-colors text-xl' href={"#"}>30 days PLNTS health guarantee</Link>          
+        <Link className='hover:text-amber-600 transition-colors text-xl' href={"/guarantee"}>30 days Dracaena health guarantee</Link>          
       </SwiperSlide>
       <SwiperSlide className='text-center'>
         <Link className='hover:text-amber-600 transition-colors text-xl' href={"#"}>4.6/5 out of 18,700+ reviews</Link>          
