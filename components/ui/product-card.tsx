@@ -91,7 +91,7 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
   return (
     <div 
       onClick={handleClick}
-      className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4"
+      className="bg-white group cursor-pointer border p-3 space-y-4"
     >
       {/* Images and Actions */}
       <div className="aspect-square rounded-xl bg-gray-100 relative">

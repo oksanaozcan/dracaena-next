@@ -2,6 +2,7 @@
 import { ICategoryResource } from "@/types"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { LinkBtn } from "./ui/link-btn"
 
 interface CategoryListProps {
   categories: ICategoryResource
@@ -9,9 +10,7 @@ interface CategoryListProps {
 
 export const PopularCategoriesList: React.FC<CategoryListProps> = ({categories}) => {
   return (
-  <div 
-    className="p-4 sm:p-6 lg:p-8"
-  >            
+  <div>            
     <Link 
       className="flex items-center gap-1 underline hover:text-gold mb-2" 
       href={'#'}
@@ -34,13 +33,11 @@ export const PopularCategoriesList: React.FC<CategoryListProps> = ({categories})
                 href={`/category/${cat.id}`}
               >             
                 <div className="text-center w-full font-bold text-xl my-2 uppercase text-white">{cat.title}</div>             
-              </Link>             
-              <Link 
-                href={`/category/${cat.id}`} 
-                className="absolute bottom-6 left-12 cursor-pointer inline-block leading-none select-none text-center focus:outline-none transition-colors py-2.5 px-6 backdrop-blur-sm border-[1.5px] hover:bg-gold rounded-full max-h-[inherit] w-2/3 border-white text-white hover:border-gold hover:text-white"
-                >
-                  See all
-              </Link>
+              </Link>                          
+              <LinkBtn
+                href={`/category/${cat.id}`}
+                className={"absolute border-white text-white hover:border-gold hover:text-white"}
+              >See all</LinkBtn>
             </div>
           )
         })

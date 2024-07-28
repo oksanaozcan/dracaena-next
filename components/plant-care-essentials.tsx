@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { LinkBtn } from "./ui/link-btn"
+import { PlantCareSlider } from "./ui/plant-care-slider"
 
 export const PlantCareEssential = () => {
   return(
@@ -10,13 +12,11 @@ export const PlantCareEssential = () => {
         
         <div>   
           <h1>Plants for life</h1>       
-          <div>
-            <Link 
+          <div>          
+            <LinkBtn
               href={'/category/1'} 
-              className="my-2 w-1/2 cursor-pointer inline-block leading-none select-none text-center focus:outline-none transition-colors py-2.5 px-6 backdrop-blur-sm border-[1.5px] hover:bg-gold rounded-full max-h-[inherit] border-custom-green text-custom-green hover:border-gold hover:text-white"
-            >
-              See all
-            </Link>
+              className={"border-custom-green text-custom-green hover:border-gold hover:text-white"}
+            >See all</LinkBtn>
           </div>         
         </div>
 
@@ -38,7 +38,9 @@ export const PlantCareEssential = () => {
           alt="plant background"
           />
       </div>
-      <div className="col-span-2">swip slider</div>
+      <div className="col-span-2 py-4">       
+        <PlantCareSlider/>        
+      </div>
     </div>
    </section>
   )

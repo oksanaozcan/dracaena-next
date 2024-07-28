@@ -36,7 +36,7 @@ const Search: React.FC<SearchProps> = ({
 
   useEffect(() => {
     if (!query) {
-      router.push(`/`)  
+      router.push(`/search`)  
     } else {
       router.push(`?search=${query}`)
     }    

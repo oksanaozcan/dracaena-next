@@ -28,6 +28,7 @@ const config: Config = {
         },
         'custom-green': '#134A21',
         'gold': '#DEBE48',
+        'orange': '#F08849'
       }
     },
   },

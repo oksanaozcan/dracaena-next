@@ -13,6 +13,8 @@ import { ClientRestokeProvider } from '@/providers/client-restoke-provider';
 import CookieConsent from '@/components/cookie-consent';
 import { cn } from '@/lib/utils';
 import { ClientCookiesProvider } from '@/providers/client-cookies-provider';
+import Container from '@/components/ui/container';
+import { InfoLine } from '@/components/info-line';
 
 const font = Urbanist({ subsets: ['latin'] });
 
@@ -56,7 +58,12 @@ export default async function RootLayout({
                 <ClientRestokeProvider>
                   <ModalProvider />
                   <ToastProvider />
-                  <Navbar categories={categories}/>                
+                  <Navbar categories={categories}/>   
+                  <div className='py-2 bg-beige-200 italic dark:bg-slate-800'>
+                    <Container>
+                      <InfoLine/>
+                    </Container>
+                  </div>             
                   {children}
                   <Footer />
                   <CookieConsent/>

@@ -7,6 +7,7 @@ import ProductCard from "@/components/ui/product-card";
 import ProductCardSkeleton from "./loading-ui/product-card-skeleton";
 import { useInView } from 'react-intersection-observer'
 import { fetchProducts } from "@/actions/fetch-products";
+import { v4 as uuidv4 } from 'uuid';
 
 interface ProductListProps {
   title: string
@@ -39,12 +40,12 @@ const ProductList: React.FC<ProductListProps> = ({
     }
   }
 
-  // TODO: wrap loadMoreMovies in useCallback and pass it to the dep array
+  // TODO: wrap loadMoreProducts in useCallback and pass it to the dep array
   useEffect(() => {
     if (inView) {
       loadMoreProducts()
     }
-  }, [inView])
+  }, [inView])  
 
   return (
     <>
@@ -53,7 +54,10 @@ const ProductList: React.FC<ProductListProps> = ({
       { items.length == 0 && <NoResults/> }
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {
-          items.map(item => <Suspense key={item.id} fallback={<ProductCardSkeleton/>}><ProductCard item={item}/></Suspense>)
+          items.map(item => <Suspense 
+            key={uuidv4()} 
+            fallback={<ProductCardSkeleton/>}
+            ><ProductCard item={item}/></Suspense>)
         }
       </div>
     </div>

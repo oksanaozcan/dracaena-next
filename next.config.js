@@ -8,14 +8,12 @@ const nextConfig = {
         pathname: '**',
       },
     ],
-    // domains: [
-    //   "via.placeholder.com",
-    //   "localhost",
-    // ]
+    domains: [
+      'localhost',
+    ],
   },
-  experimental: {
+  experimental: {},
+};
 
-  },
-}
+module.exports = nextConfig;
 
-module.exports = nextConfig
