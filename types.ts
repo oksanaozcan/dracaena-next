@@ -21,6 +21,7 @@ export interface Tag {
   id:                 string;
   title:              string;
   category_filter_id: string;
+  category_id:        string;
 }
 
 export interface Category {

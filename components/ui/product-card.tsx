@@ -1,7 +1,7 @@
 "use client"
 
 import { IProduct } from "@/types"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import IconButton from "@/components/ui/icon-button"
 import Currency from "@/components/ui/currency"
 import { CheckCheck, CircleSlashedIcon, Expand, Heart, ShoppingCart } from "lucide-react"
@@ -97,7 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <Image
           src={`${item.preview}`}  
-          fill  
+          layout="fill"
           alt={`${item.title} preview image`}
           className="aspect-square object-cover rounded-md"
           priority={false}

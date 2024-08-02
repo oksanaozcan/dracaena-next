@@ -2,14 +2,13 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar } from 'swiper/modules';
-import Image from 'next/image';
-
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 import { ArrowIcon } from './arrow-icon';
 
 export const PlantCareSlider = () => {
-  const customStyles = {
+  
+  const customStyles: React.CSSProperties = {
     width: '100%', 
     height: '300px', 
     objectFit: 'cover',
@@ -35,41 +34,32 @@ export const PlantCareSlider = () => {
         }}
       >
         <SwiperSlide style={{ minWidth: '250px' }}>
-          <Image
-            src={'/images/care-slider-1.jpg'}
-            width={0}
-            height={0}
-            sizes="100vw"
+          <img
+            src={'/images/guide-slide-1.jpg'}
             style={customStyles}
             alt='care slide 1'
           />         
         </SwiperSlide>
         <SwiperSlide style={{ minWidth: '250px' }}>
-          <Image
-            src={'/images/care-slider-2.png'}
-            width={0}
-            height={0}
-            sizes="100vw"
+          <img
+            src={'/images/guide-slide-2.png'}
             style={customStyles}
             alt='care slide 2'
           />
         </SwiperSlide>
         <SwiperSlide style={{ minWidth: '250px' }}>
-          <Image
-            src={'/images/care-slider-3.png'}
-            width={0}
-            height={0}
-            sizes="100vw"
+          <img
+            src={'/images/guide-slide-3.png'}
             style={customStyles}
             alt='care slide 3'
           />
         </SwiperSlide>
         <div className='flex justify-between w-4/5 ml-14'>
-          <div className='fornt-bold text-gold text-5xl'>1</div>
+          <div className='font-bold text-gold text-5xl'>1</div>
           <ArrowIcon/>
-          <div className='fornt-bold text-gold text-5xl'>2</div>
+          <div className='font-bold text-gold text-5xl'>2</div>
           <ArrowIcon/>
-          <div className='fornt-bold text-gold text-5xl'>3</div>
+          <div className='font-bold text-gold text-5xl'>3</div>
         </div>
       </Swiper>
     </div>

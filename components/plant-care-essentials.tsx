@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Link from "next/link"
 import { LinkBtn } from "./ui/link-btn"
 import { PlantCareSlider } from "./ui/plant-care-slider"
@@ -28,13 +28,12 @@ export const PlantCareEssential = () => {
         </div>    
 
       </div>
-      <div>
+      <div className="w-full h-auto">
         <Image  
           src={'/images/plant-bg.jpg'}
-          width={0}
-          height={0}
+          width={450}
+          height={350}  
           sizes="100vw"
-          style={{ width: '100%', height: 'auto' }} // optional
           alt="plant background"
           />
       </div>

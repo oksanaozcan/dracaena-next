@@ -4,7 +4,7 @@ import { Tab } from "@headlessui/react";
 
 import { IImage } from "@/types";
 import GalleryTab from "./gallery-tab";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 interface GalleryProps {
   preview?: string
@@ -33,7 +33,7 @@ const Gallery: React.FC<GalleryProps> = ({
       <Tab.Panel>
         <div className="aspect-square relative h-full w-full sm:rounded-lg overflow-hidden">
           <Image
-            fill
+            layout="fill"
             src={`${preview}`}
             alt="image of product"
             className="object-cover object-center"
@@ -45,7 +45,7 @@ const Gallery: React.FC<GalleryProps> = ({
             <Tab.Panel key={image.id}>
               <div className="aspect-square relative h-full w-full sm:rounded-lg overflow-hidden">
                 <Image
-                  fill
+                  layout="fill"
                   src={image.url}
                   alt="image of product"
                   className="object-cover object-center"

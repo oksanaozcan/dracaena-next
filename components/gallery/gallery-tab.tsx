@@ -1,5 +1,5 @@
 import { IImage } from "@/types";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Tab } from "@headlessui/react";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +21,7 @@ const GalleryTab: React.FC<GalleryTabProps> = ({
           <div>
             <span className="absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md">
               <Image
-                fill
+                layout="fill"
                 src={`${src}`}
                 alt="image of gallery"
                 className="object-cover object-center"              

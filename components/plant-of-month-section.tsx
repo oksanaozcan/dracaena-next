@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { LinkBtn } from "./ui/link-btn";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -24,29 +24,23 @@ export const PlantOfTheMonthSection = () => {
     { id: 5, src: '/images/plant-of-month-slider-5.jpg', title: 'Test 2 Plant' },
   ];
 
-  const handleSlideClick = (index: number) => {
+  const handleSlideClick = (index) => {
     setActiveSlide(index);
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slideTo(index);
+      swiperRef.current.swiper.slideToLoop(index); // use slideToLoop instead of slideTo
     }
   };
 
-  const handleAroowsClick = (direction: string) => {
+  const handleAroowsClick = (direction) => {
+    let newIndex = activeSlide;
     if (direction === 'left') {
-      if (activeSlide > 0) {
-        setActiveSlide((cur) => cur - 1);
-      } else {
-        setActiveSlide(slides.length-1);
-      }
+      newIndex = activeSlide > 0 ? activeSlide - 1 : slides.length - 1;
     }
     if (direction === 'right') {
-      if (activeSlide < slides.length-1) {
-        setActiveSlide((cur) => cur+1);
-      } else {
-        setActiveSlide(0);
-      }
+      newIndex = activeSlide < slides.length - 1 ? activeSlide + 1 : 0;
     }
-  }
+    handleSlideClick(newIndex);
+  };
 
   return (
     <div className="relative pt-20">
@@ -64,7 +58,7 @@ export const PlantOfTheMonthSection = () => {
           <div className='absolute flex w-full justify-center bottom-8 gap-3'>
             <IconButton className='bg-transparent text-white hover:bg-gold' onClick={() => handleAroowsClick('left')} icon={<ArrowLeft size={24}/>} />
             <IconButton className='bg-transparent text-white hover:bg-gold' onClick={() => handleAroowsClick('right')} icon={<ArrowRight size={24}/>} />
-          </div>      
+          </div>
         </div>
         <div className="col-span-4">
           <div className="w-full h-full">
@@ -76,10 +70,9 @@ export const PlantOfTheMonthSection = () => {
                   height={200}
                   sizes="100vw"
                   alt="plant background"
-                />                   
-              </div>    
-                     
-            </div>           
+                />
+              </div>
+            </div>
             <div className="p-10 text-orange">
               <h4 className="text-4xl font-bold py-4">{slides[activeSlide].title}</h4>
               <p className="text-2xl font-bold">
@@ -91,18 +84,15 @@ export const PlantOfTheMonthSection = () => {
               </div>
             </div>
           </div>
-        </div>        
-
+        </div>
         <div className="col-span-7 col-start-3 mt-[-4rem]">
           <Swiper
             ref={swiperRef}
             modules={[Navigation, A11y]}
             spaceBetween={10}
             slidesPerView={3}
-            navigation={true}
-            onNavigationNext={(swiper: any) => console.log('next')}
-            onNavigationPrev={(swiper: any) => console.log('prev')}
-            onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
+            loop={true}
+            onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
             pagination={false}
             scrollbar={false}
           >
@@ -122,7 +112,7 @@ export const PlantOfTheMonthSection = () => {
             ))}
           </Swiper>
         </div>
-      </div>    
+      </div>
     </div>
   );
 };

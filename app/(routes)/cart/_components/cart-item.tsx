@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { X } from "lucide-react";
 
 import IconButton from "@/components/ui/icon-button";
@@ -23,7 +23,7 @@ const CartItem: React.FC<CartItemProps> = ({
     <li className="flex py-6 border-b">
       <div className="relative h-24 w-24 rounded-md overflow-hidden sm:h-48 sm:w-48">
         <Image 
-          fill 
+          layout="fill"
           src={data.preview} 
           alt="preview image of product"
           className="object-cover object-center"
