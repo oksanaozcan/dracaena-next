@@ -9,6 +9,7 @@ interface Query {
   q?: string; 
   page?: number;
   sort?: string;
+  category_filter_id?: string;
 }
 
 const getProducts = async (query: Query): Promise<IProductsResource> => {
@@ -19,7 +20,8 @@ const getProducts = async (query: Query): Promise<IProductsResource> => {
       category_id: query.category_id,      
       tag_id: query.tag_id, 
       page: query.page,    
-      sort: query.sort,            
+      sort: query.sort,       
+      category_filter_id: query.category_filter_id,     
     }
   });
   const res = await fetch(url, {cache: 'no-cache'});

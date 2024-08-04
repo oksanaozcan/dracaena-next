@@ -10,6 +10,7 @@ import { PlantCareEssential } from "@/components/plant-care-essentials";
 import { NewReleasesSection } from "@/components/new-releases-section";
 import { PlantOfTheMonthSection } from "@/components/plant-of-month-section";
 import { CareSliderSection } from "@/components/care-slider-section";
+import getProductsForCareSlider from "@/actions/get-products-for-care-slider";
 
 export const revalidate = 0;
 
@@ -22,13 +23,13 @@ const HomePage = async ({
 
   const billboardData = await getBillboard({})
   const productsData = await fetchProducts({search});
-  const categoriesData = await getCategories();
+  const categoriesData = await getCategories();  
+  const careSliderData = await getProductsForCareSlider();
 
-  const [billboard, products, categories] = await Promise.all([billboardData, productsData, categoriesData]);
+  const [billboard, products, categories, careSliderProducts] = await Promise.all([billboardData, productsData, categoriesData, careSliderData]);
 
   const newRelease = products.data.slice(0, 6);
-
-  const careCategory = categories.data.find(item => item.title === 'care'); 
+  const careCategory = categories.data.find(item => item.title === 'care');
   
   return (
     <div className="bg-beige-100 dark:bg-slate-800 dark:text-white">
@@ -47,7 +48,7 @@ const HomePage = async ({
           <PlantOfTheMonthSection/>
         </Container>
       </div>    
-      {careCategory && <CareSliderSection careCategory={careCategory} />}
+      {careCategory && <CareSliderSection careCategory={careCategory} careSliderProducts={careSliderProducts} />}
     </div>
   )
 }

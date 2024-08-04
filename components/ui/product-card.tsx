@@ -1,6 +1,6 @@
 "use client"
 
-import { IProduct } from "@/types"
+import { IProduct, IProductCareSlider } from "@/types"
 import Image from "next/legacy/image"
 import IconButton from "@/components/ui/icon-button"
 import Currency from "@/components/ui/currency"
@@ -13,7 +13,7 @@ import { FavouriteContext } from "@/context/favourite"
 import { RestokeSubscriptionContext } from "@/context/restoke-subscription"
 
 interface ProductCardProps {
-  item: IProduct
+  item: IProduct | IProductCareSlider
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({item}) => {

@@ -11,24 +11,23 @@ import { sortingParams } from "@/lib/sorting-params";
 
 export const revalidate = 0;
 
-interface TagPageProps {
+interface CategoryFilterPageProps {
   params: {
     category_id: string;
-    tag_id: string;
+    category_filter_id: string;
   }  
 }
 
-const TagPage: React.FC<TagPageProps> = async ({
+const CategoryFilterPage: React.FC<CategoryFilterPageProps> = async ({
   params,
 }) => {
   
   const billboardData = await getBillboard({
     category_id: params.category_id,
-    tag_id: params.tag_id,
   });
   const productsData = await fetchProducts({    
-    category_id: params.category_id,
-    tag_id: params.tag_id,
+    category_filter_id: params.category_filter_id,
+   
   });
 
   const [products, billboard] = await Promise.all([productsData, billboardData]);  
@@ -49,11 +48,11 @@ const TagPage: React.FC<TagPageProps> = async ({
             key={uuidv4()}
             className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8"
           >
-            <ProductList category_filter_id={undefined} tag_id={params.tag_id} category_id={params.category_id} title="Tag" initialItems={products}/>
+            <ProductList tag_id={undefined} category_id={params.category_id} category_filter_id={params.category_filter_id} title="Category Filter" initialItems={products}/>
           </ul>     
       </div>
     </Container>
   )
 }
 
-export default TagPage;
+export default CategoryFilterPage;

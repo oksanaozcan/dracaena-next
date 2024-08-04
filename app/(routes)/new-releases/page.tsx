@@ -23,7 +23,7 @@ const NewReleasesPage = async ({
           key={uuidv4()}
           className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8"
         >
-          <ProductList tag_id="" category_id="" search={search} title="All Products" initialItems={products}/>
+          <ProductList category_filter_id="" tag_id="" category_id="" search={search} title="All Products" initialItems={products}/>
         </ul>
       </Container>
     </div>

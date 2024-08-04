@@ -105,3 +105,20 @@ export interface IOrder {
   discount_amount: string | null;
   created_at: string;
 }
+
+export interface IProductsCareSliderResource {
+  data: IProductCareSlider[];
+}
+
+export interface IProductCareSlider {
+  id: string;
+  title: string;
+  description: string;
+  amount: number | string;
+  content: string;
+  preview: string;
+  price: string;
+  category: Category;
+  category_filter_id: string;
+  category_filter_title: string;
+}

@@ -64,6 +64,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
             className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8"
           >
             <ProductList 
+              category_filter_id=""
               tag_id="" 
               category_id={params.category_id} 
               title="Category" 

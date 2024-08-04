@@ -11,10 +11,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface ProductListProps {
   title: string
-  initialItems: IProductsResource,
+  initialItems: IProductsResource
   search?: string | undefined
   category_id: string | undefined
   tag_id: string | undefined
+  category_filter_id: string | undefined
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -23,6 +24,7 @@ const ProductList: React.FC<ProductListProps> = ({
   search,
   category_id,
   tag_id,
+  category_filter_id,
 }) => {
   const [items, setItems] = useState(initialItems && initialItems.data ? initialItems.data : []);
   const [page, setPage] = useState(1);
@@ -30,7 +32,7 @@ const ProductList: React.FC<ProductListProps> = ({
 
   async function loadMoreProducts() {
     const next = page + 1
-    const items = await fetchProducts({ search, category_id, tag_id, page: next })
+    const items = await fetchProducts({ search, category_id, tag_id, category_filter_id, page: next })
     if (items.data?.length) {
       setPage(next)
       setItems((prev) => [
