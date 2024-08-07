@@ -35,21 +35,21 @@ export const PlantCareSlider = () => {
       >
         <SwiperSlide style={{ minWidth: '250px' }}>
           <img
-            src={'/images/guide-slide-1.jpg'}
+            src={'/images/guide-slider/guide-slide-1.jpg'}
             style={customStyles}
             alt='care slide 1'
           />         
         </SwiperSlide>
         <SwiperSlide style={{ minWidth: '250px' }}>
           <img
-            src={'/images/guide-slide-2.png'}
+            src={'/images/guide-slider/guide-slide-2.png'}
             style={customStyles}
             alt='care slide 2'
           />
         </SwiperSlide>
         <SwiperSlide style={{ minWidth: '250px' }}>
           <img
-            src={'/images/guide-slide-3.png'}
+            src={'/images/guide-slider/guide-slide-3.png'}
             style={customStyles}
             alt='care slide 3'
           />

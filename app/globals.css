@@ -39,6 +39,9 @@ body,
   .custom-swiper-arrow-prev {
     @apply right-0
   }
-  
+
+  .swiper-slide {
+    transition: opacity 0.3s ease-in-out;
+  }  
  
 }

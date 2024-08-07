@@ -17,11 +17,11 @@ export const PlantOfTheMonthSection = () => {
   const swiperRef = useRef(null);
 
   const slides = [
-    { id: 1, src: '/images/plant-of-month-slider-1.jpg', title: 'Calathea Orbifolia' },
-    { id: 2, src: '/images/plant-of-month-slider-2.jpg', title: 'Fiddle Leaf Fig' },
-    { id: 3, src: '/images/plant-of-month-slider-3.jpg', title: 'Snake Plant' },
-    { id: 4, src: '/images/plant-of-month-slider-4.jpg', title: 'Test 1 Plant' },
-    { id: 5, src: '/images/plant-of-month-slider-5.jpg', title: 'Test 2 Plant' },
+    { id: 1, src: '/images/plant-of-month/plant-of-month-slider-1.jpg', title: 'Calathea Orbifolia' },
+    { id: 2, src: '/images/plant-of-month/plant-of-month-slider-2.jpg', title: 'Fiddle Leaf Fig' },
+    { id: 3, src: '/images/plant-of-month/plant-of-month-slider-3.jpg', title: 'Snake Plant' },
+    { id: 4, src: '/images/plant-of-month/plant-of-month-slider-4.jpg', title: 'Test 1 Plant' },
+    { id: 5, src: '/images/plant-of-month/plant-of-month-slider-5.jpg', title: 'Test 2 Plant' },
   ];
 
   const handleSlideClick = (index) => {

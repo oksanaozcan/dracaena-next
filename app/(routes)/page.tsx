@@ -11,6 +11,11 @@ import { NewReleasesSection } from "@/components/new-releases-section";
 import { PlantOfTheMonthSection } from "@/components/plant-of-month-section";
 import { CareSliderSection } from "@/components/care-slider-section";
 import getProductsForCareSlider from "@/actions/get-products-for-care-slider";
+import { CommunitySlider } from "@/components/community-slider-section";
+import { ReviewSliderSection } from "@/components/review-slider-section";
+import { BabyPlantSection } from "@/components/baby-plant-section";
+import { RarePlantSection } from "@/components/rare-plant-section";
+import { JourneySliderSection } from "@/components/journey-slider-section";
 
 export const revalidate = 0;
 
@@ -49,6 +54,26 @@ const HomePage = async ({
         </Container>
       </div>    
       {careCategory && <CareSliderSection careCategory={careCategory} careSliderProducts={careSliderProducts} />}
+      <div>
+        <CommunitySlider/>
+      </div>
+      <div className="bg-gold text-white dark:bg-slate-800 dark:text-white">
+        <Container>
+          <ReviewSliderSection/>
+        </Container>
+      </div>
+      <div className="py-16">
+        <InfoLine/>
+      </div>     
+      <div className="bg-beige-400 text-white dark:bg-slate-800 dark:text-white">       
+        <BabyPlantSection/>
+      </div>
+      <div className="bg-custom-blue-200 text-custom-blue-100 dark:bg-slate-800 dark:text-white">       
+        <RarePlantSection/>
+      </div>
+      <Container>
+        <JourneySliderSection/>
+      </Container>
     </div>
   )
 }

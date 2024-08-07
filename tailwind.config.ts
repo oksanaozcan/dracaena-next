@@ -24,14 +24,19 @@ const config: Config = {
         'beige': {
           100: '#FFFAF2',
           200: '#E7E3D9',
-          300: '#EADAC4',
+          300: '#EADAC4', 
+          400: '#99452D',
         },
         'olive': {
           100: '#A9AE9A',
         },
         'custom-green': '#134A21',
         'gold': '#DEBE48',
-        'orange': '#F08849'
+        'orange': '#F08849',
+        'custom-blue': {
+          100: '#9CADB4',
+          200: '#1E424A',
+        },
       }
     },
   },

@@ -30,7 +30,7 @@ export const PlantCareEssential = () => {
       </div>
       <div className="w-full h-auto">
         <Image  
-          src={'/images/plant-bg.jpg'}
+          src={'/images/philodendron.jpg'}
           width={450}
           height={350}  
           sizes="100vw"
