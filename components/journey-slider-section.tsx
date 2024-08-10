@@ -1,46 +1,53 @@
-"use client";
+'use client';
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from "next/legacy/image";
 import 'swiper/css';
 import { useRef, useState } from "react";
 import IconButton from "./ui/icon-button";
+import Link from "next/link";
+import { Swiper as SwiperInstance, SwiperRef } from 'swiper/react';
 
-export const JourneySliderSection = () => {
-  const slides = [
+interface Slide {
+  id: number;
+  src: string;
+  title: string;
+  text: string;
+}
+
+export const JourneySliderSection: React.FC = () => {
+  const slides: Slide[] = [
     {id: 1, src: '/images/journey-slider/packing.jpg', title: 'Packing', text: 'Your order will be hand picked and packed in our strong and sustainable packaging as soon as possible!'},
     {id: 2, src: '/images/journey-slider/shipping.jpg', title: 'Shipping', text: 'Your order will be delivered straight from our greenhouse to your door by your chosen carrier. You can follow the journey of your plants via the tracking link you receive in your mail.'},
     {id: 3, src: '/images/journey-slider/unboxing.jpg', title: 'Unboxing', text: 'Carefully unpack your new plants, check their condition and give them a sip of water when needed. Place them in a nice spot and they are ready to shine! Happy growing!'},
   ];
 
-  const [activeSlide, setActiveSlide] = useState(0);
-  const swiperRef = useRef(null);
+  const [activeSlide, setActiveSlide] = useState<number>(0);
+  const swiperRef = useRef<SwiperRef>(null);
 
-  const handleSlideClick = (index) => {
+  const handleSlideClick = (index: number): void => {
     setActiveSlide(index);
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slideToLoop(index); // use slideToLoop instead of slideTo
+      swiperRef.current.swiper.slideToLoop(index);
     }
   };
 
-  const handleArrowsClick = (direction) => {
+  const handleArrowsClick = (direction: 'left' | 'right'): void => {
     let newIndex = activeSlide;
     if (direction === 'left') {
       newIndex = activeSlide > 0 ? activeSlide - 1 : slides.length - 1;
-    }
-    if (direction === 'right') {
+    } else if (direction === 'right') {
       newIndex = activeSlide < slides.length - 1 ? activeSlide + 1 : 0;
     }
     handleSlideClick(newIndex);
   };
 
   return (
-    <div>
+    <div className="pb-10">
       <h5 className="text-5xl pt-10 pb-4">The journey of your new plant!</h5>
       <div className="flex text-xl pb-10">
-        <Link className="flex items-center justify-center gap-1 underline mb-2 hover:text-gold" href={'#'}>
+        <Link className="flex items-center justify-center gap-1 underline mb-2 hover:text-gold" href="#">
           <span>More about shipping</span>
           <span><ArrowRight size={22} /></span>
         </Link>
@@ -55,28 +62,34 @@ export const JourneySliderSection = () => {
             loop={true}
             onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
           >
-            {
-              slides.map((slide, index) => (
-                <SwiperSlide key={slide.id} onClick={() => handleSlideClick(index)}>
-                  <div>
-                    <div className="w-full border-b border-custom-green">
-                      0{slide.id}.
-                    </div>
-                    <div>
-                      <h6 className="text-2xl py-4 font-bold">{slide.title}</h6>
-                    </div>
-                    <div>
-                      <p>{slide.text}</p>
-                    </div>
+            {slides.map((slide, index) => (
+              <SwiperSlide key={slide.id} onClick={() => handleSlideClick(index)}>
+                <div>
+                  <div className="w-full border-b border-custom-green">
+                    0{slide.id}.
                   </div>
-                </SwiperSlide>
-              ))
-            }
+                  <div>
+                    <h6 className="text-2xl py-4 font-bold">{slide.title}</h6>
+                  </div>
+                  <div>
+                    <p>{slide.text}</p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
           <div className="flex w-full items-center bottom-8 gap-3 mt-4">
-            <IconButton className="bg-transparent text-custom-green border-custom-green hover:bg-gold hover:border-gold hover:text-white" onClick={() => handleArrowsClick('left')} icon={<ArrowLeft size={24} />} />
-            <div className="text-xl">{activeSlide+1}/{slides.length}</div>
-            <IconButton className="bg-transparent text-custom-green border-custom-green hover:bg-gold hover:border-gold hover:text-white" onClick={() => handleArrowsClick('right')} icon={<ArrowRight size={24} />} />
+            <IconButton 
+              className="bg-transparent text-custom-green border-custom-green hover:bg-gold hover:border-gold hover:text-white" 
+              onClick={() => handleArrowsClick('left')} 
+              icon={<ArrowLeft size={24} />} 
+            />
+            <div className="text-xl">{activeSlide + 1}/{slides.length}</div>
+            <IconButton 
+              className="bg-transparent text-custom-green border-custom-green hover:bg-gold hover:border-gold hover:text-white" 
+              onClick={() => handleArrowsClick('right')} 
+              icon={<ArrowRight size={24} />} 
+            />
           </div>
         </div>
         <div className="col-span-4 relative">

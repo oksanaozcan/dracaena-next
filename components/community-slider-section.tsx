@@ -2,7 +2,7 @@
 
 import Container from "@/components/ui/container";
 import { Navigation, Scrollbar, A11y } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
 import Link from "next/link";
 
 import 'swiper/css';
@@ -24,7 +24,7 @@ const slides = [
 
 export const CommunitySlider = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -37,7 +37,7 @@ export const CommunitySlider = () => {
     }
   }, []);
 
-  const handleArrowsClick = (direction) => {
+  const handleArrowsClick = (direction: 'left' | 'right'): void => {
     if (swiperRef.current && swiperRef.current.swiper) {
       if (direction === 'left') {
         swiperRef.current.swiper.slidePrev();

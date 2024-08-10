@@ -16,6 +16,7 @@ import { ReviewSliderSection } from "@/components/review-slider-section";
 import { BabyPlantSection } from "@/components/baby-plant-section";
 import { RarePlantSection } from "@/components/rare-plant-section";
 import { JourneySliderSection } from "@/components/journey-slider-section";
+import { PopupInfoSection } from "@/components/popup-info-section";
 
 export const revalidate = 0;
 
@@ -74,6 +75,11 @@ const HomePage = async ({
       <Container>
         <JourneySliderSection/>
       </Container>
+      <div className="bg-beige-200 dark:bg-slate-800 dark:text-white">
+        <Container>
+          <PopupInfoSection/>
+        </Container>
+      </div>
     </div>
   )
 }

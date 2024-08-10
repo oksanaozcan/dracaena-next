@@ -51,6 +51,7 @@
     "@types/react": "^18.2.58",
     "@types/react-dom": "^18.2.19",
     "@types/react-test-renderer": "^18.0.7",
+    "@types/swiper": "^6.0.0",
     "@types/uuid": "^9.0.7",
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-testing-library": "^6.2.0",

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Container from "@/components/ui/container";
 import { CategoryFilter, IProductCareSlider, IProductsCareSliderResource, Tag } from "@/types";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperClass, Swiper, SwiperSlide } from 'swiper/react';
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { LinkBtn } from "./ui/link-btn";
@@ -34,7 +34,7 @@ interface CareSliderSectionProps {
 export const CareSliderSection: React.FC<CareSliderSectionProps> = ({ careCategory, careSliderProducts }) => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>();
   const [filteredProducts, setFilteredProducts] = useState<IProductCareSlider[]>([]);
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<SwiperClass | null>(null);
 
   useEffect(() => {
     const initialFilter = careCategory.category_filters[0];
@@ -51,8 +51,8 @@ export const CareSliderSection: React.FC<CareSliderSectionProps> = ({ careCatego
   const handleSlideClick = (i: number) => {
     let newFilter = careCategory.category_filters[i];
     setActiveFilter(newFilter);
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slideToLoop(i);
+    if (swiperRef.current) {
+      swiperRef.current.slideToLoop(i);
     }
   };
 
@@ -62,7 +62,7 @@ export const CareSliderSection: React.FC<CareSliderSectionProps> = ({ careCatego
         <div className="grid grid-cols-12 gap-2 py-20">
           <div className="col-span-4">
             <Image
-              src={activeFilter ? filterAdditions.find(img => img.title === activeFilter.title)?.src : filterAdditions[0].src}
+              src={activeFilter ? filterAdditions.find(img => img.title === activeFilter.title)?.src ?? "" : filterAdditions[0].src}
               width={400}
               height={600}
               objectFit="cover"
@@ -76,6 +76,7 @@ export const CareSliderSection: React.FC<CareSliderSectionProps> = ({ careCatego
             </h4>
             <div className="py-4 bg-beige-200 my-6 relative">
               <Swiper
+                ref={swiperRef}
                 className={cn('text-center font-bold text-2xl')}
                 modules={[Navigation, Pagination, Scrollbar, A11y]}
                 spaceBetween={50}

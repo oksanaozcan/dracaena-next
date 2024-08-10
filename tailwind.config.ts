@@ -31,6 +31,7 @@ const config: Config = {
           100: '#A9AE9A',
         },
         'custom-green': '#134A21',
+        'footer-green': '#5E6846',
         'gold': '#DEBE48',
         'orange': '#F08849',
         'custom-blue': {

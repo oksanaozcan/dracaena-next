@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { LinkBtn } from "./ui/link-btn";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
 import { Navigation, A11y } from 'swiper/modules';
 
 import 'swiper/css';
@@ -14,7 +14,7 @@ import IconButton from './ui/icon-button';
 
 export const PlantOfTheMonthSection = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
   const slides = [
     { id: 1, src: '/images/plant-of-month/plant-of-month-slider-1.jpg', title: 'Calathea Orbifolia' },
@@ -24,14 +24,14 @@ export const PlantOfTheMonthSection = () => {
     { id: 5, src: '/images/plant-of-month/plant-of-month-slider-5.jpg', title: 'Test 2 Plant' },
   ];
 
-  const handleSlideClick = (index) => {
+  const handleSlideClick = (index: number): void => {
     setActiveSlide(index);
     if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slideToLoop(index); // use slideToLoop instead of slideTo
+      swiperRef.current.swiper.slideToLoop(index);
     }
   };
 
-  const handleAroowsClick = (direction) => {
+  const handleAroowsClick = (direction: 'left' | 'right'): void => {
     let newIndex = activeSlide;
     if (direction === 'left') {
       newIndex = activeSlide > 0 ? activeSlide - 1 : slides.length - 1;
