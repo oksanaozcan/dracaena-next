@@ -87,7 +87,7 @@ const Footer = () => {
           </div>
         </Container>       
       </div>      
-      <div className="mx-auto py-10 bg-beige-100 dark:bg-slate-800 dark:text-white">
+      <div className="mx-auto text-custom-green py-10 bg-beige-100 dark:bg-slate-800 dark:text-white">
         <p className="text-center text-xs">
           &copy; 2024 - DRACAENA.COM.
         </p>

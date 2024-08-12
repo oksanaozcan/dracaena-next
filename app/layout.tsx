@@ -58,14 +58,16 @@ export default async function RootLayout({
                 <ClientRestokeProvider>
                   <ModalProvider />
                   <ToastProvider />
-                  <Navbar categories={categories}/>   
-                  <div className='py-2 bg-beige-200 italic dark:bg-slate-800'>
-                    <Container>
-                      <InfoLine/>
-                    </Container>
-                  </div>             
-                  {children}
-                  <Footer />
+                  <div>
+                    <Navbar categories={categories}/>   
+                    <div className='py-2 bg-beige-200 italic dark:bg-slate-800'>
+                      <Container>
+                        <InfoLine/>
+                      </Container>
+                    </div>             
+                    {children}
+                    <Footer />
+                  </div>
                   <CookieConsent/>
                 </ClientRestokeProvider>
               </ClientFavouriteProvider>
