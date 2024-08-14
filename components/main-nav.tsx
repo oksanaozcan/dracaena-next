@@ -4,12 +4,12 @@ import { cn, formNavigationObjectFromJsonData } from "@/lib/utils";
 import { ICategoryResource } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Popover, Disclosure} from "@headlessui/react";
+import { Popover, Disclosure } from "@headlessui/react";
 import { ChevronDownIcon, MenuIcon, XIcon } from "lucide-react";
 import Button from "./ui/button";
 import { useAuth } from "@/context/auth-contex";
 import { Logo } from "./logo";
-import { Fragment } from "react";
+import { useRef } from "react";
 
 interface MainNavProps {
   data: ICategoryResource;
@@ -22,96 +22,118 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
   const pathname = usePathname();
   const routes = formNavigationObjectFromJsonData(data, pathname);
 
+  // Ref for the outer Disclosure
+  const outerDisclosureRef = useRef<HTMLDivElement>(null);
+
+  // Function to close the outer Disclosure
+  const closeOuterDisclosure = () => {
+    if (outerDisclosureRef.current) {
+      outerDisclosureRef.current?.querySelector("button")?.click();
+    }
+  };
+
   return (
     <nav className="w-auto relative">
       {/* Burger Menu for small screens */}
       <div className="flex justify-between items-center lg:hidden">
-
-        <Disclosure>
-    {({ open }) => (
-      <>
-        <Disclosure.Button className="p-2 text-gray-500 hover:text-gray-700">
-          {open ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
-        </Disclosure.Button>
-        <Disclosure.Panel className="absolute bg-white w-full p-6 left-0 top-16 z-50 shadow-lg">
-          <ul className="flex flex-col gap-4 text-lg font-bold">
-            {routes.map((route) => (
-              <li key={route.id}>
-                <Disclosure>
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button className="w-full text-left py-2">
-                        <span className={cn("flex justify-between items-center", { "text-gray-500": open })}>
-                          {route.label}
-                          <ChevronDownIcon className={cn("ml-2 transition-transform transform", { "rotate-180": open })} />
-                        </span>
-                      </Disclosure.Button>
-                      <Disclosure.Panel>
-                        <ul className="pl-4">
-                          {route.category_filters.map((f) => (
-                            <div className="font-bold capitalize" key={f.id}>
-                              <span className="leading-6">{f.title}</span>
-                              <ul className="pl-2">
-                                {route.tags.map((t) => {
-                                  if (t.category_filter_id === f.id) {
-                                    return (
-                                      <li className="font-light p-1" key={t.id}>
-                                        <Disclosure.Button as={Link} href={t.href}>
-                                          {t.title}
-                                        </Disclosure.Button>
-                                      </li>
-                                    );
-                                  }
-                                })}
+        {/* Outer disclosure */}
+        <Disclosure as="div" ref={outerDisclosureRef}>
+          {({ open }) => (
+            <>
+              <Disclosure.Button className="p-2 text-gray-500 hover:text-gray-700">
+                {open ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+              </Disclosure.Button>
+              <Disclosure.Panel className="absolute bg-white w-full p-6 left-0 top-16 z-50 shadow-lg">
+                <ul className="flex flex-col gap-4 text-lg font-bold">
+                  {routes.map((route) => (
+                    <li key={route.id}>
+                      {/* Inner disclosure */}
+                      <Disclosure>
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="w-full text-left py-2">
+                              <span className={cn("flex justify-between items-center", { "text-gray-500": open })}>
+                                {route.label}
+                                <ChevronDownIcon className={cn("ml-2 transition-transform transform", { "rotate-180": open })} />
+                              </span>
+                            </Disclosure.Button>
+                            <Disclosure.Panel>
+                              <ul className="pl-4">
+                                {route.category_filters.map((f) => (
+                                  <div className="font-bold capitalize" key={f.id}>
+                                    <span className="leading-6">{f.title}</span>
+                                    <ul className="pl-2">
+                                      {route.tags.map((t) => {
+                                        if (t.category_filter_id === f.id) {
+                                          return (
+                                            <li className="font-light p-1" key={t.id}>
+                                              <Disclosure.Button
+                                                as={Link}
+                                                href={t.href}
+                                                onClick={closeOuterDisclosure}
+                                              >
+                                                {t.title}
+                                              </Disclosure.Button>
+                                            </li>
+                                          );
+                                        }
+                                      })}
+                                    </ul>
+                                  </div>
+                                ))}
                               </ul>
-                            </div>
-                          ))}
-                        </ul>
-                        <Link href={route.href} className="block py-2">
-                          Shop all {route.label}
+                              <Disclosure.Button as={Link} href={route.href} className="block py-2" onClick={closeOuterDisclosure}>
+                                Shop all {route.label}
+                              </Disclosure.Button>
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                    </li>
+                  ))}
+                  {isAuthenticated ? (
+                    <>
+                      <li>
+                        <Link href="/dashboard" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
+                          Dashboard
                         </Link>
-                      </Disclosure.Panel>
+                      </li>
+                      <li>
+                        <Button onClick={logout}>Logout</Button>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        <Link href="/auth/login" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
+                          Login
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/auth/register" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
+                          Register
+                        </Link>
+                      </li>
                     </>
                   )}
-                </Disclosure>
-              </li>
-            ))}
-            {isAuthenticated ? (
-              <>
-                <li>
-                  <Link href="/dashboard" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Button onClick={logout}>Logout</Button>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link href="/auth/login" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/auth/register" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
-                    Register               </Link>
-                </li>
-              </>
-            )}
-            <li><a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">Inspiration</a></li>
-            <li><a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">Plant Doctor</a></li>
-            <li className="ml-4 flex lg:ml-0 gap-x-2 pt-2">EN(cur)</li>
-          </ul>
-        </Disclosure.Panel>
-      </>
-    )}
-    </Disclosure>
+                  <li>
+                    <a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">
+                      Inspiration
+                    </a>
+                  </li>
+                  <li>
+                    <a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">
+                      Plant Doctor
+                    </a>
+                  </li>
+                  <li className="ml-4 flex lg:ml-0 gap-x-2 pt-2">EN(cur)</li>
+                </ul>
+              </Disclosure.Panel>
+            </>
+          )}
+        </Disclosure>
 
-     
-       
-        <Logo/>
+        <Logo />
       </div>
       {/* Regular Menu for large screens */}
       <ul className="hidden lg:flex flex-row gap-10 text-lg font-bold">
@@ -132,7 +154,7 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
                           if (t.category_filter_id === f.id) {
                             return (
                               <li className="font-light p-1" key={t.id}>
-                                 <Popover.Button as={Link} href={t.href}>
+                                <Popover.Button as={Link} href={t.href}>
                                   {t.title}
                                 </Popover.Button>
                               </li>
@@ -177,8 +199,16 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
                 </li>
               </>
             )}
-            <li><a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">Inspiration</a></li>
-            <li><a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">Plant Doctor</a></li>
+            <li>
+              <a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">
+                Inspiration
+              </a>
+            </li>
+            <li>
+              <a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">
+                Plant Doctor
+              </a>
+            </li>
             <li className="ml-4 flex lg:ml-0 gap-x-2 pt-2">EN(cur)</li>
           </ul>
         </div>
@@ -188,4 +218,3 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
 };
 
 export default MainNav;
-
