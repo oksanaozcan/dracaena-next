@@ -33,9 +33,9 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
   };
 
   return (
-    <nav className="w-auto relative">
+    <nav className="w-full relative">
       {/* Burger Menu for small screens */}
-      <div className="flex justify-between items-center lg:hidden">
+      <div className="flex justify-start items-center lg:hidden">
         {/* Outer disclosure */}
         <Disclosure as="div" ref={outerDisclosureRef}>
           {({ open }) => (
@@ -43,7 +43,7 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
               <Disclosure.Button className="p-2 text-gray-500 hover:text-gray-700">
                 {open ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
               </Disclosure.Button>
-              <Disclosure.Panel className="absolute bg-white w-full p-6 left-0 top-16 z-50 shadow-lg">
+              <Disclosure.Panel className="absolute bg-white w-full h-screen overflow-y-auto p-6 left-0 top-16 z-50 shadow-lg">
                 <ul className="flex flex-col gap-4 text-lg font-bold">
                   {routes.map((route) => (
                     <li key={route.id}>
@@ -136,7 +136,7 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
         <Logo />
       </div>
       {/* Regular Menu for large screens */}
-      <ul className="hidden lg:flex flex-row gap-10 text-lg font-bold">
+      <ul className="hidden lg:flex flex-row items-center justify-between text-base font-bold">
         {routes.map((route) => (
           <li key={route.id}>
             <Popover>
@@ -173,11 +173,11 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
           </li>
         ))}
         <div className="w-auto">
-          <ul className="flex flex-row gap-10">
+          <ul className="flex flex-row gap-4 items-center justify-between text-center">
             {isAuthenticated ? (
               <>
                 <li>
-                  <Link href="/dashboard" className="ml-4 flex lg:ml-0 gap-x-2">
+                  <Link href="/dashboard" className="ml-4 lg:ml-0 gap-x-2">
                     Dashboard
                   </Link>
                 </li>
@@ -188,28 +188,28 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
             ) : (
               <>
                 <li>
-                  <Link href="/auth/login" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
+                  <Link href="/auth/login" className="ml-4 lg:ml-0 gap-x-2 pt-2">
                     Login
                   </Link>
                 </li>
                 <li>
-                  <Link href="/auth/register" className="ml-4 flex lg:ml-0 gap-x-2 pt-2">
+                  <Link href="/auth/register" className="ml-4 lg:ml-0 gap-x-2 pt-2">
                     Register
                   </Link>
                 </li>
               </>
             )}
             <li>
-              <a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">
+              <a className="ml-4 lg:ml-0 gap-x-2 pt-2" href="#">
                 Inspiration
               </a>
             </li>
             <li>
-              <a className="ml-4 flex lg:ml-0 gap-x-2 pt-2" href="#">
+              <a className="ml-4 lg:ml-0 gap-x-2 pt-2" href="#">
                 Plant Doctor
               </a>
             </li>
-            <li className="ml-4 flex lg:ml-0 gap-x-2 pt-2">EN(cur)</li>
+            <li className="ml-4 lg:ml-0 gap-x-2">EN(cur)</li>
           </ul>
         </div>
       </ul>

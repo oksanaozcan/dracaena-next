@@ -17,7 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({categories}) => {
   return (
     <header className="sticky top-0 z-50 bg-beige-100 dark:bg-slate-800 dark:text-white">
       <Container>
-        <div className="flex flex-row flex-nowrap items-center justify-between gap-2 px-3 py-2 md:px-0 md:py-3">
+        <div className="flex flex-row flex-nowrap items-center justify-between md:gap-2 py-1 md:px-0 md:py-3">
           <div className="hidden lg:block">
             <Logo/>
           </div>         

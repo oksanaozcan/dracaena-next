@@ -39,7 +39,7 @@ const HomePage = async ({
   
   return (
     <div className="bg-beige-100 dark:bg-slate-800 dark:text-white">
-      <Billboard data={billboard}/>
+      {/* <Billboard data={billboard}/>
       <Container>
         <div className="space-y-10 p-8">        
           <Trademark/>
@@ -79,7 +79,7 @@ const HomePage = async ({
         <Container>
           <PopupInfoSection/>
         </Container>
-      </div>
+      </div> */}
     </div>
   )
 }

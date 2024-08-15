@@ -62,7 +62,7 @@ const NavbarActions = () => {
   }
 
   return (
-    <div className="ml-auto flex items-center gap-x-4">
+    <div className="ml-auto flex items-center gap-x-1 md:gap-x-4">
       {
         isAuthenticated && (
           <Button
