@@ -7,7 +7,7 @@ import { PlantCareSlider } from "./ui/plant-care-slider"
 export const PlantCareEssential = () => {
   return(
    <section>
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
       <div className="flex flex-col justify-between">
         
         <div>   
@@ -15,7 +15,7 @@ export const PlantCareEssential = () => {
           <div>          
             <LinkBtn
               href={'/category/1'} 
-              className={"border-custom-green text-custom-green hover:border-gold hover:text-white"}
+              className="border-custom-green text-custom-green hover:border-gold hover:text-white"
             >See all</LinkBtn>
           </div>         
         </div>
@@ -28,7 +28,7 @@ export const PlantCareEssential = () => {
         </div>    
 
       </div>
-      <div className="w-full h-auto">
+      <div className="hidden md:block md:w-full md:h-auto">
         <Image  
           src={'/images/philodendron.jpg'}
           width={450}

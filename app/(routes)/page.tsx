@@ -39,7 +39,7 @@ const HomePage = async ({
   
   return (
     <div className="bg-beige-100 dark:bg-slate-800 dark:text-white">
-      {/* <Billboard data={billboard}/>
+      <Billboard data={billboard}/>
       <Container>
         <div className="space-y-10 p-8">        
           <Trademark/>
@@ -55,7 +55,7 @@ const HomePage = async ({
         </Container>
       </div>    
       {careCategory && <CareSliderSection careCategory={careCategory} careSliderProducts={careSliderProducts} />}
-      <div>
+      {/*<div>
         <CommunitySlider/>
       </div>
       <div className="bg-gold text-white dark:bg-slate-800 dark:text-white">

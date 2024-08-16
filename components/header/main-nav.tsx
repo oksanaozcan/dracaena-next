@@ -6,9 +6,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Popover, Disclosure } from "@headlessui/react";
 import { ChevronDownIcon, MenuIcon, XIcon } from "lucide-react";
-import Button from "./ui/button";
+import Button from "../ui/button";
 import { useAuth } from "@/context/auth-contex";
-import { Logo } from "./logo";
+import { Logo } from "../logo";
 import { useRef } from "react";
 
 interface MainNavProps {

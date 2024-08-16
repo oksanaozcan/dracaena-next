@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
-import Search from "./search";
+import Search from "../search";
 import { listApi } from "@/lib/list-api";
 import { useAuth } from "@/context/auth-contex";
 

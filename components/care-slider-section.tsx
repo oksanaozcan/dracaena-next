@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Container from "@/components/ui/container";
 import { CategoryFilter, IProductCareSlider, IProductsCareSliderResource, Tag } from "@/types";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { Swiper as SwiperClass, Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { LinkBtn } from "./ui/link-btn";
@@ -17,6 +17,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import SwiperCore from 'swiper';  // Import SwiperCore as a type
 
 interface CareCategory {
   id: string;
@@ -34,7 +35,7 @@ interface CareSliderSectionProps {
 export const CareSliderSection: React.FC<CareSliderSectionProps> = ({ careCategory, careSliderProducts }) => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>();
   const [filteredProducts, setFilteredProducts] = useState<IProductCareSlider[]>([]);
-  const swiperRef = useRef<SwiperClass | null>(null);
+  const swiperRef = useRef<SwiperCore | null>(null); // Use SwiperCore as the type
 
   useEffect(() => {
     const initialFilter = careCategory.category_filters[0];
@@ -51,8 +52,8 @@ export const CareSliderSection: React.FC<CareSliderSectionProps> = ({ careCatego
   const handleSlideClick = (i: number) => {
     let newFilter = careCategory.category_filters[i];
     setActiveFilter(newFilter);
-    if (swiperRef.current) {
-      swiperRef.current.slideToLoop(i);
+    if (swiperRef.current && typeof swiperRef.current.slideTo === 'function') {
+      swiperRef.current.slideTo(i);
     }
   };
 
@@ -76,7 +77,7 @@ export const CareSliderSection: React.FC<CareSliderSectionProps> = ({ careCatego
             </h4>
             <div className="py-4 bg-beige-200 my-6 relative">
               <Swiper
-                ref={swiperRef}
+                onSwiper={(swiperInstance) => (swiperRef.current = swiperInstance)} // Capture the swiper instance
                 className={cn('text-center font-bold text-2xl')}
                 modules={[Navigation, Pagination, Scrollbar, A11y]}
                 spaceBetween={50}

@@ -7,10 +7,10 @@ import Link from "next/link";
 import { LinkBtn } from "./ui/link-btn";
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
 import { Navigation, A11y } from 'swiper/modules';
+import IconButton from './ui/icon-button';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import IconButton from './ui/icon-button';
 
 export const PlantOfTheMonthSection = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -44,11 +44,12 @@ export const PlantOfTheMonthSection = () => {
 
   return (
     <div className="relative pt-20">
-      <div className="absolute z-10 top-1 left-32">
-        <h2 className="text-8xl font-black subpixel-antialiased tracking-wider leading-relaxed text-gold">Plant of the month</h2>
+      <div className="absolute z-10 lg:top-1 left-4 top-1 lg:left-32">
+        <h2 className="text-3xl lg:text-8xl font-black subpixel-antialiased tracking-wider leading-relaxed text-gold">Plant of the month</h2>
       </div>
       <div className="w-full grid grid-cols-7 gap-4">
-        <div className="col-span-3 h-auto relative">
+
+        <div className="hidden lg:block lg:col-span-3 h-auto relative">
           <Image
             src={slides[activeSlide].src}
             layout="fill"
@@ -60,7 +61,8 @@ export const PlantOfTheMonthSection = () => {
             <IconButton className='bg-transparent text-white hover:bg-gold' onClick={() => handleAroowsClick('right')} icon={<ArrowRight size={24}/>} />
           </div>
         </div>
-        <div className="col-span-4">
+
+        <div className="col-span-7 lg:col-span-4">
           <div className="w-full h-full">
             <div className="flex justify-end">
               <div>
@@ -73,19 +75,20 @@ export const PlantOfTheMonthSection = () => {
                 />
               </div>
             </div>
-            <div className="p-10 text-orange">
-              <h4 className="text-4xl font-bold py-4">{slides[activeSlide].title}</h4>
-              <p className="text-2xl font-bold">
+            <div className="px-4 lg:p-10 text-orange">
+              <h4 className="text-2xl lg:text-4xl font-bold py-1 lg:py-4">{slides[activeSlide].title}</h4>
+              <p className="lg:text-2xl font-bold">
                 This month, we're excited to highlight the Calathea Orbifolia, a plant that gives ultimate jungle vibes with its big, round, striped leaves. It's a true showstopper, loved by plant enthusiasts and a popular ornamental piece in urban jungles. Whether your home is boho minimalist or a thriving jungle, this plant radiates charm in any room. For the entire month of July, you can shop this beautiful botanical at a special discount!
               </p>
-              <div className="flex text-xl font-bold justify-between pt-10 pb-24">
+              <div className="flex lg:text-xl lg:font-bold justify-between lg:pt-10 lg:pb-24">
                 <Link className="flex my-4 items-center gap-1 underline mb-2" href={'#'}><span><ArrowRight size={24} /></span><span>Discover more</span></Link>
-                <LinkBtn href={'#'} className={'border-orange hover:text-white hover:bg-orange'}>Shop with discount</LinkBtn>
+                <LinkBtn href={'#'} className={'border-orange hover:text-white hover:bg-orange w-1/2'}>Shop with discount</LinkBtn>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-span-7 col-start-3 mt-[-4rem]">
+
+        <div className="col-span-7 lg:col-start-3 lg:mt-[-4rem] pb-4">
           <Swiper
             ref={swiperRef}
             modules={[Navigation, A11y]}
@@ -98,7 +101,7 @@ export const PlantOfTheMonthSection = () => {
           >
             {slides.map((slide, index) => (
               <SwiperSlide key={slide.id} onClick={() => handleSlideClick(index)}>
-                <div className="h-80 relative cursor-pointer">
+                <div className="lg:h-80 relative cursor-pointer pb-4">
                   <Image
                     src={slide.src}
                     width={300}
@@ -110,8 +113,9 @@ export const PlantOfTheMonthSection = () => {
                 </div>
               </SwiperSlide>
             ))}
-          </Swiper>
+          </Swiper>        
         </div>
+
       </div>
     </div>
   );

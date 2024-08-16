@@ -14,7 +14,7 @@ const Footer = () => {
   return (
     <footer className="dark:bg-slate-800 dark:text-white text-beige-100">
       
-      <div className="bg-footer-green py-10 dark:bg-slate-800 dark:text-white px-6">
+      <div className="bg-footer-green py-4 md:py-8 dark:bg-slate-800 dark:text-white px-6">
         <Container>
           <div>
             <Logo/>

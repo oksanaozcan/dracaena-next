@@ -25,7 +25,7 @@ export const PopularCategoriesList: React.FC<CategoryListProps> = ({categories})
             <div className="relative">
               <Link
                 key={cat.id}
-                className="w-full overflow-hidden shadow-lg flex items-center p-4"
+                className="w-full overflow-hidden shadow-lg flex items-center p-2"
                 style={{
                   backgroundImage: `url(${cat.preview})`,
                   aspectRatio: 272/366,

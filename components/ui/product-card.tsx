@@ -4,7 +4,7 @@ import { IProduct, IProductCareSlider } from "@/types"
 import Image from "next/legacy/image"
 import IconButton from "@/components/ui/icon-button"
 import Currency from "@/components/ui/currency"
-import { CheckCheck, CircleSlashedIcon, Expand, Heart, ShoppingCart } from "lucide-react"
+import { CheckCheck, Expand, Heart, ShoppingCart } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { MouseEventHandler, useContext, useEffect, useState } from "react"
 import usePreviewModal from "@/hooks/use-preview-modal"
@@ -139,7 +139,7 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
           </div>
         </div>       
       </div>
-      <div className="font-semibold text-lg">
+      <div className="font-semibold text-lg truncate">
           {item.title}
       </div>
       <div className="flex items-center justify-between">

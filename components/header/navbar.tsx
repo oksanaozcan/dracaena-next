@@ -1,10 +1,10 @@
 "use client";
 
 import Container from "@/components/ui/container";
-import MainNav from "@/components/main-nav";
-import NavbarActions from "@/components/navbar-actions";
+import MainNav from "@/components/header/main-nav";
+import NavbarActions from "@/components/header/navbar-actions";
 import { ICategoryResource } from "@/types";
-import { Logo } from "./logo";
+import { Logo } from '../logo';
 
 export const revalidate = 0;
 
