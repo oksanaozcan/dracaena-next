@@ -40,10 +40,10 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
         <Disclosure as="div" ref={outerDisclosureRef}>
           {({ open }) => (
             <>
-              <Disclosure.Button className="p-2 text-gray-500 hover:text-gray-700">
+              <Disclosure.Button className="p-2 text-gray-500 hover:text-gray-700 dark:bg-slate-800 dark:text-white">
                 {open ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
               </Disclosure.Button>
-              <Disclosure.Panel className="absolute bg-white w-full h-screen overflow-y-auto p-6 left-0 top-16 z-50 shadow-lg">
+              <Disclosure.Panel className="absolute bg-white w-full h-screen overflow-y-auto p-6 left-0 top-16 z-50 shadow-lg dark:bg-slate-800 dark:text-white">
                 <ul className="flex flex-col gap-4 text-lg font-bold">
                   {routes.map((route) => (
                     <li key={route.id}>
@@ -140,11 +140,11 @@ const MainNav: React.FC<MainNavProps> = ({ data }) => {
         {routes.map((route) => (
           <li key={route.id}>
             <Popover>
-              <Popover.Button className={cn("py-1 px-2 font-bold capitalize flex flex-row items-center gap-0 ui-open:text-gray-500 ui-open:transform transition-all ui-open:underline")}>
+              <Popover.Button className="py-1 px-2 font-bold capitalize flex flex-row items-center gap-0 ui-open:text-gray-500 ui-open:transform transition-all ui-open:underline dark:bg-slate-800 dark:text-white">
                 <span>{route.label}</span>
                 <ChevronDownIcon className="ui-open:rotate-180" />
               </Popover.Button>
-              <Popover.Panel className="absolute bg-white w-max p-6 inset-x-0 transition-all">
+              <Popover.Panel className="absolute bg-white w-max p-6 inset-x-0 transition-all dark:bg-slate-800 dark:text-white">
                 <div className="flex flex-row gap-8 items-top justify-center px-6">
                   {route.category_filters.map((f) => (
                     <div className="font-bold capitalize" key={f.id}>

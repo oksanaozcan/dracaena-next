@@ -59,7 +59,7 @@ export default async function RootLayout({
                   <ModalProvider />
                   <ToastProvider />
                   <div>
-                    <Navbar categories={categories}/>   
+                    <Navbar categories={categories}/>
                     <div className='py-2 bg-beige-200 italic dark:bg-slate-800'>
                       <Container>
                         <InfoLine/>

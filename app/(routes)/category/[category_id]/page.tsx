@@ -46,6 +46,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   const [products, billboard] = await Promise.all([productsData, billboardData]);
 
   return (    
+    <div className="bg-beige-100 dark:bg-slate-800 dark:text-white">
     <Container>
       <div className="space-y-10 pb-10">
         <Billboard data={billboard}/>      
@@ -73,6 +74,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
           </ul>     
       </div>
     </Container>
+    </div>
   )
 }
 
