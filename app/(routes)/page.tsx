@@ -13,7 +13,7 @@ import { CareSliderSection } from "@/components/care-slider-section";
 import getProductsForCareSlider from "@/actions/get-products-for-care-slider";
 import { CommunitySlider } from "@/components/community-slider-section";
 import { ReviewSliderSection } from "@/components/review-slider-section";
-import { BabyPlantSection } from "@/components/baby-plant-section";
+import { BabyPlantSection } from "@/components/baby-plant-section/baby-plant-section";
 import { RarePlantSection } from "@/components/rare-plant-section";
 import { JourneySliderSection } from "@/components/journey-slider-section";
 import { PopupInfoSection } from "@/components/popup-info-section";
@@ -55,7 +55,7 @@ const HomePage = async ({
         </Container>
       </div>    
       {careCategory && <CareSliderSection careCategory={careCategory} careSliderProducts={careSliderProducts} />}
-      {/*<div>
+      <div>
         <CommunitySlider/>
       </div>
       <div className="bg-gold text-white dark:bg-slate-800 dark:text-white">
@@ -69,7 +69,7 @@ const HomePage = async ({
       <div className="bg-beige-400 text-white dark:bg-slate-800 dark:text-white">       
         <BabyPlantSection/>
       </div>
-      <div className="bg-custom-blue-200 text-custom-blue-100 dark:bg-slate-800 dark:text-white">       
+      {/*<div className="bg-custom-blue-200 text-custom-blue-100 dark:bg-slate-800 dark:text-white">       
         <RarePlantSection/>
       </div>
       <Container>

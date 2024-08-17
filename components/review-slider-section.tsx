@@ -47,7 +47,7 @@ export const ReviewSliderSection: React.FC = () => {
             <SwiperSlide key={slide.id}>
               <div className="w-full flex flex-col justify-center items-center py-4">
                 <StarRating stars={slide.stars} />
-                <p className="text-2xl italic pt-4 px-20">{slide.text}</p>   
+                <p className="lg:text-2xl italic pt-4 px-20">{slide.text}</p>   
                 <p>{slide.author}</p>       
               </div>
             </SwiperSlide>

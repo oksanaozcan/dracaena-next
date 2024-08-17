@@ -1,0 +1,20 @@
+
+.link {
+  background-image: url("/images/baby-plant-card.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 400px;
+}
+
+@media (min-width: 768px) {
+  .link {
+    height: 500px; /* Height for medium screens (md) */
+  }
+}
+
+@media (min-width: 1024px) {
+  .link {
+    height: 600px; /* Height for large screens (lg) */
+  }
+}

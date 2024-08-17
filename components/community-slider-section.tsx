@@ -50,7 +50,7 @@ export const CommunitySlider = () => {
   return (
     <div className="py-6">
       <Container>
-        <div className="flex text-xl font-bold justify-end pt-10 pb-4">
+        <div className="flex lg:text-xl font-bold justify-end lg:pt-10 pb-1 lg:pb-4">
           <Link className="flex items-center gap-1 underline mb-2 hover:text-gold" href={'#'}>
             <span></span>
             <Instagram size={24} />
