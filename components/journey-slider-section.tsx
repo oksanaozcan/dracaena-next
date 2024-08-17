@@ -7,7 +7,7 @@ import 'swiper/css';
 import { useRef, useState } from "react";
 import IconButton from "./ui/icon-button";
 import Link from "next/link";
-import { Swiper as SwiperInstance, SwiperRef } from 'swiper/react';
+import { SwiperRef } from 'swiper/react';
 
 interface Slide {
   id: number;
@@ -44,23 +44,29 @@ export const JourneySliderSection: React.FC = () => {
   };
 
   return (
-    <div className="pb-10">
-      <h5 className="text-5xl pt-10 pb-4">The journey of your new plant!</h5>
-      <div className="flex text-xl pb-10">
+    <div className="pb-10 px-4">
+      <h5 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl pt-10 pb-4 text-center md:text-left">
+        The journey of your new plant!
+      </h5>
+      <div className="flex text-lg sm:text-xl pb-10 justify-center md:justify-start">
         <Link className="flex items-center justify-center gap-1 underline mb-2 hover:text-gold" href="#">
           <span>More about shipping</span>
           <span><ArrowRight size={22} /></span>
         </Link>
       </div>
 
-      <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-8 relative">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="lg:col-span-8 relative">
           <Swiper
             ref={swiperRef}
             spaceBetween={10}
-            slidesPerView={2}
+            slidesPerView={1}
             loop={true}
             onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              1024: { slidesPerView: 2 },
+            }}
           >
             {slides.map((slide, index) => (
               <SwiperSlide key={slide.id} onClick={() => handleSlideClick(index)}>
@@ -69,22 +75,22 @@ export const JourneySliderSection: React.FC = () => {
                     0{slide.id}.
                   </div>
                   <div>
-                    <h6 className="text-2xl py-4 font-bold">{slide.title}</h6>
+                    <h6 className="text-xl md:text-2xl py-4 font-bold">{slide.title}</h6>
                   </div>
                   <div>
-                    <p>{slide.text}</p>
+                    <p className="text-sm md:text-base">{slide.text}</p>
                   </div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="flex w-full items-center bottom-8 gap-3 mt-4">
+          <div className="flex w-full items-center bottom-8 gap-3 mt-4 justify-center lg:justify-start">
             <IconButton 
               className="bg-transparent text-custom-green border-custom-green hover:bg-gold hover:border-gold hover:text-white" 
               onClick={() => handleArrowsClick('left')} 
               icon={<ArrowLeft size={24} />} 
             />
-            <div className="text-xl">{activeSlide + 1}/{slides.length}</div>
+            <div className="text-lg md:text-xl">{activeSlide + 1}/{slides.length}</div>
             <IconButton 
               className="bg-transparent text-custom-green border-custom-green hover:bg-gold hover:border-gold hover:text-white" 
               onClick={() => handleArrowsClick('right')} 
@@ -92,8 +98,8 @@ export const JourneySliderSection: React.FC = () => {
             />
           </div>
         </div>
-        <div className="col-span-4 relative">
-          <div className="relative w-full h-full">
+        <div className="lg:col-span-4 relative mt-6 lg:mt-0">
+          <div className="relative w-full h-64 lg:h-full">
             <Image
               src={slides[activeSlide].src}
               layout="fill"

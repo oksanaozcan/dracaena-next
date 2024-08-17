@@ -26,7 +26,7 @@ export const BabyPlantSection = () => {
         <Container>
           <div>
             <h5 className="text-2xl lg:text-5xl text-center py-6">Baby Plants</h5>
-            <div className="grid grid-cols-2 gap-4 px-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 px-6">
 
               <div>
                 <p className="lg:text-xl pb-10">Is your room already full of plants, but would you like even more green in your home? Then baby plants are ideal. Buy a small baby houseplant and let it grow into a big, strong houseplant! With the right care and a lot of love you can enjoy your plant for a very long time.</p>
@@ -50,7 +50,7 @@ export const BabyPlantSection = () => {
                 <LinkBtn
                   href={`#`}
                   className={
-                    "border-beige-200 bg-beige-400/40 text-white hover:border-beige-400 hover:bg-beige-400 hover:text-white absolute text-xl bottom-14 left-24"
+                    "border-beige-200 bg-beige-400/40 text-white hover:border-beige-400 hover:bg-beige-400 hover:text-white absolute lg:text-xl lg:bottom-14 lg:left-20"
                   }
                 >
                   Shop now

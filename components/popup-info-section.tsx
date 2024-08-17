@@ -12,10 +12,10 @@ export const PopupInfoSection: React.FC = () => {
   }
 
   return (
-    <section className="py-10">
+    <section className="py-10 px-4">
       <div className="flex justify-between items-center">
         <div>
-          <h5 className="text-3xl font-bold">Plants, pots, care products and accessories</h5>
+          <h5 className="lg:text-3xl lg:font-bold">Plants, pots, care products and accessories</h5>
         </div>        
         <div>
           <button 
