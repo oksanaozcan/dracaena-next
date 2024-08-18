@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { IProductResource } from "@/types";
+import { IProduct } from "@/types";
 import { useContext, FormEvent, useEffect } from "react";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
@@ -10,29 +10,51 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 
 interface InfoProps {
-  product: IProductResource,
+  product: IProduct,
 }
 
-const Info: React.FC<InfoProps> = ({
-  product
-}) => {  
+const Info: React.FC<InfoProps> = ({ product }) => {  
 
   useEffect(() => {
+    const accessToken = getCookie("dracaena_access_token");
+
     const addRecentlyViewedItem = async () => {
-      try {
-        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recently-viewed-items`, { product_id: product.id }, {
-          headers: {
-            Authorization: `Bearer ${getCookie("dracaena_access_token")}`,
+      if (accessToken) {       
+        try {
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recently-viewed-items`, 
+            { product_id: product.id }, 
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              }
+            }
+          );
+        } catch (error) {
+          console.error('Failed to add recently viewed item:', error);
+        }
+      } else {      
+        const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+       
+        if (!recentlyViewed.some((item: { id: string }) => item.id === product.id)) {
+          recentlyViewed.unshift({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            preview: product.preview,
+          });
+        
+          if (recentlyViewed.length > 5) {
+            recentlyViewed.pop();
           }
-        });
-      } catch (error) {
-        console.error('Failed to add recently viewed item:', error);
+
+          localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
+        }
       }
     };
 
     addRecentlyViewedItem();
-  }, []);
- 
+  }, [product]);
+
   const cartContext = useContext(CartContext);
   const onAdd = cartContext ? cartContext.onAdd : () => {};
 
@@ -67,7 +89,6 @@ const Info: React.FC<InfoProps> = ({
         </div>
         <div>
           <h3 className="font-semibold text-black">Details:</h3>
-          {/* <div>{product.content}</div> */}
         </div>
       </div>
       <div className="mt-10 flex items-center gap-x-3">    
@@ -75,7 +96,6 @@ const Info: React.FC<InfoProps> = ({
           <Button 
             type="submit"
             className="flex items-center gap-x-2"
-            // disabled={isLoading}
           >
             Add to Cart
             <ShoppingCart/>

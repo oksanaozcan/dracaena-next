@@ -51,6 +51,13 @@ export interface IProduct {
   color?: IColor;    
 }
 
+export interface IGuestProduct {
+  id: string;
+  title: string;
+  preview: string;
+  price: string;
+}
+
 export interface IProductResource {
   data: IProduct
   id: string;  

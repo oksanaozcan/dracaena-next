@@ -5,34 +5,51 @@ import axios from 'axios';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getCookie } from 'cookies-next';
+import ProductCard from './product-card';
+import { useAuth } from '@/context/auth-contex';
+import { GuestRecentlyViewedProductCard } from './guest-recently-viewed-product-card';
+import { IProduct, IGuestProduct } from '@/types';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import ProductCard from './product-card';
 
-const RecentlyViewed = ({currentProductId}) => {
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
+type RecentlyViewedItem = IProduct | IGuestProduct;
 
-  useEffect(() => {   
+interface RecentlyViewedProps {
+  currentProductId: string;
+}
+
+const RecentlyViewed: React.FC<RecentlyViewedProps> = ({ currentProductId }) => {
+  const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedItem[]>([]);
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    const accessToken = getCookie("dracaena_access_token");    
 
     const fetchRecentlyViewedItems = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/recently-viewed-items`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("dracaena_access_token")}`,
-          }
-        });
-        let newRecentlyViewed = response.data.data.filter(item => item.id != currentProductId);
+      if (accessToken) {
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/recently-viewed-items`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            }
+          });
+          let newRecentlyViewed = response.data.data.filter((item: IProduct) => item.id !== currentProductId);
+          setRecentlyViewed(newRecentlyViewed);
+        } catch (error) {
+          console.error('Failed to fetch recently viewed items:', error);
+        }
+      } else {
+        const storedRecentlyViewed: IGuestProduct[] = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+        let newRecentlyViewed = storedRecentlyViewed.filter(item => item.id !== currentProductId);
         setRecentlyViewed(newRecentlyViewed);
-      } catch (error) {
-        console.error('Failed to fetch recently viewed items:', error);
       }
     };
-   
+
     fetchRecentlyViewedItems();
-  }, []);
+  }, [currentProductId]);
 
   return (
     <div>
@@ -44,17 +61,19 @@ const RecentlyViewed = ({currentProductId}) => {
         navigation
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        onSwiper={(swiper) => {}}
-        onSlideChange={() => {}}       
       >
-      {
-        recentlyViewed.map(item => (
-          <SwiperSlide key={item.id} className='pb-10'>
-            <ProductCard item={item}/>          
-          </SwiperSlide>
-        ))
-      }      
-    </Swiper>
+        {
+          recentlyViewed.map(item => (
+            <SwiperSlide key={item.id} className='pb-10'>
+              {
+                isAuthenticated && 'description' in item ? 
+                <ProductCard item={item as IProduct}/> :
+                <GuestRecentlyViewedProductCard item={item as IGuestProduct}/>             
+              }                   
+            </SwiperSlide>
+          ))
+        }      
+      </Swiper>
     </div>
   );
 };
