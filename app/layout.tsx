@@ -31,16 +31,11 @@ export default async function RootLayout({
 
   const categories = await getCategories();
 
-  const initialDarkModeScript = `
-    (function() {
-      const darkMode = localStorage.getItem('dracaena_dark_mode');
-      if (darkMode === 'true') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    })();
-  `;
+  const isDarkMode = `
+  (function() {
+    return localStorage.getItem('dracaena_dark_mode') === 'true';
+  })()
+`;  
 
   return (
     <AuthProvider>
@@ -48,8 +43,8 @@ export default async function RootLayout({
         lang="en"
         className=''
       >
-        <head>
-          <script dangerouslySetInnerHTML={{ __html: initialDarkModeScript }} />
+        <head>          
+          <script dangerouslySetInnerHTML={{ __html: isDarkMode }} />
         </head>
         <body className={cn(font.className, 'dark:bg-slate-800 dark:text-white')}>
           <ClientCartProvider>
