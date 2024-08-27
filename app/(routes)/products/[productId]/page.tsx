@@ -22,8 +22,14 @@ const ProductPage: React.FC<ProductPageProps> = async ({
     <div className="bg-beige-100 dark:bg-slate-800 dark:text-white">
       <Container>
         <div className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">       
-            <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+          <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-8">       
+            <div className="lg:col-col-span-2 mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+              slider vert line
+            </div>
+            <div className="lg:col-span-4 mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+              Active image
+            </div>
+            <div className="lg:col-span-6 mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
               <Info product={product}/>
             </div>
           </div>
