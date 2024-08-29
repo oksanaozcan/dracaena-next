@@ -1,10 +1,10 @@
 import Image from "next/legacy/image"
 import Container from "@/components/ui/container";
-import { LinkBtn } from "../ui/link-btn";
+import { LinkBtn } from "@/components/ui/link-btn";
 import Link from "next/link";
 import { v4 as uuidv4 } from 'uuid';
-import SvgArrow from "../ui/svg-arrow";
-import styles from '@/components/baby-plant-section/baby-plant-section.module.css';
+import SvgArrow from "@/components/ui/svg-arrow";
+import styles from '@/components/main-page/baby-plant-section/baby-plant-section.module.css';
 import { cn } from "@/lib/utils";
 
 export const BabyPlantSection = () => {

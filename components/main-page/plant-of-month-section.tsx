@@ -4,10 +4,10 @@ import { useState, useRef } from 'react';
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { LinkBtn } from "./ui/link-btn";
+import { LinkBtn } from "@/components/ui/link-btn";
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
 import { Navigation, A11y } from 'swiper/modules';
-import IconButton from './ui/icon-button';
+import IconButton from '@/components/ui/icon-button';
 
 import 'swiper/css';
 import 'swiper/css/navigation';

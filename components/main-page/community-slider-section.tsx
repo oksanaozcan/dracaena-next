@@ -9,7 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { ArrowLeft, ArrowRight, Instagram } from 'lucide-react';
-import IconButton from "./ui/icon-button";
+import IconButton from "@/components/ui/icon-button";
 import { useRef, useState, useEffect } from "react";
 
 const slides = [

@@ -7,11 +7,11 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { LinkBtn } from "./ui/link-btn";
+import { LinkBtn } from "@/components/ui/link-btn";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { filterAdditions } from "@/lib/filter-additions";
-import ProductCard from "./ui/product-card";
+import ProductCard from "@/components/ui/product-card";
 
 import 'swiper/css';
 import 'swiper/css/navigation';

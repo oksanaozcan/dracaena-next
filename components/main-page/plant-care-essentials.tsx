@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react"
 import Image from "next/legacy/image"
 import Link from "next/link"
-import { LinkBtn } from "./ui/link-btn"
-import { PlantCareSlider } from "./ui/plant-care-slider"
+import { LinkBtn } from "@/components/ui/link-btn"
+import { PlantCareSlider } from "@/components/ui/plant-care-slider"
 
 export const PlantCareEssential = () => {
   return(

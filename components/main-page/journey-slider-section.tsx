@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from "next/legacy/image";
 import 'swiper/css';
 import { useRef, useState } from "react";
-import IconButton from "./ui/icon-button";
+import IconButton from "@/components/ui/icon-button";
 import Link from "next/link";
 import { SwiperRef } from 'swiper/react';
 

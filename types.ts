@@ -129,3 +129,8 @@ export interface IProductCareSlider {
   category_filter_id: string;
   category_filter_title: string;
 }
+
+export interface IProductWithImages extends IProduct {
+  data: IProductWithImages | PromiseLike<IProductWithImages>;
+  images: IImage[];
+}

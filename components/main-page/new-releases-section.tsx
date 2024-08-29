@@ -1,8 +1,8 @@
 "use client";
 
 import React from 'react';
-import ProductCard from "./ui/product-card";
-import { LinkBtn } from "./ui/link-btn";
+import ProductCard from "@/components/ui/product-card";
+import { LinkBtn } from "@/components/ui/link-btn";
 import { IProduct } from '@/types';
 
 interface NewReleasesSectionProps {

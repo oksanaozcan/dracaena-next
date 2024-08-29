@@ -2,7 +2,7 @@
 import { ICategoryResource } from "@/types"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
-import { LinkBtn } from "./ui/link-btn"
+import { LinkBtn } from "@/components/ui/link-btn"
 
 interface CategoryListProps {
   categories: ICategoryResource

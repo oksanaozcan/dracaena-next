@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { A11y, EffectFade } from 'swiper/modules';
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
-import { StarRating } from "./ui/star-rating";
-import IconButton from "./ui/icon-button";
+import { StarRating } from "@/components/ui/star-rating";
+import IconButton from "@/components/ui/icon-button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useRef } from "react";
 
