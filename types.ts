@@ -3,6 +3,12 @@ export interface IImage {
   url: string;
 }
 
+export interface IReview {
+  id: string;
+  comment: string;
+  rating: number;
+}
+
 export interface IBillboard {
   data: {
     id: string;  
@@ -133,4 +139,9 @@ export interface IProductCareSlider {
 export interface IProductWithImages extends IProduct {
   data: IProductWithImages | PromiseLike<IProductWithImages>;
   images: IImage[];
+}
+
+export interface IProductWithReview extends IProduct {
+  data: IProductWithReview | PromiseLike<IProductWithReview>;
+  review: IReview;
 }
