@@ -27,13 +27,16 @@ const CartPage = () => {
             <div className="lg:col-span-7">
               {cartItems.length === 0 && <p className="text-neuteral-500">No items added to cart</p>}
               <ul>
-                {
-                  cartItems.map(item => (
-                    <Suspense key={item.id} fallback={<CartItemSkeleton/>}>
-                      <CartItem data={item}/>
+                {cartItems.length === 0 && (
+                  <p className="text-neutral-500">No items added to cart</p>
+                )}
+                {cartItems.map((item) =>
+                  item ? (
+                    <Suspense key={item.id} fallback={<CartItemSkeleton />}>
+                      <CartItem data={item} />
                     </Suspense>
-                  ))
-                }
+                  ) : null
+                )}
               </ul>
             </div>
           <Summary totalPrice={cartTotal}/>

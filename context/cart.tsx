@@ -42,10 +42,11 @@ const CartProvider: React.FC<CartProviderProps> = ({
 
   useEffect(() => {
     const totalPrice = cartItems.reduce((total, item) => {
-      return total + Number(item.price);
+      // Check if item and item.price are valid before adding
+      return total + (item && item.price ? Number(item.price) : 0);
     }, 0);
-    setCartTotal(totalPrice)
-  }, [cartItems])
+    setCartTotal(totalPrice);
+  }, [cartItems]);
 
   const fetchItems = async () => {
     setIsLoading(true);
@@ -76,18 +77,26 @@ const CartProvider: React.FC<CartProviderProps> = ({
     setIsLoading(true);
     const token = getCookie('dracaena_access_token');
   
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {
-      product_id: productId,     
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    }).then((res) => {
-      toast.success("Product added to your cart successfully");      
-    }).catch((err) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/carts`,
+        { product_id: productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      const addedProduct = response.data.product;
+  
+      setCartItems((prevItems) => [...prevItems, addedProduct]);
+  
+      toast.success("Product added to your cart successfully");
+    } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        console.log(err)
-        if (err.response.data.message === 'out_of_stock') {
+        console.log(err);
+        if (err.response.data.message === "out_of_stock") {
           toast.error("This product is out of stock and cannot be added to the cart.");
         } else {
           toast.error("Something went wrong! Check your internet connection and try again");
@@ -95,12 +104,12 @@ const CartProvider: React.FC<CartProviderProps> = ({
       } else {
         toast.error("Something went wrong! Check your internet connection and try again");
       }
-    }).finally(() => {
+    } finally {
       setIsLoading(false);
-    });
-  }  
+    }
+  }; 
 
- const onRemove = async (productId: string) => {
+  const onRemove = async (productId: string) => {
   setIsLoading(true);
   const token = getCookie('dracaena_access_token');
   
