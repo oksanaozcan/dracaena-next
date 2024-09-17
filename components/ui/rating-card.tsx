@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { IProductWithReview } from "@/types";
 import { StarIcon } from "lucide-react";
 import { getCookie } from 'cookies-next';

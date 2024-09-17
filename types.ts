@@ -7,6 +7,8 @@ export interface IReview {
   id: string;
   comment: string;
   rating: number;
+  author: string;
+  created_at: string;
 }
 
 export interface IBillboard {
@@ -55,6 +57,9 @@ export interface IProduct {
   isFeatured?: boolean;
   size?: ISize;
   color?: IColor;    
+  reviews: IReview[];
+  average_rating: number;
+  total_reviews: string | number;
 }
 
 export interface IGuestProduct {

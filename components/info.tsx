@@ -1,10 +1,10 @@
 'use client';
 
 import { IProduct } from "@/types";
-import { useContext, FormEvent, useEffect, useState, MouseEventHandler } from "react";
+import { useContext, FormEvent, useEffect, useState, MouseEventHandler, useRef } from "react";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
-import { CheckIcon, ChevronDown, Heart, MinusIcon, PlusIcon, ShoppingCart, StarIcon, XCircleIcon } from "lucide-react";
+import { CheckIcon, ChevronDown, Heart, MinusIcon, PlusIcon, ShoppingCart, XCircleIcon } from "lucide-react";
 import { CartContext } from "@/context/cart";
 import axios from "axios";
 import { getCookie } from "cookies-next";
@@ -12,6 +12,8 @@ import IconButton from "@/components/ui/icon-button";
 import { FavouriteContext } from "@/context/favourite";
 import { useAuth } from "@/context/auth-contex";
 import { useRouter } from 'next/navigation';
+import { InfoTabs } from "./info-tabs";
+import { RenderStars } from "./render-stars";
 
 interface InfoProps {
   product: IProduct,
@@ -21,6 +23,8 @@ const Info: React.FC<InfoProps> = ({ product }) => {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isFavourite, setIsFavourite] = useState(false); 
+  const [activeTab, setActiveTab] = useState(0);
+  const infoTabsRef = useRef<HTMLDivElement>(null);
   
   const favouriteContext = useContext(FavouriteContext);
   const { favouriteItems } = favouriteContext;
@@ -46,9 +50,7 @@ const Info: React.FC<InfoProps> = ({ product }) => {
       }
     } else {
       router.push('/auth/login');
-    }
-
-   
+    }   
   }
 
   useEffect(() => {
@@ -101,7 +103,19 @@ const Info: React.FC<InfoProps> = ({ product }) => {
     } else {
       router.push('/auth/login');
     }    
-  }  
+  }    
+
+  const tabs = [
+    {title: "About this product", content: product.content},
+    {title: "Reviews", content: product.reviews},
+    {title: "Shipment", content: "Your order will be hand picked and packed in our strong and sustainable packaging as soon as possible, after which it will be delivered straight from our greenhouse to your door by your chosen carrier. You can follow the journey of your plants via the tracking link you receive in your mail. If you have any questions regarding your order and its shipment, you can get in contact with our support team."},
+    {title: "Guarantee", content: "We expect every order to arrive in tip-top shape. We take intensive care of the plants in our greenhouse and use special and as sustainable as possible protective packaging to ship our plants. We also wrote an extensive blog about how to unpack and prepare your plants for growth after shipping. However there are rare occasions where our plants don’t meet their full potential. That’s why all plants are guaranteed for 30 days after arrival, if still in its original nursery pot."},
+  ];
+
+  const handleScrollToReviews = () => {
+    setActiveTab(1);
+    infoTabsRef.current?.scrollIntoView({behavior: 'smooth'});
+  }
 
   return (
     <div>   
@@ -129,16 +143,14 @@ const Info: React.FC<InfoProps> = ({ product }) => {
       </div>
 
       <div className="flex py-2 gap-2">
-        <div className="flex">
-          <StarIcon/>
-          <StarIcon/>
-          <StarIcon/>
-          <StarIcon/>
-          <StarIcon/>
-        </div>
-      
+        <RenderStars rating={product.average_rating}/>           
         <div>
-          <span>(5 reviews)</span>
+          <span 
+            className="cursor-pointer"
+            onClick={handleScrollToReviews}
+          >
+            ({product.total_reviews})
+          </span>
         </div>
       </div>
 
@@ -204,24 +216,13 @@ const Info: React.FC<InfoProps> = ({ product }) => {
           <li className="flex gap-1"><CheckIcon/>The largest range of baby plants</li>
         </ul>
       </div>
-
-      <div className="flex border-y border-custom-green py-2">
-        About this plant
-        Care
-        Reviews
-        Shipment
-
-        30
-        Guarantee
+      <div ref={infoTabsRef}>
+        <InfoTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}/>
       </div>
-
-      <div className="py-2">
-        Review list (comments about product with star rate)
-      </div>
-     
-      
+          
     </div>
   )
 }
 
 export default Info;
+
