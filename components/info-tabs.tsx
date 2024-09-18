@@ -24,9 +24,9 @@ export const InfoTabs = ({ tabs, activeTab, setActiveTab }: InfoTabsProps) => {
             {tabs.map((tab, index) => (
               <Tab key={index} className="py-1 px-3">
                 {({ selected }) => (
-                  <button className={cn(selected && "font-bold")}>
+                  <div className={cn(selected && "font-bold")}>
                     {tab.title}
-                  </button>
+                  </div>
                 )}
               </Tab>
             ))}
@@ -34,25 +34,20 @@ export const InfoTabs = ({ tabs, activeTab, setActiveTab }: InfoTabsProps) => {
           <Tab.Panels className="mt-3">
             {tabs.map((tab, index) => (
               <Tab.Panel key={index} className="rounded-xl bg-white/5 p-3">
-                {
-                  typeof tab.content === "string" ? (
-                    <p>{tab.content}</p>
-                  ) : (
-                    <ul>
-                      {
-                        tab.content.map(rev => (
-                          <div key={rev.id}>
-                            <RenderStars rating={rev.rating}/>
-                            <p>{rev.author}</p>
-                            <p>{format(rev.created_at, 'MMMM dd, yyyy')}</p>
-                            <div>{rev.comment}</div>
-                          </div>
-                        ))
-                      }
-                    </ul>
-                  )
-                }
-                
+                {typeof tab.content === "string" ? (
+                  <p>{tab.content}</p>
+                ) : (
+                  <ul>
+                    {tab.content.map((rev) => (
+                      <div key={rev.id}>
+                        <RenderStars rating={rev.rating} />
+                        <p>{rev.author}</p>
+                        <p>{format(rev.created_at, "MMMM dd, yyyy")}</p>
+                        <div>{rev.comment}</div>
+                      </div>
+                    ))}
+                  </ul>
+                )}
               </Tab.Panel>
             ))}
           </Tab.Panels>

@@ -51,34 +51,34 @@ export const ProductImagesSlider: React.FC<ProductImagesSliderProps> = ({ images
       <div className="flex gap-1">      
        
         <div className="w-1/4">
-          <Swiper
-            ref={verticalSwiperRef} // Attach the ref to the vertical Swiper
-            modules={[Navigation, A11y, Pagination, Scrollbar]}
-            spaceBetween={10}
-            slidesPerView={4}
-            direction={"vertical"}
-            loop={true}
-            onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
-            pagination={false}
-            scrollbar={{ draggable: true }}
-            style={{ height: '600px' }}
-          >
-            {images.map((slide, index) => (
-              <SwiperSlide key={slide.id} onClick={() => handleSlideClick(index)}>
-                <div className="h-40 relative cursor-pointer">
-                  <Image
-                    src={slide.url}
-                    layout="fill"
-                    objectFit="cover"
-                    sizes="100vw"
-                    alt={`slide ${index}`}
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>        
+        <Swiper
+          ref={verticalSwiperRef} // Attach the ref to the vertical Swiper
+          modules={[Navigation, A11y, Pagination, Scrollbar]}
+          spaceBetween={10}
+          slidesPerView={4}
+          direction={"vertical"}
+          loop={images.length > 4} // Conditionally enable loop if there are more than 4 slides
+          onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
+          pagination={false}
+          scrollbar={{ draggable: true }}
+          style={{ height: '600px' }}
+        >
+          {images.map((slide, index) => (
+            <SwiperSlide key={slide.id} onClick={() => handleSlideClick(index)}>
+              <div className="h-40 relative cursor-pointer">
+                <Image
+                  src={slide.url}
+                  layout="fill"
+                  objectFit="cover"
+                  sizes="100vw"
+                  alt={`slide ${index}`}
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>          
         </div>
-
+       
         <div className="relative w-3/4">
           <Image
             src={images[activeSlide].url}
@@ -86,6 +86,7 @@ export const ProductImagesSlider: React.FC<ProductImagesSliderProps> = ({ images
             height={600}
             objectFit="cover"
             alt="Selected slide"
+            priority
           />
           <div className='absolute inset-x-0 bottom-0 flex justify-center gap-3 p-4'>
             <IconButton 
