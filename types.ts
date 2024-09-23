@@ -47,6 +47,7 @@ export interface ICategoryResource {
 export interface IProduct {  
   id: string;  
   title: string;
+  slug: string;
   description: string;
   amount: number | string;
   content: string;
@@ -131,6 +132,7 @@ export interface IProductsCareSliderResource {
 export interface IProductCareSlider {
   id: string;
   title: string;
+  slug: string;
   description: string;
   amount: number | string;
   content: string;

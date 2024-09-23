@@ -25,6 +25,16 @@ const Info: React.FC<InfoProps> = ({ product }) => {
   const [isFavourite, setIsFavourite] = useState(false); 
   const [activeTab, setActiveTab] = useState(0);
   const infoTabsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {    
+    const currentUrl = window.location.href;
+    const currentSlug = currentUrl.split('/').pop()?.split('-').slice(1).join('-');
+    const expectedSlug = product.slug;
+
+    if (currentSlug !== expectedSlug) {
+      router.replace(`/products/${product.id}-${expectedSlug}`);
+    }
+  }, [product, router]);
   
   const favouriteContext = useContext(FavouriteContext);
   const { favouriteItems } = favouriteContext;
