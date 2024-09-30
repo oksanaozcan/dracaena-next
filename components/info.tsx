@@ -4,7 +4,7 @@ import { IProduct } from "@/types";
 import { useContext, FormEvent, useEffect, useState, MouseEventHandler, useRef } from "react";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
-import { CheckIcon, ChevronDown, Heart, MinusIcon, PlusIcon, ShoppingCart, XCircleIcon } from "lucide-react";
+import { CheckIcon, ChevronDown, Heart, MinusIcon, PlusIcon, ShoppingCart } from "lucide-react";
 import { CartContext } from "@/context/cart";
 import axios from "axios";
 import { getCookie } from "cookies-next";
@@ -14,6 +14,7 @@ import { useAuth } from "@/context/auth-contex";
 import { useRouter } from 'next/navigation';
 import { InfoTabs } from "./info-tabs";
 import { RenderStars } from "./render-stars";
+import { RelatedProductsSlider } from "./related-products-slider";
 
 interface InfoProps {
   product: IProduct,
@@ -168,14 +169,26 @@ const Info: React.FC<InfoProps> = ({ product }) => {
         <div className="border-b border-custom-green pb-2">
           <h5 className="font-bold pb-1"> 1. Select the size of your plant</h5>
           <div className="flex justify-between items-center py-1">
-            <XCircleIcon size={30}/>
+          <div className="flex gap-4">       
+            <div className="font-bold uppercase">{product.size}</div>
+            {
+              Array.isArray(product.product_group_by_size) ? (
+                product.product_group_by_size.map(item => (
+                  <a key={item.id} className="uppercase" href={`/products/${item.id}`}>{item.size}</a>
+                ))
+              ) : (
+                <div>No other sizes available</div>
+              )
+            }
+          </div>    
             <span className="cursor-pointer hover:underline">Plant size guide</span>
           </div>
         </div>
         <div className="border-b border-custom-green py-2">
-          <h5 className="font-bold pb-1">2. Find a matching pot</h5>
+          <h5 className="font-bold pb-1">{product.category.title === 'houseplants' && '2. Find a matching pot'}</h5>
+          <h5 className="font-bold pb-1">{product.category.title === 'pots' && '2. Find a matching plant'}</h5>
           <div className="flex justify-between items-center py-1">
-            select pots slider
+            <RelatedProductsSlider category={product.category} size={product.size}/>
           </div>
         </div>
         <div className="border-b border-custom-green py-2">
@@ -189,7 +202,7 @@ const Info: React.FC<InfoProps> = ({ product }) => {
           </div>
         </div>
         <div className="pt-4">        
-          <h5 className="font-bold pb-1">{product.title} (XXL)</h5>
+          <h5 className="font-bold pb-1">{product.title} <span className="uppercase">({product.size})</span></h5>
           <div className="flex justify-between items-center">
             <div className="p-1 bg-white flex justify-around items-center">
               <MinusIcon/>

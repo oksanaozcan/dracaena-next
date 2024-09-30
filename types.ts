@@ -44,6 +44,11 @@ export interface ICategoryResource {
   data: Category[]
 }
 
+export interface IProductGroup {
+  id: string | number;
+  size: string;
+}
+
 export interface IProduct {  
   id: string;  
   title: string;
@@ -56,11 +61,12 @@ export interface IProduct {
   price: string;
   category: Category;
   isFeatured?: boolean;
-  size?: ISize;
+  size: string | undefined;
   color?: IColor;    
   reviews: IReview[];
   average_rating: number;
   total_reviews: string | number;
+  product_group_by_size: IProductGroup[];
 }
 
 export interface IGuestProduct {
