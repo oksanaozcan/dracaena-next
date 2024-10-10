@@ -1,10 +1,10 @@
 'use client';
 
-import { IProduct } from "@/types";
+import { IProduct, IProductCartItem } from "@/types";
 import { useContext, FormEvent, useEffect, useState, MouseEventHandler, useRef } from "react";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
-import { CheckIcon, ChevronDown, Heart, MinusIcon, PlusIcon, ShoppingCart } from "lucide-react";
+import { CheckIcon, Heart, MinusIcon, PlusIcon, ShoppingCart, XCircleIcon } from "lucide-react";
 import { CartContext } from "@/context/cart";
 import axios from "axios";
 import { getCookie } from "cookies-next";
@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { InfoTabs } from "./info-tabs";
 import { RenderStars } from "./render-stars";
 import { RelatedProductsSlider } from "./related-products-slider";
+import { RelatedCareProductsSlider } from "./related-care-products-slider";
 
 interface InfoProps {
   product: IProduct,
@@ -26,6 +27,38 @@ const Info: React.FC<InfoProps> = ({ product }) => {
   const [isFavourite, setIsFavourite] = useState(false); 
   const [activeTab, setActiveTab] = useState(0);
   const infoTabsRef = useRef<HTMLDivElement>(null);
+  const [cartItemsCalc, setCartItemsCalc] = useState<IProductCartItem[]>([{id: product.id, title: product.title, price: Number(product.price)}])
+  const [totalPrice, setTotalPrice] = useState<number>(Number(product.price)); 
+
+  useEffect(() => {
+    const totalPrice = cartItemsCalc.reduce((summ, pr) => summ + Number(pr.price), 0);
+    setTotalPrice(totalPrice);
+  }, [cartItemsCalc, product.price]);
+
+  const handleIncrementProduct = () => {
+    const quantity = cartItemsCalc.filter(item => item.id === product.id).length;
+    if (quantity < Number(product.amount)) {
+      setCartItemsCalc([...cartItemsCalc, { id: product.id, title: product.title, price: Number(product.price) }]);
+    }
+     // TODO: make toast if amount of product equel 0
+  };
+  
+  const handleDecrementProduct = () => {
+    if (cartItemsCalc.filter(item => item.id === product.id).length > 1) {
+      const index = cartItemsCalc.findIndex(pr => pr.id === product.id);
+  
+      if (index !== -1) {
+        const newCartItems = [...cartItemsCalc];
+        newCartItems.splice(index, 1);
+        setCartItemsCalc(newCartItems);
+      }
+    }
+  };
+
+  const removeRelatedProduct = (item: IProductCartItem) => {
+    const newCartItems = cartItemsCalc.filter(item => item.id !== item.id);
+    setCartItemsCalc(newCartItems);
+  }
 
   useEffect(() => {    
     const currentUrl = window.location.href;
@@ -110,7 +143,9 @@ const Info: React.FC<InfoProps> = ({ product }) => {
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isAuthenticated) {
-      onAdd(product.id);    
+      cartItemsCalc.map(item => {
+        onAdd(item.id);    
+      })      
     } else {
       router.push('/auth/login');
     }    
@@ -188,31 +223,38 @@ const Info: React.FC<InfoProps> = ({ product }) => {
           <h5 className="font-bold pb-1">{product.category.title === 'houseplants' && '2. Find a matching pot'}</h5>
           <h5 className="font-bold pb-1">{product.category.title === 'pots' && '2. Find a matching plant'}</h5>
           <div className="flex justify-between items-center py-1">
-            <RelatedProductsSlider category={product.category} size={product.size}/>
+            <RelatedProductsSlider category={product.category} size={product.size} setCartItemsCalc={setCartItemsCalc}/>
           </div>
         </div>
-        <div className="border-b border-custom-green py-2">
-          <div className="flex justify-between items-center">
-            <h5 className="font-bold pb-1">3. Care products for this plant</h5>
-            <ChevronDown/>
-          </div>
-         
-          <div className="flex justify-between items-center py-1">
-            select pots slider
-          </div>
-        </div>
+        {/* TODO: logic for related-care-products-slider */}
+        <RelatedCareProductsSlider/>      
         <div className="pt-4">        
           <h5 className="font-bold pb-1">{product.title} <span className="uppercase">({product.size})</span></h5>
           <div className="flex justify-between items-center">
             <div className="p-1 bg-white flex justify-around items-center">
-              <MinusIcon/>
-              <span className="px-2">1</span>
-              <PlusIcon/>
+              <button type="button" onClick={handleDecrementProduct}><MinusIcon/></button>              
+              <span className="px-2">{cartItemsCalc.filter(item => item.id === product.id).length}</span>
+              <button type="button" onClick={handleIncrementProduct}><PlusIcon/></button>                         
             </div>
             <div>
               {product.price}
             </div>
           </div>
+
+          <ul>
+            {
+              cartItemsCalc.filter(item => item.id !== product.id).map(p => (
+                <li className="py-4">
+                  <div className="flex justify-between items-center">
+                    <div>{p.title}</div>
+                    <div>{p.price}</div>
+                    <button type="button"><XCircleIcon/></button>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+
           <div className="flex justify-between items-center">
             <div className="mt-10 flex items-center gap-x-3">    
               <form onSubmit={onSubmit}>                    
@@ -226,7 +268,7 @@ const Info: React.FC<InfoProps> = ({ product }) => {
               </form>      
             </div>         
             <div>
-              <span>Total: {product.price}</span>
+              <span>Total: {totalPrice}</span>
             </div>     
           </div>         
         </div>

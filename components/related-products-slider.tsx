@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Category, IProduct } from "@/types";
+import { Category, IProduct, IProductCartItem } from "@/types";
 import Image from "next/legacy/image";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, A11y } from 'swiper/modules';
@@ -12,9 +12,11 @@ import 'swiper/css/navigation';
 interface RelatedProductsSliderProps {
   category: Category;
   size?: string;
+  setCartItemsCalc: React.Dispatch<React.SetStateAction<IProductCartItem[]>>;
 }
 
-export const RelatedProductsSlider: React.FC<RelatedProductsSliderProps> = ({ category, size }) => {
+export const RelatedProductsSlider: React.FC<RelatedProductsSliderProps> = ({ category, size, setCartItemsCalc }) => {
+  const [selectedItem, setSelectedItem] = useState<IProductCartItem | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<IProduct[]>([]);
   const [hoveredProductId, setHoveredProductId] = useState<string | null>(null);
 
@@ -32,6 +34,15 @@ export const RelatedProductsSlider: React.FC<RelatedProductsSliderProps> = ({ ca
 
     fetchRelatedProducts();
   }, [category, size]);   
+
+  const selectRelatedProduct = (item: IProduct) => {    
+    const newCartItem = {id: item.id, title: item.title, price: Number(item.price)};
+    setSelectedItem(newCartItem)
+    // TODO: make toast if amount of selected product  equel 0
+    if (Number(item.amount) > 0) {
+      setCartItemsCalc(currentState => [...currentState, newCartItem]);
+    }
+  }
 
   if (!relatedProducts || relatedProducts.length === 0) return <div>No related products available</div>;
 
@@ -99,7 +110,9 @@ export const RelatedProductsSlider: React.FC<RelatedProductsSliderProps> = ({ ca
                   </div>       
                   <div className="flex">
                     <LinkBtn className="hover:text-white" href={`/products/${item.id}`}>Details</LinkBtn>
-                    <button>Select</button>          
+                    <button type="button" 
+                      onClick = {() => selectRelatedProduct(item)}
+                    >Select</button>          
                   </div>           
                 </div>
               )}

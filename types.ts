@@ -158,3 +158,9 @@ export interface IProductWithReview extends IProduct {
   data: IProductWithReview | PromiseLike<IProductWithReview>;
   review: IReview;
 }
+
+export interface IProductCartItem {
+  id: string;
+  title: string;
+  price: number;
+}
