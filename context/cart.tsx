@@ -1,9 +1,11 @@
-import React, { createContext, useState, useEffect, FormEvent } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
 import { useAuth } from "./auth-contex";
 import { getCookie } from "cookies-next";
+
+import { CustomToast } from "@/components/ui/custom-toast";
 
 interface CartContextType {
   cartItems: IProduct[];
@@ -31,7 +33,7 @@ const CartProvider: React.FC<CartProviderProps> = ({
   const {logout} = useAuth();
   const [cartItems, setCartItems] = useState<IProduct[]>([]);
   const [cartTotal, setCartTotal] = useState<number>(0);  
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);  
 
   useEffect(() => {   
     const token = getCookie('dracaena_access_token');
@@ -96,6 +98,8 @@ const CartProvider: React.FC<CartProviderProps> = ({
         console.log(err);
         if (err.response.data.message === "out_of_stock") {
           toast.error("This product is out of stock and cannot be added to the cart.");
+        } else if (err.response.status === 401) {
+          toast.custom((t) => <CustomToast t={t}/>);
         } else {
           toast.error("Something went wrong! Check your internet connection and try again");
         }

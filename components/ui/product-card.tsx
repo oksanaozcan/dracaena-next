@@ -63,9 +63,9 @@ const ProductCard: React.FC<ProductCardProps> = ({item}) => {
     previewModal.onOpen(item);
   }
 
-  const onAddToCart: MouseEventHandler<HTMLButtonElement>  = (event) => {
-    event.stopPropagation();    
-    onAdd(item.id);
+  const onAddToCart: MouseEventHandler<HTMLButtonElement>  = (event) => {  
+      event.stopPropagation();    
+      onAdd(item.id);    
   }
 
   const onToggleFavorite: MouseEventHandler<HTMLButtonElement> = (event) => {
