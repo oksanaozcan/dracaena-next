@@ -56,8 +56,17 @@ const Info: React.FC<InfoProps> = ({ product }) => {
   };
 
   const removeRelatedProduct = (item: IProductCartItem) => {
-    const newCartItems = cartItemsCalc.filter(item => item.id !== item.id);
+    const newCartItems = cartItemsCalc.filter(cartItem => cartItem.id !== item.id);
     setCartItemsCalc(newCartItems);
+  
+    return (
+      <RelatedProductsSlider 
+        category={product.category} 
+        size={product.size} 
+        setCartItemsCalc={setCartItemsCalc} 
+        removedItem={item}
+      />
+    );
   }
 
   useEffect(() => {    
@@ -244,11 +253,11 @@ const Info: React.FC<InfoProps> = ({ product }) => {
           <ul>
             {
               cartItemsCalc.filter(item => item.id !== product.id).map(p => (
-                <li className="py-4">
+                <li key={p.id} className="py-4">
                   <div className="flex justify-between items-center">
                     <div>{p.title}</div>
                     <div>{p.price}</div>
-                    <button type="button"><XCircleIcon/></button>
+                    <button type="button" onClick={() => removeRelatedProduct(p)}><XCircleIcon/></button>
                   </div>
                 </li>
               ))

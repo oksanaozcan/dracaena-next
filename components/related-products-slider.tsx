@@ -13,12 +13,19 @@ interface RelatedProductsSliderProps {
   category: Category;
   size?: string;
   setCartItemsCalc: React.Dispatch<React.SetStateAction<IProductCartItem[]>>;
+  removedItem?: IProductCartItem;
 }
 
-export const RelatedProductsSlider: React.FC<RelatedProductsSliderProps> = ({ category, size, setCartItemsCalc }) => {
+export const RelatedProductsSlider: React.FC<RelatedProductsSliderProps> = ({ category, size, setCartItemsCalc, removedItem }) => {
   const [selectedItem, setSelectedItem] = useState<IProductCartItem | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<IProduct[]>([]);
   const [hoveredProductId, setHoveredProductId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (removedItem && selectedItem && removedItem.id === selectedItem.id) {
+      setSelectedItem(null);
+    }    
+  }, [removedItem, selectedItem]) 
 
   useEffect(() => {
     const fetchRelatedProducts = async () => {

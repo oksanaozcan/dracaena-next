@@ -78,7 +78,7 @@ const CartProvider: React.FC<CartProviderProps> = ({
     const token = getCookie('dracaena_access_token');
   
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/carts`,
         { product_id: productId },
         {
@@ -86,11 +86,9 @@ const CartProvider: React.FC<CartProviderProps> = ({
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-  
-      const addedProduct = response.data.product;
-  
-      setCartItems((prevItems) => [...prevItems, addedProduct]);
+      );     
+
+      await fetchItems();
   
       toast.success("Product added to your cart successfully");
     } catch (err) {
@@ -127,7 +125,7 @@ const CartProvider: React.FC<CartProviderProps> = ({
       throw new Error("Failed to remove item from cart");
     }
 
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+    await fetchItems();
     toast.success("Product successfully removed from your cart");
   } catch (error) {
     console.error("Failed to remove item from cart", error);
