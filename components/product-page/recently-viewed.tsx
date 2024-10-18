@@ -5,9 +5,9 @@ import axios from 'axios';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getCookie } from 'cookies-next';
-import ProductCard from './product-card';
+import ProductCard from '../ui/product-card';
 import { useAuth } from '@/context/auth-contex';
-import { GuestRecentlyViewedProductCard } from './guest-recently-viewed-product-card';
+import { GuestRecentlyViewedProductCard } from '../ui/guest-recently-viewed-product-card';
 import { IProduct, IGuestProduct } from '@/types';
 
 import 'swiper/css';

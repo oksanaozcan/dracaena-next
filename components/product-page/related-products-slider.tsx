@@ -4,7 +4,7 @@ import { Category, IProduct, IProductCartItem } from "@/types";
 import Image from "next/legacy/image";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, A11y } from 'swiper/modules';
-import { LinkBtn } from "./ui/link-btn";
+import { LinkBtn } from "@/components/ui/link-btn";
 
 import 'swiper/css';
 import 'swiper/css/navigation';

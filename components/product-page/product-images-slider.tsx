@@ -9,7 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import IconButton from "./ui/icon-button";
+import IconButton from "../ui/icon-button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface IImage {

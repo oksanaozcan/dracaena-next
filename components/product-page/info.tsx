@@ -12,10 +12,10 @@ import IconButton from "@/components/ui/icon-button";
 import { FavouriteContext } from "@/context/favourite";
 import { useAuth } from "@/context/auth-contex";
 import { useRouter } from 'next/navigation';
-import { InfoTabs } from "./info-tabs";
-import { RenderStars } from "./render-stars";
-import { RelatedProductsSlider } from "./related-products-slider";
-import { RelatedCareProductsSlider } from "./related-care-products-slider";
+import { InfoTabs } from "@/components/product-page/info-tabs";
+import { RenderStars } from "@/components/render-stars";
+import { RelatedProductsSlider } from "@/components/product-page/related-products-slider";
+import { RelatedCareProductsSlider } from "@/components/product-page/related-care-products-slider";
 
 interface InfoProps {
   product: IProduct,

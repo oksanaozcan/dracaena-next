@@ -1,8 +1,8 @@
 import getProduct from "@/actions/get-product";
 import Container from "@/components/ui/container";
-import Info from "@/components/info";
-import RecentlyViewed from "@/components/ui/recently-viewed";
-import { ProductImagesSlider } from "@/components/product-images-slider";
+import Info from "@/components/product-page/info";
+import RecentlyViewed from "@/components/product-page/recently-viewed";
+import { ProductImagesSlider } from "@/components/product-page/product-images-slider";
 import { v4 as uuidv4 } from 'uuid';
 
 interface ProductPageProps {
