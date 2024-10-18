@@ -57,10 +57,21 @@ const RecentlyViewed: React.FC<RecentlyViewedProps> = ({ currentProductId }) => 
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={20}
-        slidesPerView={4}
-        navigation
-        pagination={{ clickable: true }}
-        scrollbar={{ draggable: true }}
+        navigation       
+        breakpoints={{
+          // when window width is >= 640px
+          640: {
+            slidesPerView: 1,
+          },    
+          970: {
+            slidesPerView: 2,
+          } , 
+          // when window width is >= 1024px
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
+        className="swiper-custom-style" 
       >
         {
           recentlyViewed.map(item => (

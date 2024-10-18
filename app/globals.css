@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+.swiper-pagination-custom {
+  --swiper-pagination-color: #134A21;
+  --swiper-pagination-bullet-inactive-color: #999999;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-size: 14px;
+  --swiper-pagination-bullet-horizontal-gap: 4px;
+}
+
+.swiper-custom-style {
+  --swiper-navigation-color: #134A21;
+}
+
 html,
 body,
 :root {
@@ -42,6 +54,5 @@ body,
 
   .swiper-slide {
     transition: opacity 0.3s ease-in-out;
-  }  
- 
+  }   
 }

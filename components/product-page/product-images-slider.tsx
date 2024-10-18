@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/legacy/image";
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { useMediaQuery } from 'react-responsive';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -11,6 +12,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import IconButton from "../ui/icon-button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { MobileProductImagesSlider } from "./mobile-product-images-slider";
 
 interface IImage {
   id: string;
@@ -22,6 +24,7 @@ interface ProductImagesSliderProps {
 }
 
 export const ProductImagesSlider: React.FC<ProductImagesSliderProps> = ({ images }) => {
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   const [activeSlide, setActiveSlide] = useState(0);
   const swiperRef = useRef<SwiperRef>(null);
   const verticalSwiperRef = useRef<SwiperRef>(null); // Ref for the vertical Swiper
@@ -48,16 +51,19 @@ export const ProductImagesSlider: React.FC<ProductImagesSliderProps> = ({ images
 
   return (
     <div className="relative">     
+    {
+      isMobile ?
+      <MobileProductImagesSlider images={images}/> :
       <div className="flex gap-1">      
        
         <div className="w-1/4">
         <Swiper
-          ref={verticalSwiperRef} // Attach the ref to the vertical Swiper
+          ref={verticalSwiperRef}
           modules={[Navigation, A11y, Pagination, Scrollbar]}
           spaceBetween={10}
           slidesPerView={4}
           direction={"vertical"}
-          loop={images.length > 4} // Conditionally enable loop if there are more than 4 slides
+          loop={images.length > 4}
           onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
           pagination={false}
           scrollbar={{ draggable: true }}
@@ -101,6 +107,7 @@ export const ProductImagesSlider: React.FC<ProductImagesSliderProps> = ({ images
         </div>
 
       </div>
+    }      
     </div>
   );
 };
