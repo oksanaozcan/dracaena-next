@@ -70,6 +70,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
               category_id={params.category_id} 
               title="Category" 
               initialItems={products}
+              sort={searchParams.sort}
             />
           </ul>     
       </div>
